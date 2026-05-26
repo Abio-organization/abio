@@ -1,0 +1,6 @@
+export { AppearancePage } from './AppearancePage'
+export { ButtonAndFontTabs } from './ButtonAndFontTabs'
+export { ButtonCustomizer } from './ButtonCustomizer'
+export { FontCustomizer } from './FontCustomizer'
+export { ThemeSelector } from './ThemeSelector'
+export { WallpaperSelector } from './WallpaperSelector'
