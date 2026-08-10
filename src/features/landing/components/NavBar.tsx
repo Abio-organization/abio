@@ -1,6 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
-import { Menu, Moon, Sun, X } from 'lucide-react'
+import { Menu, Moon, Sun } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { useTheme } from '@/shared/hooks/use-theme'
@@ -25,6 +25,33 @@ const itemVariants: Variants = {
   closed: { opacity: 0, x: 15, transition: { duration: 0.15 } },
   open: { opacity: 1, x: 0, transition: { duration: 0.2, ease: 'easeOut' } },
 }
+
+// Close SVG Icon Component
+const CloseIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M18 6L6 18"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M6 6L18 18"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export function NavBar() {
   const { pathname } = useLocation()
@@ -54,7 +81,7 @@ export function NavBar() {
               <span className="text-end text-3xl font-medium tracking-wide text-black">bio</span>
             </Link>
 
-            <nav className="hidden items-center space-x-12 lg:flex">
+            <nav className="hidden items-center dark:text-[#000] space-x-12 lg:flex">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -82,26 +109,13 @@ export function NavBar() {
               <Link to="/auth/sign-in">
                 <Button
                   variant="ghost"
-                  className="h-10 bg-[#ff0000]/10 px-6 text-base font-semibold hover:bg-[#ff0000]/20"
+                  className="h-10 bg-[#ff0000]/10 px-6  text-base font-semibold hover:bg-[#ff0000]/20"
                 >
                   Log In
                 </Button>
               </Link>
               <Link to="/auth/sign-up">
-                <Button className="h-10 px-6 text-base font-semibold">Sign Up</Button>
-              </Link>
-            </div>
-
-            <div className="flex items-center gap-2 lg:hidden">
-              <Link to="/auth/sign-in">
-                <Button variant="ghost" className="h-10 bg-[#ff0000]/10 px-4 text-[14px] font-bold">
-                  Log in
-                </Button>
-              </Link>
-              <Link to="/auth/sign-up">
-                <Button className="h-10 bg-[#ff0000] px-4 text-xs font-semibold text-[#FED45C] shadow-[2px_2px_0px_0px_#000000] hover:bg-[#ff0000]/80">
-                  Sign up
-                </Button>
+                <Button className="h-10 px-6 text-base shadow-[2px_2px_0px_0px_#000000] bg-[#ff0000] text-[#FED45C] font-semibold">Sign Up</Button>
               </Link>
             </div>
 
@@ -117,9 +131,9 @@ export function NavBar() {
                     animate={{ rotate: 0, opacity: 1 }}
                     exit={{ rotate: 90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="flex h-9 w-9 items-center justify-center bg-[#ff0000] text-[#FED45C]"
+                    className="flex h-9 w-9 items-center justify-center bg-[#ff0000] text-white rounded-md"
                   >
-                    <X className="h-5 w-5" />
+                    <CloseIcon className="h-5 w-5 text-white" />
                   </motion.span>
                 ) : (
                   <motion.div
@@ -156,6 +170,17 @@ export function NavBar() {
                   variants={sheetVariants}
                   className="flex h-full flex-col px-6 pt-6"
                 >
+                  {/* Add close button at the top of the sheet */}
+                  <div className="flex justify-end mb-4">
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="flex h-10 w-10 items-center justify-center bg-[#ff0000] text-white  hover:bg-[#ff0000]/80 transition-colors"
+                      aria-label="Close menu"
+                    >
+                      <CloseIcon className="h-4 w-4" />
+                    </button>
+                  </div>
+
                   <nav className="flex flex-col">
                     {navLinks.map((link, index) => (
                       <motion.div
@@ -178,6 +203,18 @@ export function NavBar() {
                       </motion.div>
                     ))}
                   </nav>
+                  <div className="flex flex-col mt-8 gap-8 w-full lg:hidden">
+                    <Link to="/auth/sign-in">
+                      <Button variant="ghost" className="h-10 w-full bg-[#ff0000]/10 px-4 text-[14px] font-bold">
+                        Log in
+                      </Button>
+                    </Link>
+                    <Link to="/auth/sign-up">
+                      <Button variant="ghost" className="h-10 bg-[#ff0000] px-4 w-full text-xs font-semibold text-[#FED45C] shadow-[2px_2px_0px_0px_#000000] hover:bg-[#ff0000]/80">
+                        Sign up
+                      </Button>
+                    </Link>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

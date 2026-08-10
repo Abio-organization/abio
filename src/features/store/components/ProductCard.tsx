@@ -15,7 +15,7 @@ export function ProductCard({ product, onClick }: { product: Product; onClick: (
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="relative overflow-hidden bg-[#FAFAFC] dark:bg-[#1C1611]" style={{ aspectRatio: '1/1' }}>
+      <div className="relative overflow-hidden bg-[#FAFAFC] " style={{ aspectRatio: '1/1' }}>
         <img
           src={product.defaultImage}
           alt={product.name}

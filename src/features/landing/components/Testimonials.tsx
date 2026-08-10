@@ -2,14 +2,33 @@ import { Link } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
+// Get the base URL dynamically based on environment
+const getBaseUrl = () => {
+  // Check if we're in development (localhost)
+  if (import.meta.env.DEV || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return window.location.origin // This will be http://localhost:5173 or your dev port
+  }
+  
+  // Production - use the current domain or environment variable
+  return import.meta.env.VITE_APP_BASE_URL || window.location.origin
+}
+
+const BASE_URL = getBaseUrl()
+
 const influencers = [
-  { src: '/images/fabulous.jpeg', alt: 'Fabuloushype', username: 'fabulous', link: 'https://www.abio.site/fabulous' },
-  { src: '/images/zuo.PNG', alt: 'Zuo', username: 'zuo', link: 'https://www.abio.site/zuo' },
-  { src: '/images/zion.jpeg', alt: 'Zion', username: 'zion', link: 'https://www.abio.site/ziongotlevels' },
-  { src: '/images/samuel zeus.jpeg', alt: 'Samuel Zeus', username: 'SamuelXeus', link: 'https://www.abio.site/SamuelXeus' },
+  { src: '/images/fabulous.jpeg', alt: 'Fabuloushype', username: 'fabulous' },
+  { src: '/images/zuo.PNG', alt: 'Zuo', username: 'zuo' },
+  { src: '/images/zion.jpeg', alt: 'Zion', username: 'ziongotlevels' },
+  { src: '/images/samuel zeus.jpeg', alt: 'Samuel Zeus', username: 'SamuelXeus' },
 ]
 
-const MARQUEE_ITEMS = [...influencers, ...influencers, ...influencers]
+// Generate links dynamically
+const influencersWithLinks = influencers.map(influencer => ({
+  ...influencer,
+  link: `${BASE_URL}/${influencer.username}`
+}))
+
+const MARQUEE_ITEMS = [...influencersWithLinks, ...influencersWithLinks, ...influencersWithLinks]
 
 const rotatingWords = ['Influencers', 'Creators', 'Artists', 'Leaders', 'Innovators', 'Web3']
 

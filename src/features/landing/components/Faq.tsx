@@ -63,11 +63,11 @@ export function Faq() {
                 >
                   <button
                     onClick={() => toggle(index)}
-                    className="flex w-full cursor-pointer items-center justify-between px-7 py-7 text-left md:px-10 md:py-9"
+                    className="flex w-full cursor-pointer items-center justify-between px-7 py-7 text-left md:px-10 md:py-7"
                     aria-expanded={isOpen}
                   >
                     <span
-                      className="pr-6 text-[18px] leading-snug font-bold transition-colors duration-300 sm:text-[22px] md:text-[26px]"
+                      className="pr-6 text-[18px] leading-snug font-bold transition-colors duration-300 sm:text-[22px] md:text-[22px]"
                       style={{ color: isOpen ? '#FEF4EA' : '#5D2D2B' }}
                     >
                       {faq.question}
@@ -96,7 +96,7 @@ export function Faq() {
                         className="overflow-hidden"
                       >
                         <div className="mx-7 h-px bg-[#FEF4EA]/15 md:mx-10" />
-                        <p className="px-7 py-7 text-[15px] leading-[1.85] font-light text-[#FEF4EA]/80 sm:text-[17px] md:px-10 md:py-8 md:text-[18px]">
+                        <p className="px-7 py-7 text-[15px] leading-[1.85] font-light text-[#FEF4EA]/80  md:px-10 md:py-8 md:text-[16px]">
                           {faq.answer}
                         </p>
                       </motion.div>
