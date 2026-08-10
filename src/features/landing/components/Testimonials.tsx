@@ -41,7 +41,7 @@ export function Testimonials() {
   }, [text, isDeleting, wordIndex])
 
   return (
-    <section className="w-full overflow-hidden bg-[#FEF4EA] py-10 md:py-20">
+    <section className="w-full overflow-hidden bg-[#FEF4EA] py-10 dark:bg-[#1C1611] md:py-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -49,7 +49,7 @@ export function Testimonials() {
         transition={{ duration: 0.5 }}
         className="mb-10 px-4 text-center"
       >
-        <h2 className="font-display text-[32px] leading-[0.9] font-[400] text-[#5D2D2B] xl:text-[50px]">Abio for all. Trusted by</h2>
+        <h2 className="font-display text-[32px] leading-[0.9] font-[400] text-[#5D2D2B] dark:text-[#F5EEE4] xl:text-[50px]">Abio for all. Trusted by</h2>
         <div className="mt-1 flex h-12 items-center justify-center">
           <span className="font-display border-r-4 border-yellow-500 pr-1 text-[32px] font-[400] text-yellow-500 sm:text-3xl md:text-5xl">{text}</span>
         </div>

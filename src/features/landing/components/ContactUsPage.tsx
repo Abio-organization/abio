@@ -68,7 +68,7 @@ export function ContactUsPage() {
   }
 
   return (
-    <motion.section initial="hidden" animate="visible" variants={containerVariants} className="min-h-screen overflow-x-hidden bg-[#FEF4EA]">
+    <motion.section initial="hidden" animate="visible" variants={containerVariants} className="min-h-screen overflow-x-hidden bg-[#FEF4EA] dark:bg-[#1C1611]">
       <NavBar />
 
       <main className="flex flex-col items-center justify-center px-5 pt-32 pb-20">
@@ -80,13 +80,13 @@ export function ContactUsPage() {
             </div>
           </motion.div>
 
-          <motion.h1 variants={itemVariants} className="mb-4 text-4xl font-bold tracking-tight text-[#331400] md:text-5xl lg:text-6xl">
+          <motion.h1 variants={itemVariants} className="mb-4 text-4xl font-bold tracking-tight text-[#331400] dark:text-[#F5EEE4] md:text-5xl lg:text-6xl">
             Let's Talk
           </motion.h1>
 
           <motion.div variants={itemVariants} className="mx-auto mb-6 h-0.5 w-20 bg-[#FED45C]" />
 
-          <motion.p variants={itemVariants} className="mx-auto max-w-2xl text-base leading-relaxed text-gray-700 md:text-lg">
+          <motion.p variants={itemVariants} className="mx-auto max-w-2xl text-base leading-relaxed text-gray-700 dark:text-[#F5EEE4]/70 md:text-lg">
             Whether you're curious about features, need support, or want to share feedback — we're here to help. Drop us a message and we'll respond within 24 hours.
           </motion.p>
         </motion.div>
@@ -99,22 +99,22 @@ export function ContactUsPage() {
               custom={index}
               variants={featureCardVariants}
               whileHover="hover"
-              className="border border-[#E0D5C8] bg-white p-6 text-center shadow-sm transition-shadow hover:shadow-md"
+              className="border border-[#E0D5C8] bg-white p-6 text-center shadow-sm transition-shadow hover:shadow-md dark:border-[#3A2C20] dark:bg-[#2B2119]"
             >
-              <motion.div whileHover={{ scale: 1.05, rotate: 5 }} transition={{ duration: 0.2 }} className="mx-auto mb-4 flex h-12 w-12 items-center justify-center bg-[#FED45C]/10">
-                <feature.icon className="h-6 w-6 text-[#331400]" />
+              <motion.div whileHover={{ scale: 1.05, rotate: 5 }} transition={{ duration: 0.2 }} className="mx-auto mb-4 flex h-12 w-12 items-center justify-center bg-[#FED45C]/10 dark:bg-[#FED45C]/15">
+                <feature.icon className="h-6 w-6 text-[#331400] dark:text-[#FED45C]" />
               </motion.div>
-              <h3 className="mb-2 font-semibold text-[#331400]">{feature.title}</h3>
-              <p className="text-xs text-gray-600">{feature.desc}</p>
+              <h3 className="mb-2 font-semibold text-[#331400] dark:text-[#F5EEE4]">{feature.title}</h3>
+              <p className="text-xs text-gray-600 dark:text-[#F5EEE4]/60">{feature.desc}</p>
             </motion.div>
           ))}
         </motion.div>
 
         {/* Contact Form */}
-        <motion.div variants={cardVariants} className="w-full max-w-2xl border border-[#E0D5C8] bg-white p-8 shadow-lg md:p-12">
+        <motion.div variants={cardVariants} className="w-full max-w-2xl border border-[#E0D5C8] bg-white p-8 shadow-lg dark:border-[#3A2C20] dark:bg-[#2B2119] md:p-12">
           <motion.div variants={itemVariants} className="mb-8 text-center">
-            <h2 className="mb-2 text-3xl font-bold text-[#331400]">Send a Message</h2>
-            <p className="text-sm text-gray-600">Fill out the form below and we'll get back to you shortly.</p>
+            <h2 className="mb-2 text-3xl font-bold text-[#331400] dark:text-[#F5EEE4]">Send a Message</h2>
+            <p className="text-sm text-gray-600 dark:text-[#F5EEE4]/60">Fill out the form below and we'll get back to you shortly.</p>
           </motion.div>
 
           <motion.form variants={itemVariants} onSubmit={handleContactSubmit} className="space-y-6">
@@ -124,7 +124,7 @@ export function ContactUsPage() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
-                className="h-12 rounded-none border-2 border-[#E0D5C8] px-4 text-base transition-all duration-200 focus:border-[#331400] focus:ring-0"
+                className="h-12 rounded-none border-2 border-[#E0D5C8] px-4 text-base transition-all duration-200 focus:border-[#331400] dark:border-[#3A2C20] dark:text-[#F5EEE4] dark:focus:border-[#F5EEE4] focus:ring-0"
               />
             </motion.div>
 
@@ -135,7 +135,7 @@ export function ContactUsPage() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
-                className="h-12 rounded-none border-2 border-[#E0D5C8] px-4 text-base transition-all duration-200 focus:border-[#331400] focus:ring-0"
+                className="h-12 rounded-none border-2 border-[#E0D5C8] px-4 text-base transition-all duration-200 focus:border-[#331400] dark:border-[#3A2C20] dark:text-[#F5EEE4] dark:focus:border-[#F5EEE4] focus:ring-0"
               />
             </motion.div>
 
@@ -146,7 +146,7 @@ export function ContactUsPage() {
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 rows={6}
                 required
-                className="resize-none rounded-none border-2 border-[#E0D5C8] px-4 py-3 text-base transition-all duration-200 focus:border-[#331400] focus:ring-0"
+                className="resize-none rounded-none border-2 border-[#E0D5C8] px-4 py-3 text-base transition-all duration-200 focus:border-[#331400] dark:border-[#3A2C20] dark:text-[#F5EEE4] dark:focus:border-[#F5EEE4] focus:ring-0"
               />
             </motion.div>
 
@@ -173,7 +173,7 @@ export function ContactUsPage() {
 
         {/* Trust indicators */}
         <motion.div variants={itemVariants} className="mt-16 text-center">
-          <motion.div variants={itemVariants} className="flex items-center justify-center gap-2 text-sm text-gray-600">
+          <motion.div variants={itemVariants} className="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-[#F5EEE4]/60">
             <Sparkles className="h-4 w-4 text-[#FED45C]" />
             <span>Trusted by 10,000+ creators</span>
             <Sparkles className="h-4 w-4 text-[#FED45C]" />

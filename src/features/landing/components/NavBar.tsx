@@ -1,6 +1,9 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
+import { Menu, Moon, Sun, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+
+import { useTheme } from '@/shared/hooks/use-theme'
 
 import { Button } from '@/shared/components/ui/button'
 import { Sheet, SheetContent, SheetTitle } from '@/shared/components/ui/sheet'
@@ -26,6 +29,7 @@ const itemVariants: Variants = {
 export function NavBar() {
   const { pathname } = useLocation()
   const [isOpen, setIsOpen] = useState(false)
+  const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : 'unset'
@@ -66,6 +70,14 @@ export function NavBar() {
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-black transition-colors hover:bg-black/10"
+            >
+              {theme === 'dark' ? <Sun className="h-4.5 w-4.5" /> : <Moon className="h-4.5 w-4.5" />}
+            </button>
+
             <div className="hidden items-center space-x-2 lg:flex">
               <Link to="/auth/sign-in">
                 <Button
@@ -105,9 +117,9 @@ export function NavBar() {
                     animate={{ rotate: 0, opacity: 1 }}
                     exit={{ rotate: 90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="flex h-9 w-9 items-center justify-center bg-[#ff0000] text-xl text-[#FED45C]"
+                    className="flex h-9 w-9 items-center justify-center bg-[#ff0000] text-[#FED45C]"
                   >
-                    ✕
+                    <X className="h-5 w-5" />
                   </motion.span>
                 ) : (
                   <motion.div
@@ -116,21 +128,9 @@ export function NavBar() {
                     animate={{ rotate: 0, opacity: 1 }}
                     exit={{ rotate: -90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="cursor-pointer p-1"
+                    className="cursor-pointer p-1 text-black"
                   >
-                    <svg
-                      className="h-6 w-6"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="3" y1="6" x2="21" y2="6" />
-                      <line x1="3" y1="12" x2="21" y2="12" />
-                      <line x1="3" y1="18" x2="21" y2="18" />
-                    </svg>
+                    <Menu className="h-6 w-6" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -142,7 +142,7 @@ export function NavBar() {
           <SheetContent
             side="right"
             showCloseButton={false}
-            className="top-[118px] h-[calc(100dvh-118px)] w-full max-w-full border-none bg-[#FEF4EA] p-0 lg:hidden"
+            className="top-[118px] h-[calc(100dvh-118px)] w-full max-w-full border-none bg-[#FEF4EA] p-0 lg:hidden dark:bg-[#1C1611]"
           >
             <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
 
@@ -166,12 +166,12 @@ export function NavBar() {
                         animate="open"
                         exit="closed"
                         transition={{ delay: index * 0.03 }}
-                        className="border-b border-black/10 py-8"
+                        className="border-b border-black/10 py-8 dark:border-white/10"
                       >
                         <Link
                           to={link.href}
                           onClick={() => setIsOpen(false)}
-                          className="flex items-center justify-between text-lg font-semibold text-black transition-colors hover:text-[#FF0000]"
+                          className="flex items-center justify-between text-lg font-semibold text-black transition-colors hover:text-[#FF0000] dark:text-[#F5EEE4]"
                         >
                           {link.label}
                         </Link>

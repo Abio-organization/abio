@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
 import { motion, useInView } from 'framer-motion'
+import { Sparkles } from 'lucide-react'
 import { useRef } from 'react'
 
 import { useGetThemes } from '@/features/appearance'
@@ -104,13 +105,13 @@ export function TemplatePage() {
     <>
       <NavBar />
 
-      <main className="min-h-screen overflow-x-hidden bg-[#FEF4EA]">
+      <main className="min-h-screen overflow-x-hidden bg-[#FEF4EA] dark:bg-[#1C1611]">
         <section ref={heroRef} className="relative overflow-hidden pt-32 pb-0" style={{ minHeight: '0vh' }}>
-          <motion.div animate={{ rotate: 360 }} transition={{ duration: 18, repeat: Infinity, ease: 'linear' }} className="pointer-events-none absolute top-36 right-[8%] hidden text-5xl text-[#FED45C] select-none md:block">
-            ✦
+          <motion.div animate={{ rotate: 360 }} transition={{ duration: 18, repeat: Infinity, ease: 'linear' }} className="pointer-events-none absolute top-36 right-[8%] hidden text-[#FED45C] select-none md:block">
+            <Sparkles className="h-10 w-10" fill="currentColor" />
           </motion.div>
-          <motion.div animate={{ rotate: -360 }} transition={{ duration: 22, repeat: Infinity, ease: 'linear' }} className="pointer-events-none absolute bottom-10 left-[6%] hidden text-6xl text-[#5D2D2B]/18 select-none md:block">
-            ✦
+          <motion.div animate={{ rotate: -360 }} transition={{ duration: 22, repeat: Infinity, ease: 'linear' }} className="pointer-events-none absolute bottom-10 left-[6%] hidden text-[#5D2D2B]/18 select-none md:block dark:text-[#F5EEE4]/18">
+            <Sparkles className="h-14 w-14" fill="currentColor" />
           </motion.div>
         </section>
 
@@ -127,11 +128,11 @@ export function TemplatePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="mt-20 flex flex-col items-center justify-between gap-6 border-t border-[#5D2D2B]/10 pt-12 md:flex-row"
+              className="mt-20 flex flex-col items-center justify-between gap-6 border-t border-[#5D2D2B]/10 pt-12 dark:border-[#F5EEE4]/10 md:flex-row"
             >
               <div>
-                <p className="mb-2 text-[10px] font-black tracking-[0.2em] text-[#5D2D2B]/38 uppercase">Can't find what you need?</p>
-                <h3 className="font-display text-[28px] leading-tight font-[400] text-[#5D2D2B] md:text-[36px]">
+                <p className="mb-2 text-[10px] font-black tracking-[0.2em] text-[#5D2D2B]/38 uppercase dark:text-[#F5EEE4]/38">Can't find what you need?</p>
+                <h3 className="font-display text-[28px] leading-tight font-[400] text-[#5D2D2B] dark:text-[#F5EEE4] md:text-[36px]">
                   Build yours from
                   <br className="hidden md:block" />
                   <span className="text-[#FF0000]">scratch.</span>

@@ -29,7 +29,7 @@ export function Faq() {
   const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i)
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#FEF4EA] px-4 py-16 sm:px-8 md:px-12 md:py-24 lg:px-20">
+    <section className="relative w-full overflow-hidden bg-[#FEF4EA] px-4 py-16 dark:bg-[#1C1611] sm:px-8 md:px-12 md:py-24 lg:px-20">
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.04]">
         <img src="/images/footerlogo.svg" alt="" className="h-auto w-[40rem] object-contain sm:w-[55rem]" />
       </div>
@@ -42,8 +42,8 @@ export function Faq() {
           transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="mb-12 text-center md:mb-16"
         >
-          <h2 className="font-display mb-3 text-[40px] leading-tight font-[400] text-[#5D2D2B] xl:text-[50px]">Got Questions?</h2>
-          <p className="text-base font-light text-[#5D2D2B]/60">Everything you need to know about Abio</p>
+          <h2 className="font-display mb-3 text-[40px] leading-tight font-[400] text-[#5D2D2B] dark:text-[#F5EEE4] xl:text-[50px]">Got Questions?</h2>
+          <p className="text-base font-light text-[#5D2D2B]/60 dark:text-[#F5EEE4]/60">Everything you need to know about Abio</p>
         </motion.div>
 
         <div className="space-y-4 md:space-y-5">

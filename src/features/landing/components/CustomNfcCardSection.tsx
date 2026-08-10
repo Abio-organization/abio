@@ -153,7 +153,7 @@ const FloatingBadge = ({
 
 export function CustomNfcCardSection() {
   return (
-    <section className="relative w-full overflow-hidden bg-white px-4 py-12 sm:px-6 sm:py-16 md:px-12 md:py-20 lg:px-20 lg:py-28">
+    <section className="relative w-full overflow-hidden bg-white px-4 py-12 dark:bg-[#1C1611] sm:px-6 sm:py-16 md:px-12 md:py-20 lg:px-20 lg:py-28">
       <img src="/images/scribble.svg" alt="" className="pointer-events-none absolute top-0 -left-16 w-[7rem] rotate-45 opacity-40 sm:w-[9rem] md:w-[12rem] lg:w-[14rem]" />
       <img src="/images/scribble.svg" alt="" className="pointer-events-none absolute top-8 -right-12 w-[7rem] -rotate-45 opacity-40 sm:w-[9rem] md:w-[12rem] lg:w-[14rem]" />
 
@@ -183,15 +183,15 @@ export function CustomNfcCardSection() {
               className="order-2 flex w-full flex-col gap-4 text-center sm:gap-5 md:order-2 md:text-left"
             >
               <div>
-                <p className="mb-2 text-[10px] font-bold tracking-[0.1em] text-[#5D2D2B] uppercase sm:mb-3 sm:text-[11px]">
+                <p className="mb-2 text-[10px] font-bold tracking-[0.1em] text-[#5D2D2B] dark:text-[#F5EEE4] uppercase sm:mb-3 sm:text-[11px]">
                   Your digital identity now in your pockets.
                 </p>
-                <h2 className="font-display text-[35px] leading-[0.9] font-[400] text-[#5D2D2B] sm:text-[40px] sm:leading-none lg:text-[50px]">
+                <h2 className="font-display text-[35px] leading-[0.9] font-[400] text-[#5D2D2B] dark:text-[#F5EEE4] sm:text-[40px] sm:leading-none lg:text-[50px]">
                   Get the Acard
                 </h2>
               </div>
 
-              <p className="-mb-2 mx-auto max-w-sm px-2 text-left text-xs leading-5 font-light text-[#5D2D2B]/80 sm:px-0 sm:text-sm sm:leading-6 md:mx-0 md:mb-0">
+              <p className="-mb-2 mx-auto max-w-sm px-2 text-left text-xs leading-5 font-light text-[#5D2D2B]/80 dark:text-[#F5EEE4]/80 sm:px-0 sm:text-sm sm:leading-6 md:mx-0 md:mb-0">
                 Personalize your NFC Acard with your name, logo, and brand style. One tap shares your Abio — no app needed.
               </p>
             </motion.div>

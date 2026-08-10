@@ -225,7 +225,7 @@ const TiltedCard = () => {
   return (
     <div className="relative flex flex-col items-center" style={{ perspective: 1400, perspectiveOrigin: '50% 45%' }}>
       <motion.div
-        className="pointer-events-none absolute rounded-full border border-dashed border-[#5D2D2B]/10"
+        className="pointer-events-none absolute rounded-full border border-dashed border-[#5D2D2B]/10 dark:border-[#F5EEE4]/10"
         style={{ width: ringSm, height: ringSm, top: '50%', left: '50%', marginLeft: -ringSm / 2, marginTop: -ringSm / 2, zIndex: 1 }}
         animate={{ rotate: 360 }}
         transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
@@ -233,7 +233,7 @@ const TiltedCard = () => {
         <div className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-[#FED45C]" style={{ boxShadow: '0 0 12px #FED45C' }} />
       </motion.div>
       <motion.div
-        className="pointer-events-none absolute rounded-full border border-dashed border-[#5D2D2B]/[0.06]"
+        className="pointer-events-none absolute rounded-full border border-dashed border-[#5D2D2B]/[0.06] dark:border-[#F5EEE4]/[0.06]"
         style={{ width: ringLg, height: ringLg, top: '50%', left: '50%', marginLeft: -ringLg / 2, marginTop: -ringLg / 2, zIndex: 1 }}
         animate={{ rotate: -360 }}
         transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
@@ -337,26 +337,26 @@ export function HeroSection() {
   const goToSignUp = () => navigate({ to: '/auth/sign-up' })
 
   return (
-    <section className="w-full min-h-screen overflow-hidden bg-[#FEF4EA] px-4 pt-24 pb-8 sm:px-8 sm:pt-28 md:px-12 md:pt-28 md:pb-0 lg:px-20">
+    <section className="w-full min-h-screen overflow-hidden bg-[#FEF4EA] px-4 pt-24 dark:bg-[#1C1611] pb-8 sm:px-8 sm:pt-28 md:px-12 md:pt-28 md:pb-0 lg:px-20">
       <div className="w-full md:container md:mx-auto md:grid md:grid-cols-2 md:items-center md:gap-6 md:py-0 lg:gap-12">
         {/* ── MOBILE (< md) ── */}
         <div className="mt-20 flex flex-col items-center text-center md:hidden">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="w-full">
-            <h1 className="font-display text-[40px] leading-[0.88] font-[400] tracking-tight text-[#5D2D2B]">
+            <h1 className="font-display text-[40px] leading-[0.88] font-[400] tracking-tight text-[#5D2D2B] dark:text-[#F5EEE4]">
               Endless
               <br />
               Connection
             </h1>
 
             <div className="relative inline-block">
-              <p className="text-[33px] leading-tight text-[#5D2D2B]">In just A Biography.</p>
+              <p className="text-[33px] leading-tight text-[#5D2D2B] dark:text-[#F5EEE4]">In just A Biography.</p>
               <motion.div initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', stiffness: 220, damping: 18, delay: 0.5 }}>
                 <img src="/images/scribble.svg" alt="" width={160} height={160} className="pointer-events-none absolute -bottom-2 right-2 w-[6rem] xs:w-[5rem] sm:w-[6rem]" />
               </motion.div>
             </div>
           </motion.div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35, duration: 0.6 }} className="mt-5 text-left text-[14px] leading-[1.8] text-[#5D2D2B]/80">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35, duration: 0.6 }} className="mt-5 text-left text-[14px] leading-[1.8] text-[#5D2D2B]/80 dark:text-[#F5EEE4]/80">
             Share your music, links, shop, and profile with one tap on your NFC Acard. Works on any NFC enabled device, Iphone/Android. No app needed. All seen from a single link and dynamic profile.
           </motion.p>
 
@@ -396,7 +396,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-display text-[48px] leading-[1] font-[400] text-[#5D2D2B] md:text-[54px] lg:text-[70px] xl:text-[86px]"
+              className="font-display text-[48px] leading-[1] font-[400] text-[#5D2D2B] dark:text-[#F5EEE4] md:text-[54px] lg:text-[70px] xl:text-[86px]"
             >
               Endless
               <br />
@@ -404,7 +404,7 @@ export function HeroSection() {
             </motion.h1>
 
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.6 }} className="relative inline-block">
-              <p className="text-2xl text-[#5D2D2B] md:text-3xl lg:text-5xl">In just A Biography.</p>
+              <p className="text-2xl text-[#5D2D2B] dark:text-[#F5EEE4] md:text-3xl lg:text-5xl">In just A Biography.</p>
               <motion.div initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', stiffness: 220, damping: 18, delay: 0.5 }}>
                 <img
                   src="/images/scribble.svg"
@@ -421,7 +421,7 @@ export function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.45, duration: 0.6 }}
-            className="text-[13px] leading-[1.7] text-[#5D2D2B] md:max-w-xl md:text-sm lg:max-w-2xl lg:text-base"
+            className="text-[13px] leading-[1.7] text-[#5D2D2B] dark:text-[#F5EEE4] md:max-w-xl md:text-sm lg:max-w-2xl lg:text-base"
           >
             Share your music, links, shop, and profile with one tap on your NFC Acard. Works on any NFC enabled device, Iphone/Android. No app needed. All seen from a single link and dynamic profile.
           </motion.p>

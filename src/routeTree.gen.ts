@@ -10,13 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TemplateRouteImport } from './routes/template'
-import { Route as StoreRouteImport } from './routes/store'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ContactUsRouteImport } from './routes/contact-us'
 import { Route as UsernameRouteImport } from './routes/$username'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StoreIndexRouteImport } from './routes/store/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as StoreCartRouteImport } from './routes/store/cart'
 import { Route as DashboardAppearanceRouteImport } from './routes/dashboard/appearance'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
@@ -24,11 +25,6 @@ import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
 const TemplateRoute = TemplateRouteImport.update({
   id: '/template',
   path: '/template',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StoreRoute = StoreRouteImport.update({
-  id: '/store',
-  path: '/store',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingRoute = PricingRouteImport.update({
@@ -56,10 +52,20 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StoreIndexRoute = StoreIndexRouteImport.update({
+  id: '/store/',
+  path: '/store/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRouteRoute,
+} as any)
+const StoreCartRoute = StoreCartRouteImport.update({
+  id: '/store/cart',
+  path: '/store/cart',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardAppearanceRoute = DashboardAppearanceRouteImport.update({
   id: '/appearance',
@@ -83,24 +89,26 @@ export interface FileRoutesByFullPath {
   '/$username': typeof UsernameRoute
   '/contact-us': typeof ContactUsRoute
   '/pricing': typeof PricingRoute
-  '/store': typeof StoreRoute
   '/template': typeof TemplateRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
+  '/store/cart': typeof StoreCartRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/store/': typeof StoreIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$username': typeof UsernameRoute
   '/contact-us': typeof ContactUsRoute
   '/pricing': typeof PricingRoute
-  '/store': typeof StoreRoute
   '/template': typeof TemplateRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
+  '/store/cart': typeof StoreCartRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/store': typeof StoreIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -109,12 +117,13 @@ export interface FileRoutesById {
   '/$username': typeof UsernameRoute
   '/contact-us': typeof ContactUsRoute
   '/pricing': typeof PricingRoute
-  '/store': typeof StoreRoute
   '/template': typeof TemplateRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
+  '/store/cart': typeof StoreCartRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/store/': typeof StoreIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -124,24 +133,26 @@ export interface FileRouteTypes {
     | '/$username'
     | '/contact-us'
     | '/pricing'
-    | '/store'
     | '/template'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
+    | '/store/cart'
     | '/dashboard/'
+    | '/store/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/$username'
     | '/contact-us'
     | '/pricing'
-    | '/store'
     | '/template'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
+    | '/store/cart'
     | '/dashboard'
+    | '/store'
   id:
     | '__root__'
     | '/'
@@ -149,12 +160,13 @@ export interface FileRouteTypes {
     | '/$username'
     | '/contact-us'
     | '/pricing'
-    | '/store'
     | '/template'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
+    | '/store/cart'
     | '/dashboard/'
+    | '/store/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -163,10 +175,11 @@ export interface RootRouteChildren {
   UsernameRoute: typeof UsernameRoute
   ContactUsRoute: typeof ContactUsRoute
   PricingRoute: typeof PricingRoute
-  StoreRoute: typeof StoreRoute
   TemplateRoute: typeof TemplateRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
+  StoreCartRoute: typeof StoreCartRoute
+  StoreIndexRoute: typeof StoreIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -176,13 +189,6 @@ declare module '@tanstack/react-router' {
       path: '/template'
       fullPath: '/template'
       preLoaderRoute: typeof TemplateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/store': {
-      id: '/store'
-      path: '/store'
-      fullPath: '/store'
-      preLoaderRoute: typeof StoreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -220,12 +226,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/store/': {
+      id: '/store/'
+      path: '/store'
+      fullPath: '/store/'
+      preLoaderRoute: typeof StoreIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
+    }
+    '/store/cart': {
+      id: '/store/cart'
+      path: '/store/cart'
+      fullPath: '/store/cart'
+      preLoaderRoute: typeof StoreCartRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/dashboard/appearance': {
       id: '/dashboard/appearance'
@@ -271,10 +291,11 @@ const rootRouteChildren: RootRouteChildren = {
   UsernameRoute: UsernameRoute,
   ContactUsRoute: ContactUsRoute,
   PricingRoute: PricingRoute,
-  StoreRoute: StoreRoute,
   TemplateRoute: TemplateRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
+  StoreCartRoute: StoreCartRoute,
+  StoreIndexRoute: StoreIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
