@@ -1,0 +1,6 @@
+export { LandingPage } from './components/LandingPage'
+export { ContactUsPage } from './components/ContactUsPage'
+export { PricingPage } from './components/PricingPage'
+export { TemplatePage } from './components/TemplatePage'
+export { NavBar } from './components/NavBar'
+export { Footer } from './components/Footer'

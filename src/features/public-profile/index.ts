@@ -1,1 +1,1 @@
-export { PublicProfilePage } from './PublicProfilePage'
+export { PublicProfilePage } from './components/PublicProfilePage'

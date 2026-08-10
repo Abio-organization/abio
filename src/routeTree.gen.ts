@@ -9,6 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TemplateRouteImport } from './routes/template'
+import { Route as StoreRouteImport } from './routes/store'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as ContactUsRouteImport } from './routes/contact-us'
 import { Route as UsernameRouteImport } from './routes/$username'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +21,26 @@ import { Route as DashboardAppearanceRouteImport } from './routes/dashboard/appe
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
 
+const TemplateRoute = TemplateRouteImport.update({
+  id: '/template',
+  path: '/template',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreRoute = StoreRouteImport.update({
+  id: '/store',
+  path: '/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactUsRoute = ContactUsRouteImport.update({
+  id: '/contact-us',
+  path: '/contact-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UsernameRoute = UsernameRouteImport.update({
   id: '/$username',
   path: '/$username',
@@ -57,6 +81,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/$username': typeof UsernameRoute
+  '/contact-us': typeof ContactUsRoute
+  '/pricing': typeof PricingRoute
+  '/store': typeof StoreRoute
+  '/template': typeof TemplateRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
@@ -65,6 +93,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$username': typeof UsernameRoute
+  '/contact-us': typeof ContactUsRoute
+  '/pricing': typeof PricingRoute
+  '/store': typeof StoreRoute
+  '/template': typeof TemplateRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
@@ -75,6 +107,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/$username': typeof UsernameRoute
+  '/contact-us': typeof ContactUsRoute
+  '/pricing': typeof PricingRoute
+  '/store': typeof StoreRoute
+  '/template': typeof TemplateRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
@@ -86,6 +122,10 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/$username'
+    | '/contact-us'
+    | '/pricing'
+    | '/store'
+    | '/template'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
@@ -94,6 +134,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$username'
+    | '/contact-us'
+    | '/pricing'
+    | '/store'
+    | '/template'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
@@ -103,6 +147,10 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/$username'
+    | '/contact-us'
+    | '/pricing'
+    | '/store'
+    | '/template'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
@@ -113,12 +161,44 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   UsernameRoute: typeof UsernameRoute
+  ContactUsRoute: typeof ContactUsRoute
+  PricingRoute: typeof PricingRoute
+  StoreRoute: typeof StoreRoute
+  TemplateRoute: typeof TemplateRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/template': {
+      id: '/template'
+      path: '/template'
+      fullPath: '/template'
+      preLoaderRoute: typeof TemplateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact-us': {
+      id: '/contact-us'
+      path: '/contact-us'
+      fullPath: '/contact-us'
+      preLoaderRoute: typeof ContactUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$username': {
       id: '/$username'
       path: '/$username'
@@ -189,6 +269,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   UsernameRoute: UsernameRoute,
+  ContactUsRoute: ContactUsRoute,
+  PricingRoute: PricingRoute,
+  StoreRoute: StoreRoute,
+  TemplateRoute: TemplateRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
 }

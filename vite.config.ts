@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
 import { defineConfig } from 'vitest/config'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -17,6 +18,47 @@ export default defineConfig({
     }),
     react(),
     tailwindcss(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      manifest: {
+        name: 'Abio',
+        short_name: 'Abio',
+        description: 'Abio — link-in-bio profile pages.',
+        theme_color: '#171717',
+        background_color: '#171717',
+        display: 'standalone',
+        start_url: '/',
+        icons: [
+          { src: '/pwa-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/pwa-512.png', sizes: '512x512', type: 'image/png' },
+          {
+            src: '/pwa-maskable-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
+      },
+      workbox: {
+        // Precache only the built JS/CSS/HTML app shell. Deliberately NOT
+        // '**/*.{svg,png,...}' — public/ carries a large icon + image
+        // library (platform icons, theme wallpapers, marketing assets) that
+        // most users will never touch in a session; recursively precaching
+        // it would bloat the install payload for content that isn't wired
+        // into any screen yet. Those load from cache on demand instead, the
+        // moment a component actually references one.
+        //
+        // No runtimeCaching entries are defined for the API: it lives on a
+        // separate origin (VITE_API_BASE_URL), so the service worker never
+        // intercepts those requests — auth/dashboard/appearance data always
+        // goes straight to the network and can't go stale from a cache.
+        globPatterns: ['**/*.{js,css,html}'],
+      },
+      devOptions: {
+        enabled: false,
+      },
+    }),
   ],
   resolve: {
     alias: {

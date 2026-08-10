@@ -1,0 +1,198 @@
+@import 'tailwindcss';
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "./fonts.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: var(--font-sans);
+    --font-sans: 'Geist Variable', sans-serif;
+    --font-display: 'Monument Extended', sans-serif;
+    --font-satoshi: 'Satoshi', sans-serif;
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+ * Brand palette — extracted from the legacy app (A/) by usage frequency.
+ * Raw primitives only; nothing below should be used directly in components —
+ * consume the semantic tokens (--background, --primary, etc.) instead so a
+ * future re-theme only touches this one block.
+ */
+:root {
+    --brand-ink: #331400;         /* primary text — dominant color across the old app (526 hits) */
+    --brand-gold: #fed45c;        /* CTA button bg (appearance save, modals) */
+    --brand-gold-hover: #fdd935;  /* CTA hover state */
+    --brand-maroon: #5d2d2b;      /* secondary button/heading color (Billing, marketing) */
+    --brand-cream: #fef4ea;       /* page background */
+    --brand-cream-highlight: #fff7de; /* elevated warm surface (dashboard overlays) */
+    --brand-red: #ea2228;         /* destructive / link-danger, consistent across auth flows */
+    --brand-tan-border: #e0d5c8;  /* input borders */
+    --brand-neutral: #ececed;     /* light neutral surface */
+    --brand-muted-text: #666464;  /* secondary/help text */
+    --brand-purple: #7140eb;      /* decorative accent (marketing gradients) */
+    --brand-coral: #fb8e8e;       /* decorative accent, pairs with purple in gradients */
+    --brand-mint: #3eb489;        /* decorative accent (analytics/success) */
+
+    /* Dark-mode primitives sourced the same way; --brand-dark-muted* are the
+     * only two interpolated (not directly evidenced) values in this set. */
+    --brand-dark-bg: #1c1611;
+    --brand-dark-surface: #2b2119;
+    --brand-dark-border: #3a2c20;
+    --brand-dark-text: #f5eee4;
+    --brand-dark-muted: #241b14;       /* interpolated: one step between bg and surface */
+    --brand-dark-muted-text: #b8afa6;  /* interpolated: inverse-lightness of --brand-muted-text */
+}
+
+:root {
+    --background: var(--brand-cream);
+    --foreground: var(--brand-ink);
+    --card: #ffffff;
+    --card-foreground: var(--brand-ink);
+    --popover: #ffffff;
+    --popover-foreground: var(--brand-ink);
+    --primary: var(--brand-gold);
+    --primary-foreground: var(--brand-ink);
+    --secondary: var(--brand-maroon);
+    --secondary-foreground: #ffffff;
+    --muted: var(--brand-neutral);
+    --muted-foreground: var(--brand-muted-text);
+    --accent: var(--brand-cream-highlight);
+    --accent-foreground: var(--brand-ink);
+    --destructive: var(--brand-red);
+    --border: var(--brand-tan-border);
+    --input: var(--brand-tan-border);
+    --ring: var(--brand-gold);
+    --chart-1: var(--brand-gold);
+    --chart-2: var(--brand-purple);
+    --chart-3: var(--brand-coral);
+    --chart-4: var(--brand-mint);
+    --chart-5: var(--brand-maroon);
+    --radius: 0.625rem;
+    --sidebar: #ffffff;
+    --sidebar-foreground: var(--brand-ink);
+    --sidebar-primary: var(--brand-gold);
+    --sidebar-primary-foreground: var(--brand-ink);
+    --sidebar-accent: var(--brand-neutral);
+    --sidebar-accent-foreground: var(--brand-ink);
+    --sidebar-border: var(--brand-tan-border);
+    --sidebar-ring: var(--brand-gold);
+}
+
+.dark {
+    --background: var(--brand-dark-bg);
+    --foreground: var(--brand-dark-text);
+    --card: var(--brand-dark-surface);
+    --card-foreground: var(--brand-dark-text);
+    --popover: var(--brand-dark-surface);
+    --popover-foreground: var(--brand-dark-text);
+    --primary: var(--brand-gold);
+    --primary-foreground: var(--brand-ink);
+    --secondary: var(--brand-maroon);
+    --secondary-foreground: var(--brand-dark-text);
+    --muted: var(--brand-dark-muted);
+    --muted-foreground: var(--brand-dark-muted-text);
+    --accent: var(--brand-dark-border);
+    --accent-foreground: var(--brand-dark-text);
+    --destructive: var(--brand-red);
+    --border: var(--brand-dark-border);
+    --input: var(--brand-dark-border);
+    --ring: var(--brand-gold);
+    --chart-1: var(--brand-gold);
+    --chart-2: var(--brand-purple);
+    --chart-3: var(--brand-coral);
+    --chart-4: var(--brand-mint);
+    --chart-5: var(--brand-dark-text);
+    --sidebar: var(--brand-dark-surface);
+    --sidebar-foreground: var(--brand-dark-text);
+    --sidebar-primary: var(--brand-gold);
+    --sidebar-primary-foreground: var(--brand-ink);
+    --sidebar-accent: var(--brand-dark-border);
+    --sidebar-accent-foreground: var(--brand-dark-text);
+    --sidebar-border: var(--brand-dark-border);
+    --sidebar-ring: var(--brand-gold);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+  html {
+    @apply font-sans;
+    }
+}
+
+/* Landing page marquee (Testimonials) — was styled-jsx in the legacy app,
+   which isn't available outside Next.js. */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  width: fit-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (max-width: 640px) {
+  .animate-marquee {
+    animation-duration: 20s;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

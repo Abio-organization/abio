@@ -1,2 +1,2 @@
-export { DashboardLayout } from './DashboardLayout'
-export { DashboardPage } from './DashboardPage'
+export { DashboardLayout } from './components/DashboardLayout'
+export { DashboardPage } from './components/DashboardPage'
