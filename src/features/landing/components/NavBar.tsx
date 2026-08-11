@@ -58,12 +58,12 @@ export function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
 
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : 'unset'
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [isOpen])
+  // useEffect(() => {
+  //   document.body.style.overflow = isOpen ? 'hidden' : 'unset'
+  //   return () => {
+  //     document.body.style.overflow = 'unset'
+  //   }
+  // }, [isOpen])
 
   return (
     <header className="fixed top-[30px] left-1/2 z-50 w-[95%] -translate-x-1/2 bg-[#FED45C] md:top-[40px] md:w-[90%]">
