@@ -20,7 +20,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      includeAssets: ['Abio-logo.png', 'apple-touch-icon.png'],
       manifest: {
         name: 'Abio',
         short_name: 'Abio',

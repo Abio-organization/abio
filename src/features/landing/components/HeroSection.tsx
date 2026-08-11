@@ -362,7 +362,7 @@ export function HeroSection() {
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="mt-6 flex w-full flex-col items-center gap-2.5">
             <div className="relative w-full max-w-[310px]">
-              <span className="absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-[16px] font-semibold dark:text-white select-none">abio.site/</span>
+              <span className="absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-[16px] font-semibold text-black select-none">abio.site/</span>
               <Input
                 placeholder=""
                 className="h-12 w-full rounded-none border-0 bg-[#FED45C] pl-[89px] text-[16px] font-medium placeholder:font-semibold placeholder:text-[#8B4646] focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -428,7 +428,7 @@ export function HeroSection() {
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="grid w-full grid-cols-2 gap-2 overflow-hidden">
             <div className="relative min-w-0 overflow-hidden">
-              <span className="absolute top-1/2 left-3 z-10 -translate-y-1/2 text-[16px] font-semibold whitespace-nowrap dark:text-white select-none">abio.site/</span>
+              <span className="absolute top-1/2 left-3 z-10 -translate-y-1/2 text-[16px] font-semibold whitespace-nowrap text-black  select-none">abio.site/</span>
               <Input
                 placeholder=""
                 className="h-12 w-full min-w-0 rounded-none border-0 bg-[#FED45C] pl-[70px] text-[16px] font-medium placeholder:font-semibold placeholder:text-[#8B4646] focus-visible:ring-0 focus-visible:ring-offset-0 md:pl-[75px] lg:pl-[85px]"
