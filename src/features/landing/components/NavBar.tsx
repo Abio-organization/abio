@@ -1,7 +1,7 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import { Menu, Moon, Sun } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { useTheme } from '@/shared/hooks/use-theme'
 
@@ -58,13 +58,6 @@ export function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
 
-  // useEffect(() => {
-  //   document.body.style.overflow = isOpen ? 'hidden' : 'unset'
-  //   return () => {
-  //     document.body.style.overflow = 'unset'
-  //   }
-  // }, [isOpen])
-
   return (
     <header className="fixed top-[30px] left-1/2 z-50 w-[95%] -translate-x-1/2 bg-[#FED45C] md:top-[40px] md:w-[90%]">
       <div className="shadow-xl transition-all duration-300">
@@ -109,19 +102,22 @@ export function NavBar() {
               <Link to="/auth/sign-in">
                 <Button
                   variant="ghost"
-                  className="h-10 bg-[#ff0000]/10 px-6  text-base font-semibold hover:bg-[#ff0000]/20"
+                  className="h-10 bg-[#ff0000]/10 px-6 text-base font-semibold hover:bg-[#ff0000]/20"
                 >
                   Log In
                 </Button>
               </Link>
               <Link to="/auth/sign-up">
-                <Button className="h-10 px-6 text-base shadow-[2px_2px_0px_0px_#000000] bg-[#ff0000] text-[#FED45C] font-semibold">Sign Up</Button>
+                <Button className="h-10 px-6 text-base shadow-[2px_2px_0px_0px_#000000] bg-[#ff0000] text-[#FED45C] font-semibold">
+                  Sign Up
+                </Button>
               </Link>
             </div>
 
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsOpen(true)}
               className="relative p-2 transition-colors hover:bg-black/5 lg:hidden"
+              aria-label="Open menu"
             >
               <AnimatePresence mode="wait" initial={false}>
                 {isOpen ? (
@@ -170,11 +166,11 @@ export function NavBar() {
                   variants={sheetVariants}
                   className="flex h-full flex-col px-6 pt-6"
                 >
-                  {/* Add close button at the top of the sheet */}
+                  {/* Close button at the top of the sheet */}
                   <div className="flex justify-end mb-4">
                     <button
                       onClick={() => setIsOpen(false)}
-                      className="flex h-10 w-10 items-center justify-center bg-[#ff0000] text-white  hover:bg-[#ff0000]/80 transition-colors"
+                      className="flex h-10 w-10 items-center justify-center bg-[#ff0000] text-white hover:bg-[#ff0000]/80 transition-colors"
                       aria-label="Close menu"
                     >
                       <CloseIcon className="h-4 w-4" />
@@ -203,13 +199,14 @@ export function NavBar() {
                       </motion.div>
                     ))}
                   </nav>
+                  
                   <div className="flex flex-col mt-8 gap-8 w-full lg:hidden">
-                    <Link to="/auth/sign-in">
+                    <Link to="/auth/sign-in" onClick={() => setIsOpen(false)}>
                       <Button variant="ghost" className="h-10 w-full bg-[#ff0000]/10 px-4 text-[14px] font-bold">
                         Log in
                       </Button>
                     </Link>
-                    <Link to="/auth/sign-up">
+                    <Link to="/auth/sign-up" onClick={() => setIsOpen(false)}>
                       <Button variant="ghost" className="h-10 bg-[#ff0000] px-4 w-full text-xs font-semibold text-[#FED45C] shadow-[2px_2px_0px_0px_#000000] hover:bg-[#ff0000]/80">
                         Sign up
                       </Button>
