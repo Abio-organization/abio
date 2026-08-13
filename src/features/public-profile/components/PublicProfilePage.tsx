@@ -48,11 +48,15 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
     '/themes/theme1.png'
 
   const phoneProfile: PhoneDisplayProfile = {
-    displayName: displayNameForUsername(username, profile.displayName ?? username),
+    // The backend's Profile model has no displayName field — the public
+    // endpoint's response shape for a "name" hasn't been verified yet, so
+    // this falls back to username until the profiles module gets the same
+    // real-contract treatment the auth module just did.
+    displayName: displayNameForUsername(username, profile.username ?? username),
     bio: profile.bio ?? '',
     location: profile.location ?? '',
     avatarUrl: profile.avatarUrl,
-    username: profile.username,
+    username: profile.username ?? username,
   }
 
   if (username === 'dnabygaza') {

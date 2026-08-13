@@ -65,6 +65,17 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    // Proxies the API through the dev server so requests are same-origin —
+    // no CORS preflight (OPTIONS) noise in the Network tab, and the actual
+    // fetch/XHR shows up directly with real request/response values.
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9800',
+        changeOrigin: true,
+      },
+    },
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],

@@ -2,7 +2,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Minus, Plus, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
+import { toast } from '@/shared/lib/toast'
 
 import { getProductPricing, formatNaira } from '../lib/pricing'
 import { useCartStore } from '../store/cart-store'

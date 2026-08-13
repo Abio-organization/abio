@@ -44,3 +44,4 @@ export {
   SheetTrigger,
 } from './sheet'
 export { Textarea } from './textarea'
+export { ToastCard, type ToastVariant } from './toast'

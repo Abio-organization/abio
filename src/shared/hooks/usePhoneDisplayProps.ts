@@ -8,7 +8,7 @@ import { useGetSettings } from '@/features/appearance/hooks/use-settings'
 import { useCurrentUser } from '@/features/auth/hooks/use-auth'
 import type { ButtonStyle, FontStyle } from '@/features/appearance/types'
 import type { Link } from '@/features/links/types'
-import type { UserProfile } from '@/features/auth/types'
+import type { Profile } from '@/features/auth/types'
 
 export interface PhoneDisplayProfile {
   displayName: string
@@ -43,13 +43,15 @@ const DEFAULT_FONT_STYLE: FontStyle = {
   opacity: 1,
 }
 
-function profileFromUser(userProfile: UserProfile | undefined): PhoneDisplayProfile {
+// The backend's Profile model has no `displayName` field — the user's
+// display name is `User.name`, hence the separate `name` param here.
+function profileFromUser(name: string | undefined, profile: Profile | undefined): PhoneDisplayProfile {
   return {
-    displayName: userProfile?.displayName ?? '',
-    bio: userProfile?.bio ?? '',
-    location: userProfile?.location ?? '',
-    avatarUrl: userProfile?.avatarUrl ?? null,
-    username: userProfile?.username ?? '',
+    displayName: name ?? '',
+    bio: profile?.bio ?? '',
+    location: profile?.location ?? '',
+    avatarUrl: profile?.avatarUrl ?? null,
+    username: profile?.username ?? '',
   }
 }
 
@@ -60,7 +62,7 @@ export function usePhoneDisplayProps(): UsePhoneDisplayPropsResult {
   const userQuery = useCurrentUser()
 
   const settings = settingsQuery.data
-  const userProfile = userQuery.data?.profile
+  const user = userQuery.data
 
   const refetch = () => {
     void settingsQuery.refetch()
@@ -77,7 +79,7 @@ export function usePhoneDisplayProps(): UsePhoneDisplayPropsResult {
       ? wallpaperToSelectedTheme(settings.wallpaper_config) ||
         (settings.selected_theme ?? '/themes/theme1.png')
       : '/themes/theme1.png',
-    profile: profileFromUser(userProfile),
+    profile: profileFromUser(user?.name, user?.profile ?? undefined),
     links: linksQuery.data ?? [],
     isLoading:
       settingsQuery.isLoading || linksQuery.isLoading || userQuery.isLoading,

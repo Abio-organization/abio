@@ -1,7 +1,7 @@
 import { motion, type Variants } from 'framer-motion'
 import { Globe, Heart, Mail, MessageCircle, Send, Sparkles, Users } from 'lucide-react'
 import { useState } from 'react'
-import { toast } from 'sonner'
+import { toast } from '@/shared/lib/toast'
 
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'

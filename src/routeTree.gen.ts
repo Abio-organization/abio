@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TemplateRouteImport } from './routes/template'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as ContactUsRouteImport } from './routes/contact-us'
 import { Route as UsernameRouteImport } from './routes/$username'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
@@ -21,6 +22,10 @@ import { Route as StoreCartRouteImport } from './routes/store/cart'
 import { Route as DashboardAppearanceRouteImport } from './routes/dashboard/appearance'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
+import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
+import { Route as AuthTokenRouteImport } from './routes/auth/$token'
+import { Route as AuthResetPasswordTokenRouteImport } from './routes/auth/reset-password/$token'
+import { Route as AuthGoogleCallbackRouteImport } from './routes/auth/google/callback'
 
 const TemplateRoute = TemplateRouteImport.update({
   id: '/template',
@@ -30,6 +35,11 @@ const TemplateRoute = TemplateRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactUsRoute = ContactUsRouteImport.update({
@@ -82,33 +92,63 @@ const AuthSignInRoute = AuthSignInRouteImport.update({
   path: '/auth/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
+  id: '/auth/forgot-password',
+  path: '/auth/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthTokenRoute = AuthTokenRouteImport.update({
+  id: '/auth/$token',
+  path: '/auth/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthResetPasswordTokenRoute = AuthResetPasswordTokenRouteImport.update({
+  id: '/auth/reset-password/$token',
+  path: '/auth/reset-password/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthGoogleCallbackRoute = AuthGoogleCallbackRouteImport.update({
+  id: '/auth/google/callback',
+  path: '/auth/google/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/$username': typeof UsernameRoute
   '/contact-us': typeof ContactUsRoute
+  '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
   '/template': typeof TemplateRoute
+  '/auth/$token': typeof AuthTokenRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
   '/store/cart': typeof StoreCartRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/store/': typeof StoreIndexRoute
+  '/auth/google/callback': typeof AuthGoogleCallbackRoute
+  '/auth/reset-password/$token': typeof AuthResetPasswordTokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$username': typeof UsernameRoute
   '/contact-us': typeof ContactUsRoute
+  '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
   '/template': typeof TemplateRoute
+  '/auth/$token': typeof AuthTokenRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
   '/store/cart': typeof StoreCartRoute
   '/dashboard': typeof DashboardIndexRoute
   '/store': typeof StoreIndexRoute
+  '/auth/google/callback': typeof AuthGoogleCallbackRoute
+  '/auth/reset-password/$token': typeof AuthResetPasswordTokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,14 +156,19 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/$username': typeof UsernameRoute
   '/contact-us': typeof ContactUsRoute
+  '/onboarding': typeof OnboardingRoute
   '/pricing': typeof PricingRoute
   '/template': typeof TemplateRoute
+  '/auth/$token': typeof AuthTokenRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
   '/store/cart': typeof StoreCartRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/store/': typeof StoreIndexRoute
+  '/auth/google/callback': typeof AuthGoogleCallbackRoute
+  '/auth/reset-password/$token': typeof AuthResetPasswordTokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -132,41 +177,56 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/$username'
     | '/contact-us'
+    | '/onboarding'
     | '/pricing'
     | '/template'
+    | '/auth/$token'
+    | '/auth/forgot-password'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
     | '/store/cart'
     | '/dashboard/'
     | '/store/'
+    | '/auth/google/callback'
+    | '/auth/reset-password/$token'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/$username'
     | '/contact-us'
+    | '/onboarding'
     | '/pricing'
     | '/template'
+    | '/auth/$token'
+    | '/auth/forgot-password'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
     | '/store/cart'
     | '/dashboard'
     | '/store'
+    | '/auth/google/callback'
+    | '/auth/reset-password/$token'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
     | '/$username'
     | '/contact-us'
+    | '/onboarding'
     | '/pricing'
     | '/template'
+    | '/auth/$token'
+    | '/auth/forgot-password'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
     | '/store/cart'
     | '/dashboard/'
     | '/store/'
+    | '/auth/google/callback'
+    | '/auth/reset-password/$token'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -174,12 +234,17 @@ export interface RootRouteChildren {
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   UsernameRoute: typeof UsernameRoute
   ContactUsRoute: typeof ContactUsRoute
+  OnboardingRoute: typeof OnboardingRoute
   PricingRoute: typeof PricingRoute
   TemplateRoute: typeof TemplateRoute
+  AuthTokenRoute: typeof AuthTokenRoute
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
   StoreCartRoute: typeof StoreCartRoute
   StoreIndexRoute: typeof StoreIndexRoute
+  AuthGoogleCallbackRoute: typeof AuthGoogleCallbackRoute
+  AuthResetPasswordTokenRoute: typeof AuthResetPasswordTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -196,6 +261,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact-us': {
@@ -268,6 +340,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/forgot-password': {
+      id: '/auth/forgot-password'
+      path: '/auth/forgot-password'
+      fullPath: '/auth/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/$token': {
+      id: '/auth/$token'
+      path: '/auth/$token'
+      fullPath: '/auth/$token'
+      preLoaderRoute: typeof AuthTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/reset-password/$token': {
+      id: '/auth/reset-password/$token'
+      path: '/auth/reset-password/$token'
+      fullPath: '/auth/reset-password/$token'
+      preLoaderRoute: typeof AuthResetPasswordTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/google/callback': {
+      id: '/auth/google/callback'
+      path: '/auth/google/callback'
+      fullPath: '/auth/google/callback'
+      preLoaderRoute: typeof AuthGoogleCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -290,12 +390,17 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   UsernameRoute: UsernameRoute,
   ContactUsRoute: ContactUsRoute,
+  OnboardingRoute: OnboardingRoute,
   PricingRoute: PricingRoute,
   TemplateRoute: TemplateRoute,
+  AuthTokenRoute: AuthTokenRoute,
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
   StoreCartRoute: StoreCartRoute,
   StoreIndexRoute: StoreIndexRoute,
+  AuthGoogleCallbackRoute: AuthGoogleCallbackRoute,
+  AuthResetPasswordTokenRoute: AuthResetPasswordTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
