@@ -365,7 +365,7 @@ export function HeroSection() {
               <span className="absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-[16px] font-semibold text-black select-none">abio.site/</span>
               <Input
                 placeholder=""
-                className="h-12 w-full rounded-none border-0 bg-[#FED45C] pl-[89px] text-[16px] font-medium placeholder:font-semibold placeholder:text-[#8B4646] focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="h-12 w-full rounded-none border-0 bg-[#FED45C] dark:bg-[#FED45C] pl-[89px] text-[16px] font-medium placeholder:font-semibold placeholder:text-[#8B4646] focus-visible:ring-0 focus-visible:ring-offset-0"
               />
             </div>
 
@@ -431,7 +431,7 @@ export function HeroSection() {
               <span className="absolute top-1/2 left-3 z-10 -translate-y-1/2 text-[16px] font-semibold whitespace-nowrap text-black  select-none">abio.site/</span>
               <Input
                 placeholder=""
-                className="h-12 w-full min-w-0 rounded-none border-0 bg-[#FED45C] pl-[70px] text-[16px] font-medium placeholder:font-semibold placeholder:text-[#8B4646] focus-visible:ring-0 focus-visible:ring-offset-0 md:pl-[75px] lg:pl-[85px]"
+                className="h-12 w-full min-w-0 rounded-none border-0 bg-[#FED45C] dark:bg-[#FED45C] pl-[70px] text-[16px] font-medium placeholder:font-semibold placeholder:text-[#8B4646] focus-visible:ring-0 focus-visible:ring-offset-0 md:pl-[75px] lg:pl-[85px]"
               />
             </div>
             <motion.button
