@@ -1,9 +1,5 @@
 import { z } from 'zod'
 
-// Mirrors Abio-Backend/src/modules/auth/auth.schemas.ts and
-// shared/utils/constants.ts PASSWORD_COMPLEXITY_REGEX — the backend only
-// enforces complexity in production, but validating it client-side always
-// avoids a round trip that would fail once deployed.
 const PASSWORD_COMPLEXITY_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).+$/
 
 const passwordField = z

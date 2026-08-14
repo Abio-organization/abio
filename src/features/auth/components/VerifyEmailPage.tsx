@@ -15,15 +15,6 @@ interface VerifyEmailPageProps {
   token: string
 }
 
-/**
- * Deliberately NOT a useMutation fired from an effect: under StrictMode's
- * dev-only double-invoked effects, the mutation observer's own internal
- * effect gets torn down and rebuilt mid-flight, orphaning the in-flight
- * promise so the component never learns it settled (confirmed by testing —
- * it worked with StrictMode off, hung forever with it on). useMutation is
- * built for user-triggered actions; a run-once-on-mount call is simpler and
- * more robust as a plain async call with its own state.
- */
 export function VerifyEmailPage({ token }: VerifyEmailPageProps) {
   const navigate = useNavigate()
   const setSession = useAuthStore((s) => s.setSession)

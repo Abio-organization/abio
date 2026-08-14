@@ -27,7 +27,7 @@ import type {
   VerifyEmailPayload,
 } from '@/features/auth/types'
 
-/** The signed-in user, refetched from the server. Only runs once a session exists locally. */
+
 export function useCurrentUser() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
 
@@ -41,7 +41,7 @@ export function useCurrentUser() {
   })
 }
 
-/** Creates the account. Does not sign the user in — email verification is required first. */
+
 export function useSignUp() {
   return useMutation({
     mutationFn: (payload: SignUpPayload) => signUp(payload),
@@ -107,21 +107,18 @@ export function useResetPassword() {
   })
 }
 
-/** Authenticated — changing your own password while signed in. */
 export function useUpdatePassword() {
   return useMutation({
     mutationFn: (payload: UpdatePasswordPayload) => updatePassword(payload),
   })
 }
 
-/** Authenticated — kicks off TOTP 2FA setup, returns a QR code to scan. */
 export function useSetup2Fa() {
   return useMutation({
     mutationFn: () => setup2Fa(),
   })
 }
 
-/** Confirms a 6-digit TOTP code; on success, also completes login. */
 export function useVerify2Fa() {
   const setSession = useAuthStore((s) => s.setSession)
   const queryClient = useQueryClient()

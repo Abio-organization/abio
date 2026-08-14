@@ -61,6 +61,13 @@ export function SignInPage() {
     }
   }
 
+  const error = new URLSearchParams(window.location.search).get("error");
+  if (error) {
+    toast.error("email already exists", { description: 'Please log in with your credentials.' }); // or your toast lib
+    // optionally clear the query so refresh doesn't re-toast
+    window.history.replaceState({}, "", "/auth/sign-in");
+  }
+
   return (
     <AuthLayout>
       <div className="mb-8 text-center">
