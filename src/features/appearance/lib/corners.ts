@@ -16,7 +16,7 @@ export function cornerConfigToButtonStyle(config: CornerConfig): ButtonStyle {
   const style = config.style ?? 'curved'
   return {
     borderRadius: config.borderRadius ?? RADIUS_BY_STYLE[style],
-    backgroundColor: config.backgroundColor ?? '#ffffff',
+    backgroundColor: config.backgroundColor ?? '#331400',
     borderColor: config.borderColor ?? 'transparent',
     opacity: config.opacity ?? 1,
     boxShadow: config.boxShadow ?? shadowFromSize(config.shadowSize ?? 'soft'),

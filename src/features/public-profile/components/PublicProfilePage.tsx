@@ -41,7 +41,7 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
     return <p className="p-6 text-sm text-red-600">Profile not found.</p>
   }
 
-  const { profile, links, display } = data
+  const { links, display, user } = data
   const displayTheme =
     wallpaperToSelectedTheme(display.wallpaper_config) ||
     display.selected_theme ||
@@ -49,14 +49,12 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
 
   const phoneProfile: PhoneDisplayProfile = {
     // The backend's Profile model has no displayName field — the public
-    // endpoint's response shape for a "name" hasn't been verified yet, so
-    // this falls back to username until the profiles module gets the same
-    // real-contract treatment the auth module just did.
-    displayName: displayNameForUsername(username, profile.username ?? username),
-    bio: profile.bio ?? '',
-    location: profile.location ?? '',
-    avatarUrl: profile.avatarUrl,
-    username: profile.username ?? username,
+    // endpoint returns it as `user.name`, matching the authenticated contract.
+    displayName: displayNameForUsername(username, user.name ?? data.username ?? username),
+    bio: data.bio ?? '',
+    location: data.location ?? '',
+    avatarUrl: data.avatarUrl,
+    username: data.username ?? username,
   }
 
   if (username === 'dnabygaza') {

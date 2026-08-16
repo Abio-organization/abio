@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/shared/components/ui/button'
@@ -61,12 +61,17 @@ export function SignInPage() {
     }
   }
 
-  const error = new URLSearchParams(window.location.search).get("error");
-  if (error) {
-    toast.error("email already exists", { description: 'Please log in with your credentials.' }); // or your toast lib
-    // optionally clear the query so refresh doesn't re-toast
-    window.history.replaceState({}, "", "/auth/sign-in");
-  }
+  const hasShownAuthError = useRef(false)
+
+  useEffect(() => {
+    if (hasShownAuthError.current) return
+    const error = new URLSearchParams(window.location.search).get('error')
+    if (!error) return
+
+    hasShownAuthError.current = true
+    toast.error('Email already exists', { description: 'Please log in with your credentials.' })
+    window.history.replaceState({}, '', '/auth/sign-in')
+  }, [])
 
   return (
     <AuthLayout>

@@ -1,3 +1,5 @@
 export { LocationInput } from './components/LocationInput'
 export { ProfileContent } from './components/ProfileContent'
 export * from './api/profile.api'
+export { useUpdateProfile, useUpdateProfileAvatar } from './hooks/use-profile'
+export { useUsernameAvailability } from './hooks/use-username-availability'

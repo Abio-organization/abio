@@ -21,3 +21,16 @@ export async function deleteLink(id: string) {
   const { data } = await apiClient.delete<ApiResponse<null>>(`/links/${id}`)
   return data
 }
+
+/** Fire-and-forget analytics ping — public, unauthenticated, must never block or surface errors to the viewer. */
+export async function trackLinkClick(id: string) {
+  await apiClient.post(`/public/links/${id}/click`)
+}
+
+export async function updateLinkIcon(id: string, file: File) {
+  const formData = new FormData()
+  formData.append('icon', file)
+
+  const { data } = await apiClient.patch<ApiResponse<Link>>(`/links/${id}/icon`, formData)
+  return data
+}

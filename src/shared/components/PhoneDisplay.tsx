@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 
 import { getPlatformIcon } from '@/shared/components/PlatformIcon'
 import type { ButtonStyle, FontStyle } from '@/features/appearance/types'
+import { trackLinkClick } from '@/features/links/api/links.api'
 import type { Link } from '@/features/links/types'
 import type { PhoneDisplayProfile } from '@/shared/hooks/usePhoneDisplayProps'
 
@@ -63,6 +64,11 @@ export function PhoneDisplay({
               <a
                 key={link.id}
                 href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  void trackLinkClick(link.id).catch(() => {})
+                }}
                 className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium"
                 style={{
                   borderRadius: buttonStyle.borderRadius,

@@ -30,7 +30,7 @@ export interface UsePhoneDisplayPropsResult {
 
 const DEFAULT_BUTTON_STYLE: ButtonStyle = {
   borderRadius: '12px',
-  backgroundColor: '#ffffff',
+  backgroundColor: '#331400',
   borderColor: 'transparent',
   opacity: 1,
   boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
