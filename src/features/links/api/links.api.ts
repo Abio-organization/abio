@@ -12,13 +12,18 @@ export async function createLink(payload: Pick<Link, 'title' | 'url' | 'platform
   return data
 }
 
-export async function updateLink(id: string, payload: Partial<Link>) {
+export async function updateLink(id: string, payload: Partial<Pick<Link, 'title' | 'url' | 'platform' | 'isVisible'>>) {
   const { data } = await apiClient.patch<ApiResponse<Link>>(`/links/${id}`, payload)
   return data
 }
 
 export async function deleteLink(id: string) {
   const { data } = await apiClient.delete<ApiResponse<null>>(`/links/${id}`)
+  return data
+}
+
+export async function reorderLinks(links: Array<{ id: string; displayOrder: number }>) {
+  const { data } = await apiClient.patch<ApiResponse<null>>('/links/reorder/all', { links })
   return data
 }
 

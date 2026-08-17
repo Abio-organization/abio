@@ -1,7 +1,7 @@
 import { motion, type Variants } from 'framer-motion'
 import type { CSSProperties } from 'react'
 
-import { themePreviewStyle } from '@/features/appearance/lib'
+import { shadowFromType, themePreviewStyle } from '@/features/appearance/lib'
 import type { CornerConfig, FontConfig, WallpaperConfig } from '@/features/appearance/types'
 import { cn } from '@/shared/lib/utils'
 
@@ -50,10 +50,10 @@ export function TemplateCard({ template, onClick, isSelected }: TemplateCardProp
   const buttonBarStyle: CSSProperties = !cc
     ? { borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.9)', border: '1.5px solid rgba(255,255,255,0.5)' }
     : {
-        borderRadius: cc.style === 'sharp' ? 4 : cc.style === 'round' ? 9999 : 10,
-        boxShadow: cc.boxShadow ?? 'none',
-        border: `1.5px solid ${cc.borderColor ?? 'rgba(255,255,255,0.5)'}`,
-        backgroundColor: cc.backgroundColor ?? 'rgba(255,255,255,0.9)',
+        borderRadius: cc.type === 'sharp' ? 4 : cc.type === 'round' ? 9999 : 10,
+        boxShadow: shadowFromType(cc.shadow),
+        border: `1.5px solid ${cc.strokeColor ?? 'rgba(255,255,255,0.5)'}`,
+        backgroundColor: cc.fillColor ?? 'rgba(255,255,255,0.9)',
         opacity: cc.opacity ?? 1,
       }
 

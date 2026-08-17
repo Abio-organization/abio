@@ -1,8 +1,10 @@
 import { useState } from 'react'
 
-import { ButtonCustomizer } from '@/features/appearance/components/ButtonCustomizer'
-import { FontCustomizer } from '@/features/appearance/components/FontCustomizer'
 import type { ButtonStyle, FontStyle } from '@/features/appearance/types'
+import { cn } from '@/shared/lib/utils'
+
+import { CornerStyleEditor } from './CornerStyleEditor'
+import { FontStyleEditor } from './FontStyleEditor'
 
 type StyleTab = 'corner' | 'font'
 
@@ -13,12 +15,7 @@ interface ButtonAndFontTabsProps {
   onFontStyleChange: (value: FontStyle) => void
 }
 
-export function ButtonAndFontTabs({
-  buttonStyle,
-  fontStyle,
-  onButtonStyleChange,
-  onFontStyleChange,
-}: ButtonAndFontTabsProps) {
+export function ButtonAndFontTabs({ buttonStyle, fontStyle, onButtonStyleChange, onFontStyleChange }: ButtonAndFontTabsProps) {
   const [tab, setTab] = useState<StyleTab>('corner')
 
   return (
@@ -28,17 +25,20 @@ export function ButtonAndFontTabs({
           <button
             key={key}
             type="button"
-            className={`rounded-lg px-3 py-1.5 text-sm capitalize ${tab === key ? 'bg-neutral-900 text-white' : 'bg-neutral-100'}`}
+            className={cn(
+              'px-3 py-1.5 text-sm font-medium capitalize',
+              tab === key ? 'bg-[#331400] text-white dark:bg-[#F5EEE4] dark:text-[#331400]' : 'bg-[#331400]/5 text-[#666464] dark:bg-white/5 dark:text-[#F5EEE4]/60',
+            )}
             onClick={() => setTab(key)}
           >
-            {key}
+            {key === 'corner' ? 'Buttons' : 'Font'}
           </button>
         ))}
       </div>
       {tab === 'corner' ? (
-        <ButtonCustomizer value={buttonStyle} onChange={onButtonStyleChange} />
+        <CornerStyleEditor value={buttonStyle} onChange={onButtonStyleChange} />
       ) : (
-        <FontCustomizer value={fontStyle} onChange={onFontStyleChange} />
+        <FontStyleEditor value={fontStyle} onChange={onFontStyleChange} />
       )}
     </div>
   )

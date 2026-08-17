@@ -16,12 +16,13 @@ export function useUpdateProfile() {
   const user = useAuthStore((s) => s.user)
 
   return useMutation({
-    mutationFn: (payload: Partial<Profile>) => updateProfile(payload),
+    mutationFn: (payload: Partial<Profile> & { displayName?: string }) => updateProfile(payload),
     onSuccess: (res) => {
       const nextUser = mergeProfileIntoUser(user, res.data)
       if (nextUser) {
-        setUser(nextUser)
-        queryClient.setQueryData(queryKeys.user, nextUser)
+        const merged = res.data.user?.name ? { ...nextUser, name: res.data.user.name } : nextUser
+        setUser(merged)
+        queryClient.setQueryData(queryKeys.user, merged)
       }
     },
   })

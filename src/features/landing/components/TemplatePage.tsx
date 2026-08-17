@@ -16,8 +16,8 @@ import { TemplateCard, type TemplateCardTemplate } from './TemplateCard'
 function themeToTemplateConfig(theme: AppearanceTheme, index: number): TemplateCardTemplate {
   const preview = themePreviewStyle(theme.wallpaper_config)
   const cc = theme.corner_config
-  const buttonStyle: TemplateConfig['style']['buttonStyle'] = cc?.style === 'sharp' ? 'square' : cc?.style === 'round' ? 'pill' : 'rounded'
-  const hasStroke = !!cc?.borderColor && cc.borderColor !== 'transparent'
+  const buttonStyle: TemplateConfig['style']['buttonStyle'] = cc?.type === 'sharp' ? 'square' : cc?.type === 'round' ? 'pill' : 'rounded'
+  const hasStroke = !!cc?.strokeColor
 
   return {
     id: `theme-${index}-${theme.name}`,
@@ -31,13 +31,13 @@ function themeToTemplateConfig(theme: AppearanceTheme, index: number): TemplateC
       backgroundColor: preview.backgroundColor as string | undefined,
       backgroundImage: preview.backgroundImage as string | undefined,
       textColor: theme.font_config?.fillColor || '#333333',
-      buttonColor: cc?.backgroundColor || '#ffffff',
+      buttonColor: cc?.fillColor || '#ffffff',
       buttonTextColor: theme.font_config?.fillColor || '#333333',
-      accentColor: cc?.borderColor,
+      accentColor: cc?.strokeColor ?? undefined,
       fontFamily: theme.font_config?.name ? `'${theme.font_config.name}', sans-serif` : "'Inter', sans-serif",
       buttonStyle,
       buttonBorder: hasStroke,
-      buttonEffect: cc?.shadowSize === 'hard' ? '3d' : 'flat',
+      buttonEffect: cc?.shadow === 'hard' ? '3d' : 'flat',
     },
   }
 }

@@ -1,32 +1,49 @@
-import type { ReactNode } from 'react'
-import { FaLink } from 'react-icons/fa6'
+import type { IconType } from 'react-icons'
+import {
+  FaDiscord,
+  FaFacebook,
+  FaGithub,
+  FaGlobe,
+  FaInstagram,
+  FaLink,
+  FaLinkedin,
+  FaMedium,
+  FaPinterest,
+  FaReddit,
+  FaSnapchat,
+  FaSpotify,
+  FaTelegram,
+  FaTiktok,
+  FaTwitch,
+  FaWhatsapp,
+  FaXTwitter,
+  FaYoutube,
+} from 'react-icons/fa6'
 
-type PlatformMatcher = { test: (platform: string) => boolean; icon: ReactNode }
-
-const matchers: PlatformMatcher[] = [
-  {
-    test: (p) => p.includes('tiktok'),
-    icon: <span aria-hidden>TikTok</span>,
-  },
-  {
-    test: (p) => p.includes('instagram'),
-    icon: <span aria-hidden>IG</span>,
-  },
-  {
-    test: (p) => p.includes('youtube'),
-    icon: <span aria-hidden>YT</span>,
-  },
-  {
-    test: (p) => p.includes('twitter') || p.includes('x.com'),
-    icon: <span aria-hidden>X</span>,
-  },
-]
+const PLATFORM_ICONS: Record<string, IconType> = {
+  twitter: FaXTwitter,
+  x: FaXTwitter,
+  instagram: FaInstagram,
+  linkedin: FaLinkedin,
+  github: FaGithub,
+  facebook: FaFacebook,
+  youtube: FaYoutube,
+  tiktok: FaTiktok,
+  discord: FaDiscord,
+  twitch: FaTwitch,
+  spotify: FaSpotify,
+  reddit: FaReddit,
+  pinterest: FaPinterest,
+  medium: FaMedium,
+  whatsapp: FaWhatsapp,
+  snapchat: FaSnapchat,
+  telegram: FaTelegram,
+  website: FaGlobe,
+  custom: FaLink,
+}
 
 export function getPlatformIcon(platform: string, className?: string) {
-  const key = platform.toLowerCase()
-  const match = matchers.find((m) => m.test(key))
-  if (match) {
-    return <span className={className}>{match.icon}</span>
-  }
-  return <FaLink className={className} aria-hidden />
+  const key = platform.toLowerCase().trim()
+  const Icon = PLATFORM_ICONS[key] ?? FaLink
+  return <Icon className={className} aria-hidden />
 }

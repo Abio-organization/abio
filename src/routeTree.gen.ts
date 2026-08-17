@@ -27,6 +27,8 @@ import { Route as OnboardingLinksRouteImport } from './routes/onboarding/links'
 import { Route as OnboardingGoalRouteImport } from './routes/onboarding/goal'
 import { Route as OnboardingCompleteRouteImport } from './routes/onboarding/complete'
 import { Route as OnboardingCategoryRouteImport } from './routes/onboarding/category'
+import { Route as DashboardStoreRouteImport } from './routes/dashboard/store'
+import { Route as DashboardStatisticsRouteImport } from './routes/dashboard/statistics'
 import { Route as DashboardAppearanceRouteImport } from './routes/dashboard/appearance'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
@@ -125,6 +127,16 @@ const OnboardingCategoryRoute = OnboardingCategoryRouteImport.update({
   path: '/category',
   getParentRoute: () => OnboardingRouteRoute,
 } as any)
+const DashboardStoreRoute = DashboardStoreRouteImport.update({
+  id: '/store',
+  path: '/store',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardStatisticsRoute = DashboardStatisticsRouteImport.update({
+  id: '/statistics',
+  path: '/statistics',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardAppearanceRoute = DashboardAppearanceRouteImport.update({
   id: '/appearance',
   path: '/appearance',
@@ -174,6 +186,8 @@ export interface FileRoutesByFullPath {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
+  '/dashboard/statistics': typeof DashboardStatisticsRoute
+  '/dashboard/store': typeof DashboardStoreRoute
   '/onboarding/category': typeof OnboardingCategoryRoute
   '/onboarding/complete': typeof OnboardingCompleteRoute
   '/onboarding/goal': typeof OnboardingGoalRoute
@@ -199,6 +213,8 @@ export interface FileRoutesByTo {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
+  '/dashboard/statistics': typeof DashboardStatisticsRoute
+  '/dashboard/store': typeof DashboardStoreRoute
   '/onboarding/category': typeof OnboardingCategoryRoute
   '/onboarding/complete': typeof OnboardingCompleteRoute
   '/onboarding/goal': typeof OnboardingGoalRoute
@@ -227,6 +243,8 @@ export interface FileRoutesById {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
+  '/dashboard/statistics': typeof DashboardStatisticsRoute
+  '/dashboard/store': typeof DashboardStoreRoute
   '/onboarding/category': typeof OnboardingCategoryRoute
   '/onboarding/complete': typeof OnboardingCompleteRoute
   '/onboarding/goal': typeof OnboardingGoalRoute
@@ -256,6 +274,8 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
+    | '/dashboard/statistics'
+    | '/dashboard/store'
     | '/onboarding/category'
     | '/onboarding/complete'
     | '/onboarding/goal'
@@ -281,6 +301,8 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
+    | '/dashboard/statistics'
+    | '/dashboard/store'
     | '/onboarding/category'
     | '/onboarding/complete'
     | '/onboarding/goal'
@@ -308,6 +330,8 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
+    | '/dashboard/statistics'
+    | '/dashboard/store'
     | '/onboarding/category'
     | '/onboarding/complete'
     | '/onboarding/goal'
@@ -469,6 +493,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingCategoryRouteImport
       parentRoute: typeof OnboardingRouteRoute
     }
+    '/dashboard/store': {
+      id: '/dashboard/store'
+      path: '/store'
+      fullPath: '/dashboard/store'
+      preLoaderRoute: typeof DashboardStoreRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/statistics': {
+      id: '/dashboard/statistics'
+      path: '/statistics'
+      fullPath: '/dashboard/statistics'
+      preLoaderRoute: typeof DashboardStatisticsRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/appearance': {
       id: '/dashboard/appearance'
       path: '/appearance'
@@ -523,11 +561,15 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteRouteChildren {
   DashboardAppearanceRoute: typeof DashboardAppearanceRoute
+  DashboardStatisticsRoute: typeof DashboardStatisticsRoute
+  DashboardStoreRoute: typeof DashboardStoreRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardAppearanceRoute: DashboardAppearanceRoute,
+  DashboardStatisticsRoute: DashboardStatisticsRoute,
+  DashboardStoreRoute: DashboardStoreRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
