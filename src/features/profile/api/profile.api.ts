@@ -4,8 +4,12 @@ import type { AppearancePayload } from '@/features/appearance/types'
 import type { Profile } from '@/features/auth/types'
 
 
-export async function updateProfile(payload: Partial<Profile>) {
-  const { data } = await apiClient.patch<ApiResponse<Profile>>('/user/profile', payload)
+/**
+ * `displayName` isn't a Profile field — the backend writes it to `User.name` and,
+ * only on this endpoint, echoes it back as `user.name` alongside the updated profile.
+ */
+export async function updateProfile(payload: Partial<Profile> & { displayName?: string }) {
+  const { data } = await apiClient.patch<ApiResponse<Profile & { user?: { name: string } }>>('/user/profile', payload)
   return data
 }
 

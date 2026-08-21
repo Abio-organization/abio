@@ -2,45 +2,66 @@ import type { CSSProperties } from 'react'
 
 import type { WallpaperConfig } from '@/features/appearance/types'
 
-/** Preview theme string used by PhoneDisplay. */
-export function wallpaperToSelectedTheme(config: WallpaperConfig): string {
-  if (!config || Object.keys(config).length === 0) {
-    return '/themes/theme1.png'
+const DEFAULT_THEME = 'fill:#331400'
+
+/** String-encoded wallpaper used by the live editor + PhoneDisplay: `fill:#hex`, `gradient:#a:#b`, or a plain image URL. */
+export function wallpaperToSelectedTheme(config: WallpaperConfig | undefined | null): string {
+  if (!config || !config.type) return DEFAULT_THEME
+
+  const type = config.type === 'solid' ? 'fill' : config.type
+
+  if (type === 'fill' && typeof config.backgroundColor === 'string') {
+    return `fill:${config.backgroundColor}`
   }
 
-  if ('type' in config && config.type === 'fill') {
-    const color = config.backgroundColor[0]?.color ?? '#ffffff'
-    return `fill:${color}`
-  }
-
-  if ('type' in config && config.type === 'gradient') {
+  if (type === 'gradient' && Array.isArray(config.backgroundColor)) {
     const [a, b] = config.backgroundColor
-    return `gradient:${a?.color ?? '#fff'}:${b?.color ?? '#000'}`
+    return `gradient:${a?.color ?? '#000000'}:${b?.color ?? '#ffffff'}`
   }
 
-  if ('type' in config && config.type === 'image' && config.imageUrl) {
-    return config.imageUrl
+  if (type === 'image' && config.image) {
+    return config.image
   }
 
-  return '/themes/theme1.png'
+  return DEFAULT_THEME
+}
+
+/** Inverse of wallpaperToSelectedTheme — used when building the PUT /preferences body. */
+export function selectedThemeToWallpaperConfig(selectedTheme: string): WallpaperConfig {
+  if (selectedTheme.startsWith('fill:')) {
+    return { type: 'fill', backgroundColor: selectedTheme.slice('fill:'.length) }
+  }
+  if (selectedTheme.startsWith('gradient:')) {
+    const [, a, b] = selectedTheme.split(':')
+    return {
+      type: 'gradient',
+      backgroundColor: [
+        { color: a || '#000000', amount: 0.5 },
+        { color: b || '#ffffff', amount: 1 },
+      ],
+    }
+  }
+  return { type: 'image', image: selectedTheme }
 }
 
 /** Inline-style version of the same mapping, for theme preview cards (gallery/grid). */
 export function themePreviewStyle(config: WallpaperConfig | undefined | null): CSSProperties {
-  if (!config || !('type' in config)) return {}
+  if (!config || !config.type) return {}
 
-  if (config.type === 'fill' && config.backgroundColor[0]) {
-    return { backgroundColor: config.backgroundColor[0].color }
+  const type = config.type === 'solid' ? 'fill' : config.type
+
+  if (type === 'fill' && typeof config.backgroundColor === 'string') {
+    return { backgroundColor: config.backgroundColor }
   }
 
-  if (config.type === 'gradient' && config.backgroundColor.length >= 2) {
+  if (type === 'gradient' && Array.isArray(config.backgroundColor) && config.backgroundColor.length >= 2) {
     const [a, b] = config.backgroundColor
     return { backgroundImage: `linear-gradient(to bottom, ${a.color}, ${b.color})` }
   }
 
-  if (config.type === 'image' && config.imageUrl) {
+  if (type === 'image' && config.image) {
     return {
-      backgroundImage: `url(${config.imageUrl})`,
+      backgroundImage: `url(${config.image})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }

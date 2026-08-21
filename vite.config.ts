@@ -49,6 +49,10 @@ export default defineConfig({
         // into any screen yet. Those load from cache on demand instead, the
         // moment a component actually references one.
         //
+        // SPA deep links (/$username, /auth/$token, …): without this, the
+        // service worker treats those navigations as missing cache entries
+        // instead of falling back to the app shell.
+        navigateFallback: '/index.html',
         // No runtimeCaching entries are defined for the API: it lives on a
         // separate origin (VITE_API_BASE_URL), so the service worker never
         // intercepts those requests — auth/dashboard/appearance data always

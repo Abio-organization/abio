@@ -32,8 +32,8 @@ export function SignInPage() {
   const onSubmit = (data: LoginFormValues) => {
     setUnverifiedEmail(null)
     loginMutation.mutate(data, {
-      onSuccess: () => {
-        navigate({ to: '/onboarding' })
+      onSuccess: (res) => {
+        navigate({ to: res.data.user.isOnboardingCompleted ? '/dashboard' : '/onboarding' })
       },
       onError: (error) => {
         if (getApiErrorStatus(error) === 403) {

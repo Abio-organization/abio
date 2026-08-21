@@ -1,4 +1,5 @@
-export { buttonStyleToCornerConfig, cornerConfigToButtonStyle } from './corners'
+export { buttonStyleToCornerConfig, cornerConfigToButtonStyle, shadowFromType } from './corners'
 export { toValidColor } from './colors'
-export { fontConfigToFontStyle, fontFamilyToApiName, fontStyleToFontConfig } from './font'
-export { themePreviewStyle, wallpaperToSelectedTheme } from './wallpaper'
+export { FONT_WEIGHT_CSS, fontConfigToFontStyle, fontFamilyToApiName, fontStyleToFontConfig } from './font'
+export { themePreviewStyle, wallpaperToSelectedTheme, selectedThemeToWallpaperConfig } from './wallpaper'
+export { FONT_OPTIONS, ensureGoogleFontsLoaded } from './google-fonts'

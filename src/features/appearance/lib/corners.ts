@@ -1,34 +1,46 @@
-import type { ButtonStyle, CornerConfig } from '@/features/appearance/types'
+import type { ButtonStyle, CornerConfig, CornerType, ShadowType } from '@/features/appearance/types'
 
-const RADIUS_BY_STYLE: Record<NonNullable<CornerConfig['style']>, string> = {
+const RADIUS_BY_TYPE: Record<CornerType, string> = {
   sharp: '0px',
-  round: '9999px',
   curved: '12px',
+  round: '9999px',
 }
 
-function shadowFromSize(size: CornerConfig['shadowSize']): string {
-  return size === 'hard'
-    ? '4px 4px 0 0 rgba(0,0,0,0.25)'
-    : '0 4px 14px rgba(0,0,0,0.15)'
+function typeFromRadius(radius: string): CornerType {
+  if (radius === '0px') return 'sharp'
+  if (radius === '9999px') return 'round'
+  return 'curved'
+}
+
+/** Backend has no shadow-color field — shadows are always neutral black at a fixed alpha. */
+export function shadowFromType(shadow: ShadowType | undefined): string {
+  if (shadow === 'hard') return '4px 4px 0px 0px rgba(0,0,0,0.35)'
+  if (shadow === 'soft') return '2px 4px 10px rgba(0,0,0,0.18)'
+  return 'none'
+}
+
+function shadowTypeFromBoxShadow(boxShadow: string): ShadowType {
+  if (boxShadow === 'none') return 'none'
+  if (boxShadow.includes('4px 4px 0px')) return 'hard'
+  return 'soft'
 }
 
 export function cornerConfigToButtonStyle(config: CornerConfig): ButtonStyle {
-  const style = config.style ?? 'curved'
   return {
-    borderRadius: config.borderRadius ?? RADIUS_BY_STYLE[style],
-    backgroundColor: config.backgroundColor ?? '#331400',
-    borderColor: config.borderColor ?? 'transparent',
+    borderRadius: RADIUS_BY_TYPE[config.type] ?? RADIUS_BY_TYPE.curved,
+    backgroundColor: config.fillColor ?? '#331400',
+    borderColor: config.strokeColor || 'transparent',
     opacity: config.opacity ?? 1,
-    boxShadow: config.boxShadow ?? shadowFromSize(config.shadowSize ?? 'soft'),
+    boxShadow: shadowFromType(config.shadow),
   }
 }
 
 export function buttonStyleToCornerConfig(style: ButtonStyle): CornerConfig {
   return {
-    borderRadius: style.borderRadius,
-    backgroundColor: style.backgroundColor,
-    borderColor: style.borderColor,
+    type: typeFromRadius(style.borderRadius),
+    fillColor: style.backgroundColor,
+    strokeColor: style.borderColor === 'transparent' ? null : style.borderColor,
     opacity: style.opacity,
-    boxShadow: style.boxShadow,
+    shadow: shadowTypeFromBoxShadow(style.boxShadow),
   }
 }

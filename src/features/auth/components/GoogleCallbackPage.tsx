@@ -37,7 +37,7 @@ export function GoogleCallbackPage({ accessToken }: GoogleCallbackPageProps) {
         setAccessTokenOnly(accessToken)
         const res = await getCurrentUser()
         setAccessTokenSession(accessToken, res.data)
-        navigate({ to: '/onboarding' })
+        navigate({ to: res.data.isOnboardingCompleted ? '/dashboard' : '/onboarding' })
       } catch (err) {
         setError(getApiErrorMessage(err, 'Google sign-in failed. Please try again.'))
       }
