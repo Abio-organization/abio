@@ -24,7 +24,7 @@ export function SaveBar() {
         type="button"
         onClick={() => saveMutation.mutate()}
         disabled={!isDirty || saveMutation.isPending}
-        className="bg-[#FED45C] text-[#331400] hover:bg-[#FED45C]/90"
+        className="bg-[#FED45C] font-medium text-sm text-[#331400] shadow-[2px_2px_0px_0px_#000000] hover:bg-[#FED45C]/90"
       >
         {saveMutation.isPending ? 'Saving…' : 'Save Changes'}
       </Button>

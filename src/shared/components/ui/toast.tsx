@@ -36,24 +36,24 @@ export function ToastCard({ variant, title, description }: ToastCardProps) {
 
   return (
     <div
-      className="flex w-full max-w-sm items-center gap-4 rounded-2xl p-5"
+      className="flex w-full max-w-sm items-center gap-3  p-3"
       style={{
         background: '#242C32',
         boxShadow: '0 8px 10px rgba(0,0,0,0.2), 0 6px 30px rgba(0,0,0,0.12), 0 16px 24px rgba(0,0,0,0.14)',
       }}
     >
       <div
-        className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full"
+        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full"
         style={{ background: `radial-gradient(circle, ${glow} 0%, transparent 72%)` }}
       >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ background: '#171D22' }}>
+        <div className="flex h-6 w-6 items-center justify-center rounded-full" style={{ background: '#171D22' }}>
           <ToastGlyph variant={variant} />
         </div>
       </div>
 
       <div className="min-w-0">
-        <p className="text-base font-medium text-white">{title}</p>
-        {description && <p className="mt-0.5 text-sm text-white/50">{description}</p>}
+        <p className="text-[16px] font-medium text-white">{title}</p>
+        {description && <p className="mt-0.5 text-[10px] text-white/50">{description}</p>}
       </div>
     </div>
   )

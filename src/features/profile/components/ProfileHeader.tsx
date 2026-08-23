@@ -211,25 +211,25 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
         <div className="mt-2">
           {isEditingLocation ? (
             <div className="flex items-center gap-2">
-              <div className="max-w-55 flex-1">
+              <div className="max-w-55  flex-1">
                 <LocationInput value={locationDraft} onChange={setLocationDraft} />
               </div>
-              <button type="button" onClick={handleLocationSave} className="text-green-600 hover:text-green-700">
-                <Check className="h-4 w-4" />
+              <button type="button" onClick={handleLocationSave} className="text-green-600  hover:text-green-700">
+                <Check className="h-6 w-6" />
               </button>
               <button
                 type="button"
                 onClick={() => setIsEditingLocation(false)}
                 className="text-[#331400]/40 hover:text-[#331400] dark:text-[#F5EEE4]/40 dark:hover:text-[#F5EEE4]"
               >
-                <X className="h-4 w-4" />
+                <X className="h-6 w-6" />
               </button>
             </div>
           ) : (
             <button
               type="button"
               onClick={handleLocationEdit}
-              className="flex w-fit items-center gap-1.5 border border-[#331400]/15 px-2 py-1 text-xs font-medium text-[#666464] hover:border-[#331400]/40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]/50"
+              className="flex w-fit items-center gap-1.5 border border-[#331400]/15 px-2 py-1 text-xs font-medium shadow-md text-[#666464] hover:border-[#331400]/40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]/50"
             >
               <MapPin className="h-3 w-3" />
               <span className="max-w-45 truncate">{user.profile?.location || 'Add location'}</span>

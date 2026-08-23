@@ -27,7 +27,7 @@ export function ProfilePage() {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
       <section className="min-w-0">
-        <h1 className="mb-6 text-2xl font-semibold text-[#331400] dark:text-[#F5EEE4]">Hi, {user.profile?.username ?? user.name}</h1>
+        <h1 className="mb-10 text-3xl font-semibold text-[#331400] dark:text-[#F5EEE4]">Hi, {user.profile?.username ?? user.name}</h1>
 
         <ProfileHeader user={user} />
 
@@ -46,7 +46,7 @@ export function ProfilePage() {
         </div>
       </section>
 
-      <aside className="flex min-w-0 flex-col gap-6">
+      <aside className="flex min-w-0  flex-col gap-6">
         <SharePanel username={user.profile?.username ?? null} />
 
         <div className="flex justify-center">

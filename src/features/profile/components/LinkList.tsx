@@ -114,7 +114,7 @@ export function LinkList({ links }: LinkListProps) {
     <>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={sorted.map((l) => l.id)} strategy={verticalListSortingStrategy}>
-          <div className="space-y-2">
+          <div className="space-y-4">
             {sorted.map((link) => (
               <LinkRow
                 key={link.id}
@@ -134,8 +134,8 @@ export function LinkList({ links }: LinkListProps) {
       <Dialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete link?</DialogTitle>
-            <DialogDescription>
+            <DialogTitle >Delete link?</DialogTitle>
+            <DialogDescription >
               "{deleteTarget?.title}" will be removed from your profile. This can't be undone.
             </DialogDescription>
           </DialogHeader>

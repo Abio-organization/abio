@@ -3,9 +3,9 @@ import { Plus, X } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
 
 const PRESET_COLORS = [
+  '#FFFFFF',
   '#000000',
   '#331400',
-  '#FFFFFF',
   '#6B7280',
   '#EF4444',
   '#F97316',
@@ -23,7 +23,7 @@ interface ColorPickerProps {
   allowNone?: boolean
 }
 
-const swatchBase = 'relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 transition-transform hover:scale-105'
+const swatchBase = 'relative flex h-10 shadow-md w-10 shrink-0 items-center justify-center overflow-hidden border-2 transition-transform hover:scale-105'
 
 export function ColorPicker({ value, onChange, allowNone }: ColorPickerProps) {
   return (

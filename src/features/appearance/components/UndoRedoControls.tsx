@@ -4,7 +4,7 @@ import { useAppearanceEditorStore } from '@/features/appearance/store/appearance
 import { cn } from '@/shared/lib/utils'
 
 const buttonClass =
-  'flex h-9 w-9 items-center justify-center bg-[#FED45C] text-[#331400] transition-all hover:bg-[#fdd935] disabled:cursor-not-allowed disabled:opacity-40'
+  'flex h-9 w-9 items-center shadow-[2px_2px_0px_0px_#000000] justify-center bg-[#FED45C] text-[#331400] transition-all hover:bg-[#fdd935] disabled:cursor-not-allowed disabled:opacity-40'
 
 export function UndoRedoControls({ className }: { className?: string }) {
   const canUndo = useAppearanceEditorStore((s) => s.canUndo)

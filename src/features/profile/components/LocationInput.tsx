@@ -61,7 +61,7 @@ export function LocationInput({ value, onChange }: LocationInputProps) {
   }, [])
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative ">
       <Field>
       <FieldLabel htmlFor="location">Location</FieldLabel>
       <Input
@@ -75,7 +75,7 @@ export function LocationInput({ value, onChange }: LocationInputProps) {
         placeholder="City, country"
       />
       {open && suggestions.length > 0 ? (
-        <ul className="absolute z-10 mt-1 w-full rounded-lg border border-border bg-popover py-1 shadow-md">
+        <ul className="absolute z-10 mt-1 w-full top-16  border border-border bg-popover py-1 shadow-lg">
           {suggestions.map((item) => (
             <li key={item.display_name}>
               <button

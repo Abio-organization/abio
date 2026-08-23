@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ffe7a3;
+      }
+
+      .cls-1, .cls-2 {
+        stroke: #000;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke-miterlimit: 10;
+        stroke-width: 35px;
+      }
+
+      .cls-2 {
+        fill: #f8aeb4;
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: #231f20;
+      }
+    </style>
+  </defs>
+  <rect class="cls-3" x="494.41" y="524.72" width="91.81" height="574.34" transform="translate(-271.58 1352.21) rotate(-90)"/>
+  <g id="EXwfCz.tif">
+    <path class="cls-2" d="M430.87,421.44c-119.41-138.16,83.01-324.03,211.26-194.48,136.93,138.34-83.25,342.6-211.26,194.48Z"/>
+  </g>
+  <g id="EXwfCz.tif-2" data-name="EXwfCz.tif">
+    <path class="cls-1" d="M827.49,605.65v79.68H253.15v-79.68c0-.79,4.2-13.23,5.06-15.14,9.93-21.7,70.72-51.57,93.7-61.13,12.07-5.02,70.09-25.37,79.01-23.16,6,1.46,25.37,15.52,34.56,19.45,63.53,27.25,129.15,17.43,185.97-19.86,44.75,9.89,88.71,25.67,128.18,48.99,13.64,8.02,36.24,21.4,42.8,35.72.86,1.91,5.06,14.35,5.06,15.14Z"/>
+  </g>
+</svg>

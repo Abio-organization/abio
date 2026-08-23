@@ -128,7 +128,7 @@ export function AppearancePage() {
           </div>
         </div>
 
-        <div className="mb-6 flex gap-2 border-b border-[#331400]/10 dark:border-[#F5EEE4]/10">
+        <div className="mb-6 flex gap-4 border-b border-[#331400]/10 dark:border-[#F5EEE4]/10">
           {TABS.map((t) => (
             <button
               key={t.id}

@@ -31,6 +31,20 @@ function backgroundStyle(selectedTheme: string): CSSProperties {
   }
 }
 
+function withOpacity(hexOrColor: string, opacity: number): string {
+  if (!hexOrColor || hexOrColor === 'transparent') return hexOrColor
+
+  const normalized = hexOrColor.replace('#', '')
+  if (normalized.length !== 6) return hexOrColor
+
+  const value = Number.parseInt(normalized, 16)
+  const r = (value >> 16) & 255
+  const g = (value >> 8) & 255
+  const b = value & 255
+
+  return `rgba(${r}, ${g}, ${b}, ${Math.min(Math.max(opacity, 0), 1)})`
+}
+
 export function PhoneDisplay({ buttonStyle, fontStyle, selectedTheme, profile, links }: PhoneDisplayProps) {
   const visibleLinks = links.filter((link) => link.isVisible)
   const name = profile.displayName || profile.username || 'Your name'
@@ -92,11 +106,11 @@ export function PhoneDisplay({ buttonStyle, fontStyle, selectedTheme, profile, l
                   className="flex items-center justify-between px-3 py-2.5 text-sm"
                   style={{
                     borderRadius: buttonStyle.borderRadius,
-                    backgroundColor: buttonStyle.backgroundColor,
-                    borderColor: buttonStyle.borderColor,
-                    opacity: buttonStyle.opacity,
+                    backgroundColor: withOpacity(buttonStyle.backgroundColor, buttonStyle.opacity),
+                    borderColor: buttonStyle.borderColor === 'transparent' ? 'transparent' : withOpacity(buttonStyle.borderColor, buttonStyle.opacity),
                     boxShadow: buttonStyle.boxShadow,
                     color: fontStyle.fillColor,
+                    opacity: 1,
                     fontFamily: fontStyle.fontFamily,
                     fontStyle: fontStyle.italic ? 'italic' : 'normal',
                     textDecoration: fontStyle.underline ? 'underline' : 'none',

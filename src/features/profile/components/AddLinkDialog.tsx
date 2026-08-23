@@ -102,7 +102,8 @@ export function AddLinkDialog() {
         render={
           <button
             type="button"
-            className="flex w-full items-center justify-center gap-2 bg-[#331400] py-3 text-sm font-semibold text-[#FED45C] hover:bg-[#4a2c1a]"
+           
+            className="flex w-full items-center justify-center gap-2 bg-[#331400] py-3 text-sm font-semibold text-[#FED45C]  hover:bg-[#4a2c1a]"
           />
         }
       >
@@ -112,11 +113,11 @@ export function AddLinkDialog() {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a link</DialogTitle>
-          <DialogDescription>It'll show up on your profile right away.</DialogDescription>
+          <DialogTitle>Add new link</DialogTitle>
+          {/* <DialogDescription>It'll show up on your profile right away.</DialogDescription> */}
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <Field>
             <FieldLabel htmlFor="link-platform">Platform</FieldLabel>
             <select
@@ -130,7 +131,7 @@ export function AddLinkDialog() {
                 }
               }}
               className={cn(
-                'h-8 w-full border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30',
+                'h-10 w-full border border-input bg-transparent px-2.5 text-[12px] outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30',
               )}
             >
               {LINK_PLATFORM_OPTIONS.map((opt) => (
@@ -191,11 +192,11 @@ export function AddLinkDialog() {
 
           <Field orientation="horizontal">
             <Switch checked={isVisible} onCheckedChange={setIsVisible} />
-            <FieldLabel>Visible on profile</FieldLabel>
+            <FieldLabel>Visible</FieldLabel>
           </Field>
 
           <DialogFooter>
-            <Button type="submit" disabled={createMutation.isPending} className="bg-[#FED45C] text-[#331400] hover:bg-[#FED45C]/90">
+            <Button type="submit" disabled={createMutation.isPending} className="bg-[#FED45C] shadow-[4px_4px_0px_0px_#000000] w-full h-10 text-[#331400] hover:bg-[#FED45C]/90">
               {createMutation.isPending ? 'Adding…' : 'Add link'}
             </Button>
           </DialogFooter>
