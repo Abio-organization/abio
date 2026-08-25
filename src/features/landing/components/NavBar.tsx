@@ -8,7 +8,10 @@ import { useTheme } from '@/shared/hooks/use-theme'
 import { Button } from '@/shared/components/ui/button'
 import { Sheet, SheetContent, SheetTitle } from '@/shared/components/ui/sheet'
 
+import { useIsAuthenticated } from '@/features/auth'
+
 import { navLinks } from '../data'
+import { NavUserMenu } from './NavUserMenu'
 
 const sheetVariants: Variants = {
   closed: {
@@ -57,6 +60,7 @@ export function NavBar() {
   const { pathname } = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
+  const authenticated = useIsAuthenticated()
 
   return (
     <header className="fixed top-[30px] left-1/2 z-50 w-[95%] -translate-x-1/2 bg-[#FED45C] md:top-[40px] md:w-[90%]">
@@ -98,21 +102,25 @@ export function NavBar() {
               {theme === 'dark' ? <Sun className="h-4.5 w-4.5" /> : <Moon className="h-4.5 w-4.5" />}
             </button>
 
-            <div className="hidden items-center space-x-2 lg:flex">
-              <Link to="/auth/sign-in">
-                <Button
-                  variant="ghost"
-                  className="h-10 bg-[#ff0000]/10 px-6 text-base font-semibold hover:bg-[#ff0000]/20"
-                >
-                  Log In
-                </Button>
-              </Link>
-              <Link to="/auth/sign-up">
-                <Button className="h-10 px-6 text-base shadow-[2px_2px_0px_0px_#000000] bg-[#ff0000] text-[#FED45C] font-semibold">
-                  Sign Up
-                </Button>
-              </Link>
-            </div>
+            {authenticated ? (
+              <NavUserMenu variant="desktop" />
+            ) : (
+              <div className="hidden items-center space-x-2 lg:flex">
+                <Link to="/auth/sign-in">
+                  <Button
+                    variant="ghost"
+                    className="h-10 bg-[#ff0000]/10 px-6 text-base font-semibold hover:bg-[#ff0000]/20"
+                  >
+                    Log In
+                  </Button>
+                </Link>
+                <Link to="/auth/sign-up">
+                  <Button className="h-10 px-6 text-base shadow-[2px_2px_0px_0px_#000000] bg-[#ff0000] text-[#FED45C] font-semibold">
+                    Sign Up
+                  </Button>
+                </Link>
+              </div>
+            )}
 
             <button
               onClick={() => setIsOpen(true)}
@@ -200,18 +208,25 @@ export function NavBar() {
                     ))}
                   </nav>
                   
-                  <div className="flex flex-col mt-8 gap-8 w-full lg:hidden">
-                    <Link to="/auth/sign-in" onClick={() => setIsOpen(false)}>
-                      <Button variant="ghost" className="h-10 w-full bg-[#ff0000]/10 px-4 text-[14px] font-bold">
-                        Log in
-                      </Button>
-                    </Link>
-                    <Link to="/auth/sign-up" onClick={() => setIsOpen(false)}>
-                      <Button variant="ghost" className="h-10 bg-[#ff0000] px-4 w-full text-xs font-semibold text-[#FED45C] shadow-[2px_2px_0px_0px_#000000] hover:bg-[#ff0000]/80">
-                        Sign up
-                      </Button>
-                    </Link>
-                  </div>
+                  {authenticated ? (
+                    <NavUserMenu variant="mobile" onNavigate={() => setIsOpen(false)} />
+                  ) : (
+                    <div className="mt-8 flex w-full flex-col gap-8 lg:hidden">
+                      <Link to="/auth/sign-in" onClick={() => setIsOpen(false)}>
+                        <Button variant="ghost" className="h-10 w-full bg-[#ff0000]/10 px-4 text-[14px] font-bold">
+                          Log in
+                        </Button>
+                      </Link>
+                      <Link to="/auth/sign-up" onClick={() => setIsOpen(false)}>
+                        <Button
+                          variant="ghost"
+                          className="h-10 w-full bg-[#ff0000] px-4 text-xs font-semibold text-[#FED45C] shadow-[2px_2px_0px_0px_#000000] hover:bg-[#ff0000]/80"
+                        >
+                          Sign up
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

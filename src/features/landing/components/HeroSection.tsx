@@ -1,9 +1,17 @@
 import { useNavigate } from '@tanstack/react-router'
 import { AnimatePresence, motion } from 'framer-motion'
+import { Check, Loader2, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { Input } from '@/shared/components/ui/input'
+import { cn } from '@/shared/lib/utils'
 import { getPlatformIconUrl } from '@/shared/lib/platform-icons'
+import { toast } from '@/shared/lib/toast'
+import { useIsAuthenticated } from '@/features/auth'
+import { useUsernameAvailability } from '@/features/profile'
+
+const USERNAME_REGEX = /^[a-zA-Z0-9_-]+$/
+const PREFERRED_USERNAME_KEY = 'abio_preferred_username'
 
 // ─── TYPES
 type ButtonStyle = {
@@ -332,9 +340,112 @@ const TiltedCard = () => {
   )
 }
 
+type ClaimUsernameFieldProps = {
+  value: string
+  onChange: (value: string) => void
+  isChecking: boolean
+  isAvailable: boolean | null
+  shapeError: string | null
+  prefixClassName?: string
+  inputClassName?: string
+  className?: string
+}
+
+function ClaimUsernameField({
+  value,
+  onChange,
+  isChecking,
+  isAvailable,
+  shapeError,
+  prefixClassName,
+  inputClassName,
+  className,
+}: ClaimUsernameFieldProps) {
+  const trimmed = value.trim()
+  const showStatus = trimmed.length >= 3 && !shapeError
+
+  return (
+    <div className={cn('relative', className)}>
+      <span
+        className={cn(
+          'absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-[16px] font-semibold whitespace-nowrap text-black select-none',
+          prefixClassName,
+        )}
+      >
+        abio.site/
+      </span>
+      <Input
+        value={value}
+        onChange={(e) => onChange(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ''))}
+        placeholder="yourname"
+        autoComplete="off"
+        aria-label="Claim username"
+        aria-busy={isChecking}
+        className={cn(
+          'h-12 w-full rounded-none border-0 bg-[#FED45C] pr-10 text-[16px] font-medium text-[#331400] placeholder:font-semibold placeholder:text-[#8B4646] focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-[#FED45C]',
+          inputClassName,
+        )}
+      />
+      {showStatus && (
+        <span className="pointer-events-none absolute top-1/2 right-3 z-10 -translate-y-1/2" aria-hidden>
+          {isChecking ? (
+            <Loader2 className="h-4 w-4 animate-spin text-[#5D2D2B]/70" />
+          ) : isAvailable === true ? (
+            <Check className="h-4 w-4 text-green-700" />
+          ) : isAvailable === false ? (
+            <X className="h-4 w-4 text-red-600" />
+          ) : null}
+        </span>
+      )}
+    </div>
+  )
+}
+
+function usernameShapeError(trimmed: string): string | null {
+  if (!trimmed) return null
+  if (trimmed.length < 3) return 'Username must be at least 3 characters'
+  if (trimmed.length > 30) return 'Username must be 30 characters or less'
+  if (!USERNAME_REGEX.test(trimmed)) return 'Only letters, numbers, hyphens and underscores'
+  return null
+}
+
 export function HeroSection() {
   const navigate = useNavigate()
-  const goToSignUp = () => navigate({ to: '/auth/sign-up' })
+  const authenticated = useIsAuthenticated()
+  const [username, setUsername] = useState('')
+  const trimmed = username.trim()
+  const shapeError = usernameShapeError(trimmed)
+  const { isChecking, isAvailable } = useUsernameAvailability(shapeError ? '' : trimmed)
+
+  const goToSignUp = () => {
+    if (trimmed && shapeError) {
+      toast.warning(shapeError)
+      return
+    }
+    if (trimmed.length >= 3 && isChecking) {
+      toast.warning('Checking username…')
+      return
+    }
+    if (trimmed.length >= 3 && isAvailable === false) {
+      toast.warning('That username is taken', { description: 'Pick another one, or clear the field to continue.' })
+      return
+    }
+    if (trimmed.length >= 3 && isAvailable === true) {
+      sessionStorage.setItem(PREFERRED_USERNAME_KEY, trimmed)
+    } else {
+      sessionStorage.removeItem(PREFERRED_USERNAME_KEY)
+    }
+    navigate({ to: '/auth/sign-up' })
+  }
+
+  const availabilityHint =
+    shapeError && trimmed
+      ? shapeError
+      : trimmed.length >= 3 && !isChecking && isAvailable === true
+        ? 'Nice — that username is available'
+        : trimmed.length >= 3 && !isChecking && isAvailable === false
+          ? 'Username is not available'
+          : null
 
   return (
     <section className="w-full min-h-screen overflow-hidden bg-[#FEF4EA] px-4 pt-24 dark:bg-[#1C1611] pb-8 sm:px-8 sm:pt-28 md:px-12 md:pt-28 md:pb-0 lg:px-20">
@@ -361,22 +472,36 @@ export function HeroSection() {
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="mt-6 flex w-full flex-col items-center gap-2.5">
-            <div className="relative w-full max-w-[310px]">
-              <span className="absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-[16px] font-semibold text-black select-none">abio.site/</span>
-              <Input
-                placeholder=""
-                className="h-12 w-full rounded-none border-0 bg-[#FED45C] dark:bg-[#FED45C] pl-[89px] text-[16px] font-medium placeholder:font-semibold placeholder:text-[#8B4646] focus-visible:ring-0 focus-visible:ring-offset-0"
-              />
-            </div>
+            <ClaimUsernameField
+              value={username}
+              onChange={setUsername}
+              isChecking={isChecking}
+              isAvailable={isAvailable}
+              shapeError={shapeError}
+              className="w-full max-w-[310px]"
+              inputClassName="pl-[89px]"
+            />
+            {availabilityHint && (
+              <p
+                className={cn(
+                  'w-full max-w-[310px] text-left text-xs font-semibold',
+                  shapeError || isAvailable === false ? 'text-red-600' : 'text-green-700',
+                )}
+              >
+                {availabilityHint}
+              </p>
+            )}
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={goToSignUp}
-              className="h-11 w-full max-w-[310px] bg-[#5D2D2B] text-[13px] font-black text-[#FED45C] shadow-[3px_3px_0px_0px_#000000] transition-shadow duration-200 hover:shadow-[4px_4px_0px_0px_#000000]"
-            >
-              Get Abio for free
-            </motion.button>
+            {!authenticated && (
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={goToSignUp}
+                className="h-11 w-full max-w-[310px] bg-[#5D2D2B] text-[13px] font-black text-[#FED45C] shadow-[3px_3px_0px_0px_#000000] transition-shadow duration-200 hover:shadow-[4px_4px_0px_0px_#000000]"
+              >
+                Get Abio for free
+              </motion.button>
+            )}
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.7 }} className="mt-10 mb-6">
@@ -426,22 +551,39 @@ export function HeroSection() {
             Share your music, links, shop, and profile with one tap on your NFC Acard. Works on any NFC enabled device, Iphone/Android. No app needed. All seen from a single link and dynamic profile.
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="grid w-full grid-cols-2 gap-2 overflow-hidden">
-            <div className="relative min-w-0 overflow-hidden">
-              <span className="absolute top-1/2 left-3 z-10 -translate-y-1/2 text-[16px] font-semibold whitespace-nowrap text-black  select-none">abio.site/</span>
-              <Input
-                placeholder=""
-                className="h-12 w-full min-w-0 rounded-none border-0 bg-[#FED45C] dark:bg-[#FED45C] pl-[70px] text-[16px] font-medium placeholder:font-semibold placeholder:text-[#8B4646] focus-visible:ring-0 focus-visible:ring-offset-0 md:pl-[75px] lg:pl-[85px]"
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="w-full space-y-1.5 overflow-hidden">
+            <div className="grid w-full grid-cols-2 gap-2 overflow-hidden">
+              <ClaimUsernameField
+                value={username}
+                onChange={setUsername}
+                isChecking={isChecking}
+                isAvailable={isAvailable}
+                shapeError={shapeError}
+                className="min-w-0 overflow-hidden"
+                prefixClassName="left-3"
+                inputClassName="min-w-0 pl-[70px] md:pl-[75px] lg:pl-[85px]"
               />
+              {!authenticated && (
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={goToSignUp}
+                  className="relative z-10 h-11 w-full bg-[#5D2D2B] px-2 text-[12px] font-black whitespace-nowrap text-[#FED45C] shadow-[3px_3px_0px_0px_#000000] transition-shadow duration-200 hover:shadow-[4px_4px_0px_0px_#000000] md:h-12 md:text-[13px]"
+                >
+                  Get Abio for free
+                </motion.button>
+              )}
             </div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={goToSignUp}
-              className="relative z-10 h-11 w-full bg-[#5D2D2B] px-2 text-[12px] font-black whitespace-nowrap text-[#FED45C] shadow-[3px_3px_0px_0px_#000000] transition-shadow duration-200 hover:shadow-[4px_4px_0px_0px_#000000] md:h-12 md:text-[13px]"
-            >
-              Get Abio for free
-            </motion.button>
+            {availabilityHint && (
+              <p
+                className={cn(
+                  'text-xs font-semibold',
+                  shapeError || isAvailable === false ? 'text-red-600' : 'text-green-700',
+                )}
+              >
+                {availabilityHint}
+              </p>
+            )}
           </motion.div>
         </motion.div>
 

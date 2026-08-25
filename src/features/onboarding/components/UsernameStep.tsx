@@ -19,7 +19,12 @@ export function UsernameStep() {
   const [username, setUsername] = useState('')
 
   useEffect(() => {
-    if (user?.profile?.username) setUsername(user.profile.username)
+    if (user?.profile?.username) {
+      setUsername(user.profile.username)
+      return
+    }
+    const preferred = sessionStorage.getItem('abio_preferred_username')
+    if (preferred) setUsername(preferred)
   }, [user])
 
   const trimmed = username.trim()
