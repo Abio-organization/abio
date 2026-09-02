@@ -118,17 +118,18 @@ export function AppearancePage() {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-      <section className="min-w-0">
+    <div className="flex flex-col gap-20 lg:grid lg:grid-cols-[320px_1fr]">
+      
+      <section className="min-w-0 order-1 lg:order-2">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-2xl font-semibold text-[#331400] dark:text-[#F5EEE4]">Appearance</h1>
+          <h1 className="text-2xl  font-semibold text-[#331400] dark:text-[#F5EEE4]">Appearance</h1>
           <div className="flex items-center gap-3">
             <UndoRedoControls />
             <SaveBar />
           </div>
         </div>
 
-        <div className="mb-6 flex gap-4 border-b border-[#331400]/10 dark:border-[#F5EEE4]/10">
+        <div className="mb-6 flex gap-20 border-b border-[#331400]/10 dark:border-[#F5EEE4]/10">
           {TABS.map((t) => (
             <button
               key={t.id}
@@ -144,7 +145,7 @@ export function AppearancePage() {
             </button>
           ))}
         </div>
-
+        
         {tab === 'style' && (
           <ButtonAndFontTabs
             buttonStyle={current.buttonStyle}
@@ -163,7 +164,7 @@ export function AppearancePage() {
         )}
       </section>
 
-      <aside className="flex justify-center lg:sticky lg:top-8 lg:h-fit">
+      <aside className="flex justify-center order-2 lg:order-1  lg:sticky lg:top-8 lg:h-fit">
         {previewLoading ? (
           <Loader2 className="h-6 w-6 animate-spin text-[#331400]/50 dark:text-[#F5EEE4]/50" />
         ) : (

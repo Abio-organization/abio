@@ -1,5 +1,5 @@
 import { QRCodeCanvas } from "qrcode.react";
-import { Copy, QrCode, Share2 } from "lucide-react";
+import { Copy, Eye, QrCode, Share2, X } from "lucide-react";
 import { useRef, useState } from "react";
 import {
   FaFacebook,
@@ -9,6 +9,7 @@ import {
   FaXTwitter,
 } from "react-icons/fa6";
 
+import { PhoneDisplay } from "@/shared/components/PhoneDisplay";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +18,7 @@ import {
   DialogDescription,
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button";
+import { usePhoneDisplayProps } from "@/shared/hooks/usePhoneDisplayProps";
 import { toast } from "@/shared/lib/toast";
 
 interface SharePanelProps {
@@ -26,7 +28,9 @@ interface SharePanelProps {
 export function SharePanel({ username }: SharePanelProps) {
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const phonePreview = usePhoneDisplayProps();
 
   const profileLink = username ? `${window.location.origin}/${username}` : null;
 
@@ -42,7 +46,7 @@ export function SharePanel({ username }: SharePanelProps) {
 
   const handleShare = async () => {
     if (!profileLink) return;
-    
+
     // Always open the custom dialog
     setIsShareOpen(true);
   };
@@ -61,20 +65,28 @@ export function SharePanel({ username }: SharePanelProps) {
 
   return (
     <>
-      <div className="flex w-full min-w-0 items-center gap-3">
+      <div className="ml-auto flex w-fit max-w-full min-w-0 items-center gap-3">
         <button
           type="button"
           onClick={() => setIsQrOpen(true)}
           disabled={!profileLink}
-          className="flex h-11 w-11 items-center justify-center border border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
+          className="flex h-11 w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
         >
           <QrCode className="h-5 w-5" />
         </button>
         <button
           type="button"
+          onClick={() => setIsPreviewOpen(true)}
+          disabled={!profileLink}
+          className="flex h-11 lg:hidden w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
+        >
+          <Eye className="h-5 w-5" />
+        </button>
+        <button
+          type="button"
           onClick={handleCopy}
           disabled={!profileLink}
-          className="flex h-11 w-11 items-center justify-center border border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
+          className="flex h-11 w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
         >
           <Copy className="h-5 w-5" />
         </button>
@@ -82,13 +94,13 @@ export function SharePanel({ username }: SharePanelProps) {
           type="button"
           onClick={handleShare}
           disabled={!profileLink}
-          className="flex h-11 w-11 items-center justify-center border border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
+          className="flex h-11 w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
         >
           <Share2 className="h-5 w-5" />
         </button>
         {profileLink && (
           <span
-            className="min-w-0 flex-1 truncate text-sm cursor-pointer"
+            className="hidden min-w-0 flex-1 truncate text-sm cursor-pointer sm:block"
             onClick={() => window.open(profileLink, "_blank")}
           >
             <span className="text-red-500">{window.location.origin}</span>
@@ -98,6 +110,39 @@ export function SharePanel({ username }: SharePanelProps) {
           </span>
         )}
       </div>
+
+      {isPreviewOpen && profileLink && (
+        <div
+          className="fixed inset-0 z-[70] bg-black/75 backdrop-blur-sm"
+          onClick={() => setIsPreviewOpen(false)}
+        >
+          <button
+            type="button"
+            aria-label="Close preview"
+            onClick={() => setIsPreviewOpen(false)}
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#331400]/15 bg-white text-[#331400] shadow-lg dark:border-[#F5EEE4]/15 dark:bg-[#1D1D1D] dark:text-[#F5EEE4]"
+          >
+            <X className="h-5 w-5" />
+          </button>
+
+          <div className="relative flex h-full w-full items-center justify-center px-3 py-6">
+            {phonePreview.isLoading ? (
+              <div className="flex h-[92dvh] w-[min(92vw,calc(92dvh*0.47))] max-w-[420px] items-center justify-center bg-white/90 text-sm text-[#331400] dark:bg-[#1D1D1D] dark:text-[#F5EEE4]">
+                Loading preview…
+              </div>
+            ) : (
+              <PhoneDisplay
+                className="h-[92dvh] w-[min(92vw,calc(92dvh*0.47))] max-w-[420px]"
+                buttonStyle={phonePreview.buttonStyle}
+                fontStyle={phonePreview.fontStyle}
+                selectedTheme={phonePreview.selectedTheme}
+                profile={phonePreview.profile}
+                links={phonePreview.links}
+              />
+            )}
+          </div>
+        </div>
+      )}
 
       <Dialog open={isQrOpen} onOpenChange={setIsQrOpen}>
         <DialogContent>
