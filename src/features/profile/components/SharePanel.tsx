@@ -86,7 +86,7 @@ export function SharePanel({ username }: SharePanelProps) {
           type="button"
           onClick={handleCopy}
           disabled={!profileLink}
-          className="flex h-11 w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
+          className="md:flex hidden  h-11 w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
         >
           <Copy className="h-5 w-5" />
         </button>

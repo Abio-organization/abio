@@ -68,7 +68,7 @@ export function PhoneDisplay({
       className={`relative mx-auto overflow-hidden border-2 border-black bg-white ${className ?? "h-130 w-70 md:h-150 md:w-75"}`}
     >
       <div className="flex h-full flex-col">
-        <div className="flex shrink-0 flex-col items-start gap-2 bg-white/90 p-4 backdrop-blur-xl">
+        <div className="flex relative shrink-0 flex-col items-start gap-2 bg-white/90 p-4 backdrop-blur-xl">
           <div className="flex w-full items-center gap-3">
             <div className="h-12.5 w-12.5 shrink-0 overflow-hidden rounded-full border border-neutral-300 shadow-md">
               {profile.avatarUrl ? (
@@ -111,13 +111,19 @@ export function PhoneDisplay({
           ) : null}
 
           {profile.location ? (
-            <div className="flex items-center gap-1 border border-neutral-300 bg-white/70 px-1.5 py-0.5">
+            <div className="flex mb-2 items-center gap-1 border border-neutral-300 bg-white/70 px-1.5 py-0.5">
               <MapPin className="h-2.5 w-2.5 shrink-0 text-neutral-500" />
               <span className="max-w-45 truncate text-[9px] font-medium text-neutral-500">
                 {profile.location}
               </span>
             </div>
           ) : null}
+          <div className="mt-4 flex flex-col absolute bottom-0">
+            <span className="flex items-center font-medium gap-1 text-[9px] text-black">
+              Links
+            </span>
+            <div className="h-[3px] w-6 bg-red-500" />
+          </div>
         </div>
 
         <div

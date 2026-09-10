@@ -1,5 +1,8 @@
+import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { QRCodeCanvas } from "qrcode.react";
+
+import { Loader } from "@/shared/components/loader";
 
 import { PhoneDisplay } from "@/shared/components/PhoneDisplay";
 import {
@@ -10,7 +13,7 @@ import {
 import { queryKeys } from "@/shared/lib/query-keys";
 import { getPublicProfile } from "@/features/profile/api/profile.api";
 import type { PhoneDisplayProfile } from "@/shared/hooks/usePhoneDisplayProps";
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
 
 interface PublicProfilePageProps {
   username: string;
@@ -26,6 +29,24 @@ function themeForUsername(username: string, displayTheme: string) {
   return displayTheme;
 }
 
+function backgroundStyleForSelectedTheme(selectedTheme: string): CSSProperties {
+  if (selectedTheme.startsWith("fill:")) {
+    return { backgroundColor: selectedTheme.replace("fill:", "") };
+  }
+
+  if (selectedTheme.startsWith("gradient:")) {
+    const [, a, b] = selectedTheme.split(":");
+    return { background: `linear-gradient(180deg, ${a}, ${b})` };
+  }
+
+  return {
+    backgroundImage: `url(${selectedTheme})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  };
+}
+
 export function PublicProfilePage({ username }: PublicProfilePageProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -39,7 +60,11 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
   });
 
   if (isLoading) {
-    return <p className="p-6 text-sm text-neutral-500">Loading profile…</p>;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#FEF4EA]">
+        <Loader />
+      </div>
+    );
   }
 
   if (isError || !data) {
@@ -83,29 +108,52 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
     );
   }
 
+  const selectedTheme = themeForUsername(username, displayTheme);
+  const pageBackground = backgroundStyleForSelectedTheme(selectedTheme);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#FEF4EA]  p-6">
-      <PhoneDisplay
-        buttonStyle={cornerConfigToButtonStyle(display.corner_config)}
-        fontStyle={fontConfigToFontStyle(display.font_config)}
-        selectedTheme={themeForUsername(username, displayTheme)}
-        profile={phoneProfile}
-        links={links}
-      />
-      <div>
-        {profileLink && (
-          <QRCodeCanvas
-            ref={canvasRef}
-            value={profileLink}
-            size={88}
-            level="H"
-            bgColor="#ffffff"
-            fgColor="#000000"
-            className="fixed bottom-4 right-4 z-[100] flex-col items-center gap-1 hidden md:flex border border-gray-200 bg-white p-2 shadow-lg transition-opacity hover:opacity-95"
-          />
-        
-        )}
+    <div
+      className="relative flex min-h-screen items-center justify-center overflow-hidden p-6"
+      style={pageBackground}
+    >
+      <div className="absolute inset-0 bg-black/20" />
+
+      <div className="absolute left-6 top-6 z-10">
+        <img
+          src="/Abio-logo.png"
+          alt="Abio logo"
+          className="h-11 w-11 object-contain"
+        />
       </div>
+
+      <div className="relative z-10 flex flex-col items-center justify-center">
+        <PhoneDisplay
+          buttonStyle={cornerConfigToButtonStyle(display.corner_config)}
+          fontStyle={fontConfigToFontStyle(display.font_config)}
+          selectedTheme={selectedTheme}
+          profile={phoneProfile}
+          links={links}
+        />
+
+        <Link
+          to="/auth/sign-up"
+          className="mt-4 block bg-white px-5 py-2.5 text-sm font-medium shadow-lg capitalize text-black transition-opacity hover:opacity-95"
+        >
+          join {username} on abio
+        </Link>
+      </div>
+
+      {profileLink && (
+        <QRCodeCanvas
+          ref={canvasRef}
+          value={profileLink}
+          size={88}
+          level="H"
+          bgColor="#ffffff"
+          fgColor="#000000"
+          className="fixed bottom-4 right-4 z-[100] hidden flex-col items-center gap-1 border border-gray-200 bg-white p-2 shadow-lg transition-opacity hover:opacity-95 md:flex"
+        />
+      )}
     </div>
   );
 }

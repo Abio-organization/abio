@@ -123,7 +123,7 @@ export function DashboardLayout() {
         </main>
       </div>
 
-      <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t-1 border-[#331400] bg-white/20 shadow-[0_-8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl backdrop-saturate-150  md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t-1 border-[#331400] bg-white dark:bg-white/10 shadow-[0_-8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl backdrop-saturate-150  md:hidden">
         {NAV_ITEMS.map((item) => (
           <NavLink key={item.url} item={item} orientation="horizontal" />
         ))}
