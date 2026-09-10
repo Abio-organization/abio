@@ -6,11 +6,12 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
 import { Separator } from '@/shared/components/ui/separator'
-import { getApiErrorMessage, getApiErrorStatus } from '@/shared/lib/api-error'
+import { getApiErrorMessage } from '@/shared/lib/api-error'
 import { toast } from '@/shared/lib/toast'
 
 import { getGoogleAuthUrl, resendVerificationEmail } from '@/features/auth/api/auth.api'
 import { useLogin } from '@/features/auth/hooks/use-auth'
+import { getLoginForbiddenReason } from '@/features/auth/lib/login-errors'
 import { loginSchema, type LoginFormValues } from '@/features/auth/lib/validation'
 
 import { AuthLayout } from './AuthLayout'
@@ -36,13 +37,23 @@ export function SignInPage() {
         navigate({ to: res.data.user.isOnboardingCompleted ? '/dashboard' : '/onboarding' })
       },
       onError: (error) => {
-        if (getApiErrorStatus(error) === 403) {
-          setUnverifiedEmail(data.email)
-          toast.warning('Verify your email to continue', {
-            description: "We sent a link when you signed up — check your inbox, or resend it below.",
+        const forbiddenReason = getLoginForbiddenReason(error)
+
+        if (forbiddenReason === 'deactivated') {
+          toast.error('Account deactivated', {
+            description: getApiErrorMessage(error),
           })
           return
         }
+
+        if (forbiddenReason === 'email_unverified') {
+          setUnverifiedEmail(data.email)
+          toast.warning('Verify your email to continue', {
+            description: 'Check your inbox for the verification link, or resend it below.',
+          })
+          return
+        }
+
         toast.error('Sign in failed', { description: getApiErrorMessage(error) })
       },
     })
