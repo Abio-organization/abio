@@ -8,6 +8,8 @@ export interface Profile {
   location: string | null
   goals: string[]
   isPublic: boolean
+  /** Lifetime profile views — incremented by the public view-track endpoint. */
+  viewCount: number
   createdAt: string
   updatedAt: string
 }

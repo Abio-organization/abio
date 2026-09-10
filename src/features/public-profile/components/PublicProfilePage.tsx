@@ -1,5 +1,7 @@
+import { useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
+import { trackProfileView } from '@/features/analytics'
 import { PhoneDisplay } from '@/shared/components/PhoneDisplay'
 import {
   cornerConfigToButtonStyle,
@@ -25,6 +27,15 @@ function themeForUsername(username: string, displayTheme: string) {
 }
 
 export function PublicProfilePage({ username }: PublicProfilePageProps) {
+  // Explicit view tracking — fire-and-forget, once per profile mount. The cached
+  // GET profile response deliberately does not count views (see FRONTEND_INTEGRATION_PLAN).
+  const trackedUsername = useRef<string | null>(null)
+  useEffect(() => {
+    if (!username || trackedUsername.current === username) return
+    trackedUsername.current = username
+    void trackProfileView(username).catch(() => {})
+  }, [username])
+
   const { data, isLoading, isError } = useQuery({
     queryKey: queryKeys.userProfile(username),
     queryFn: async () => {
