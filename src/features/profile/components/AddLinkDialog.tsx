@@ -113,7 +113,7 @@ export function AddLinkDialog() {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add new link</DialogTitle>
+          <DialogTitle>Add new  link</DialogTitle>
           {/* <DialogDescription>It'll show up on your profile right away.</DialogDescription> */}
         </DialogHeader>
 

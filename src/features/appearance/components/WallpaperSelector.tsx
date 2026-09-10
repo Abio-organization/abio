@@ -78,24 +78,42 @@ export function WallpaperSelector({ wallpaper, onWallpaperChange, onFileChange }
       {mode === 'fill' && (
         <div>
           <p className="mb-2 text-xs font-semibold tracking-wide text-[#666464] uppercase dark:text-[#F5EEE4]/50">Background color</p>
+          <div className="h-24 w-24 mb-4" style={{ background: wallpaper.startsWith('fill:') ? wallpaper.slice(5) : '#331400' }} />
+          <div className="flex items-center justify-center gap-3 mt-2">
+            
+            
+            
+          </div>
+          <div className="max-w-[350px] sm:max-w-none" >
+          <label className="text-sm font-medium text-gray-700">
+              Fill Color:
+            </label>
           <ColorPicker
             value={wallpaper.startsWith('fill:') ? wallpaper.slice(5) : '#331400'}
             onChange={(color) => onWallpaperChange(`fill:${color ?? '#331400'}`)}
           />
+          </div>
         </div>
       )}
 
       {mode === 'gradient' && (
         <div className="flex flex-col gap-4">
           <div>
+            <div className="h-24 w-24 mb-4" style={{ background: `linear-gradient(180deg, ${gradientStart}, ${gradientEnd})` }} />
             <p className="mb-2 text-xs font-semibold tracking-wide text-[#666464] uppercase dark:text-[#F5EEE4]/50">Start color</p>
+            <div className="max-w-[350px] sm:max-w-none">
+
             <ColorPicker value={gradientStart} onChange={(color) => onWallpaperChange(`gradient:${color ?? gradientStart}:${gradientEnd}`)} />
+            </div>
           </div>
           <div>
             <p className="mb-2 text-xs font-semibold tracking-wide text-[#666464] uppercase dark:text-[#F5EEE4]/50">End color</p>
+            <div className="max-w-[350px] sm:max-w-none">
+
             <ColorPicker value={gradientEnd} onChange={(color) => onWallpaperChange(`gradient:${gradientStart}:${color ?? gradientEnd}`)} />
+            </div>
           </div>
-          <div className="h-12 w-full" style={{ background: `linear-gradient(180deg, ${gradientStart}, ${gradientEnd})` }} />
+          {/* <div className="h-24 w-24" style={{ background: `linear-gradient(180deg, ${gradientStart}, ${gradientEnd})` }} /> */}
         </div>
       )}
 
@@ -106,9 +124,9 @@ export function WallpaperSelector({ wallpaper, onWallpaperChange, onFileChange }
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="relative aspect-9/12 w-full max-w-40 overflow-hidden border border-[#331400]/15 dark:border-[#F5EEE4]/15"
+              className="relative shadow-lg aspect-9/12 w-full max-w-40 overflow-hidden border border-[#331400]/15 dark:border-[#F5EEE4]/15"
             >
-              <img src={wallpaper} alt="" className="h-full w-full object-cover" />
+              <img src={wallpaper} alt="" className="h-full w-full  object-cover" />
               <span className="absolute inset-0 flex items-center justify-center bg-black/40 text-xs font-medium text-white opacity-0 hover:opacity-100">
                 Change
               </span>

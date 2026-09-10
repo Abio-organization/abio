@@ -58,7 +58,7 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
       style={style}
       data-link-id={link.id}
       className={cn(
-        'flex items-center gap-2 border border-[#331400]/10 bg-[#FAFAFC] shadow-lg p-6 dark:border-[#F5EEE4]/10 dark:bg-white/5',
+        'flex items-center gap-2 border border-[#331400]/10 bg-[#FAFAFC] shadow-lg p-4 md:p-6 dark:border-[#F5EEE4]/10 dark:bg-white/5',
         isDragging && 'opacity-50',
       )}
     >
@@ -71,11 +71,11 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
         <GripVertical className="h-6 w-6 text-[#ff0000]" />
       </button>
 
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-[#331400] dark:text-[#F5EEE4]">
+      <div className="flex h-7 w-7 md:h-10 md:w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-[#331400] dark:text-[#F5EEE4]">
         {link.icon_link ? (
           <img src={link.icon_link} alt="" className="h-full w-full object-cover" />
         ) : (
-          getPlatformIcon(link.platform, 'h-8 w-8')
+          getPlatformIcon(link.platform, 'h-5 w-5 md:h-8 md:w-8')
         )}
       </div>
 
@@ -87,14 +87,14 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Title"
-            className="h-9 sm:w-1/3"
+            className="h-7 md:h-9 sm:w-1/3"
           />
           <Input
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="https://…"
-            className="h-9 flex-1"
+            className="h-7 md:h-9 flex-1"
           />
         </div>
       ) : (
@@ -119,7 +119,7 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
         </div>
       ) : (
         <div className="flex shrink-0 items-center gap-3">
-          <span className="hidden items-center gap-1 text-xs text-[#666464] sm:flex dark:text-[#F5EEE4]/50">
+          <span className=" flex items-center gap-1 text-xs text-[#666464] dark:text-[#F5EEE4]/50">
             <BarChart2 className="h-3.5 w-3.5" />
             {link.clickCount} clicks
           </span>
