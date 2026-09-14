@@ -1,7 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-
-import { ComingSoonPage } from '@/features/dashboard/components/ComingSoonPage'
-
+import { StorePage } from '@/features/store'
 export const Route = createFileRoute('/dashboard/store')({
-  component: () => <ComingSoonPage title="Store" description="Manage your products and orders here soon." />,
+  component: () => <StorePage embedded />,
 })

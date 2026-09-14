@@ -12,14 +12,18 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TemplateRouteImport } from './routes/template'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ContactUsRouteImport } from './routes/contact-us'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as UsernameRouteImport } from './routes/$username'
 import { Route as OnboardingRouteRouteImport } from './routes/onboarding/route'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StoreIndexRouteImport } from './routes/store/index'
+import { Route as OrdersIndexRouteImport } from './routes/orders/index'
 import { Route as OnboardingIndexRouteImport } from './routes/onboarding/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as StoreCartRouteImport } from './routes/store/cart'
+import { Route as StoreSlugRouteImport } from './routes/store/$slug'
+import { Route as OrdersIdRouteImport } from './routes/orders/$id'
 import { Route as OnboardingUsernameRouteImport } from './routes/onboarding/username'
 import { Route as OnboardingProfileRouteImport } from './routes/onboarding/profile'
 import { Route as OnboardingPlatformsRouteImport } from './routes/onboarding/platforms'
@@ -52,6 +56,11 @@ const ContactUsRoute = ContactUsRouteImport.update({
   path: '/contact-us',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UsernameRoute = UsernameRouteImport.update({
   id: '/$username',
   path: '/$username',
@@ -77,6 +86,11 @@ const StoreIndexRoute = StoreIndexRouteImport.update({
   path: '/store/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrdersIndexRoute = OrdersIndexRouteImport.update({
+  id: '/orders/',
+  path: '/orders/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingIndexRoute = OnboardingIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -90,6 +104,16 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
 const StoreCartRoute = StoreCartRouteImport.update({
   id: '/store/cart',
   path: '/store/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoreSlugRoute = StoreSlugRouteImport.update({
+  id: '/store/$slug',
+  path: '/store/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrdersIdRoute = OrdersIdRouteImport.update({
+  id: '/orders/$id',
+  path: '/orders/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingUsernameRoute = OnboardingUsernameRouteImport.update({
@@ -178,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/$username': typeof UsernameRoute
+  '/checkout': typeof CheckoutRoute
   '/contact-us': typeof ContactUsRoute
   '/pricing': typeof PricingRoute
   '/template': typeof TemplateRoute
@@ -195,9 +220,12 @@ export interface FileRoutesByFullPath {
   '/onboarding/platforms': typeof OnboardingPlatformsRoute
   '/onboarding/profile': typeof OnboardingProfileRoute
   '/onboarding/username': typeof OnboardingUsernameRoute
+  '/orders/$id': typeof OrdersIdRoute
+  '/store/$slug': typeof StoreSlugRoute
   '/store/cart': typeof StoreCartRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
+  '/orders/': typeof OrdersIndexRoute
   '/store/': typeof StoreIndexRoute
   '/auth/google/callback': typeof AuthGoogleCallbackRoute
   '/auth/reset-password/$token': typeof AuthResetPasswordTokenRoute
@@ -205,6 +233,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$username': typeof UsernameRoute
+  '/checkout': typeof CheckoutRoute
   '/contact-us': typeof ContactUsRoute
   '/pricing': typeof PricingRoute
   '/template': typeof TemplateRoute
@@ -222,9 +251,12 @@ export interface FileRoutesByTo {
   '/onboarding/platforms': typeof OnboardingPlatformsRoute
   '/onboarding/profile': typeof OnboardingProfileRoute
   '/onboarding/username': typeof OnboardingUsernameRoute
+  '/orders/$id': typeof OrdersIdRoute
+  '/store/$slug': typeof StoreSlugRoute
   '/store/cart': typeof StoreCartRoute
   '/dashboard': typeof DashboardIndexRoute
   '/onboarding': typeof OnboardingIndexRoute
+  '/orders': typeof OrdersIndexRoute
   '/store': typeof StoreIndexRoute
   '/auth/google/callback': typeof AuthGoogleCallbackRoute
   '/auth/reset-password/$token': typeof AuthResetPasswordTokenRoute
@@ -235,6 +267,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/onboarding': typeof OnboardingRouteRouteWithChildren
   '/$username': typeof UsernameRoute
+  '/checkout': typeof CheckoutRoute
   '/contact-us': typeof ContactUsRoute
   '/pricing': typeof PricingRoute
   '/template': typeof TemplateRoute
@@ -252,9 +285,12 @@ export interface FileRoutesById {
   '/onboarding/platforms': typeof OnboardingPlatformsRoute
   '/onboarding/profile': typeof OnboardingProfileRoute
   '/onboarding/username': typeof OnboardingUsernameRoute
+  '/orders/$id': typeof OrdersIdRoute
+  '/store/$slug': typeof StoreSlugRoute
   '/store/cart': typeof StoreCartRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
+  '/orders/': typeof OrdersIndexRoute
   '/store/': typeof StoreIndexRoute
   '/auth/google/callback': typeof AuthGoogleCallbackRoute
   '/auth/reset-password/$token': typeof AuthResetPasswordTokenRoute
@@ -266,6 +302,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/onboarding'
     | '/$username'
+    | '/checkout'
     | '/contact-us'
     | '/pricing'
     | '/template'
@@ -283,9 +320,12 @@ export interface FileRouteTypes {
     | '/onboarding/platforms'
     | '/onboarding/profile'
     | '/onboarding/username'
+    | '/orders/$id'
+    | '/store/$slug'
     | '/store/cart'
     | '/dashboard/'
     | '/onboarding/'
+    | '/orders/'
     | '/store/'
     | '/auth/google/callback'
     | '/auth/reset-password/$token'
@@ -293,6 +333,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$username'
+    | '/checkout'
     | '/contact-us'
     | '/pricing'
     | '/template'
@@ -310,9 +351,12 @@ export interface FileRouteTypes {
     | '/onboarding/platforms'
     | '/onboarding/profile'
     | '/onboarding/username'
+    | '/orders/$id'
+    | '/store/$slug'
     | '/store/cart'
     | '/dashboard'
     | '/onboarding'
+    | '/orders'
     | '/store'
     | '/auth/google/callback'
     | '/auth/reset-password/$token'
@@ -322,6 +366,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/onboarding'
     | '/$username'
+    | '/checkout'
     | '/contact-us'
     | '/pricing'
     | '/template'
@@ -339,9 +384,12 @@ export interface FileRouteTypes {
     | '/onboarding/platforms'
     | '/onboarding/profile'
     | '/onboarding/username'
+    | '/orders/$id'
+    | '/store/$slug'
     | '/store/cart'
     | '/dashboard/'
     | '/onboarding/'
+    | '/orders/'
     | '/store/'
     | '/auth/google/callback'
     | '/auth/reset-password/$token'
@@ -352,6 +400,7 @@ export interface RootRouteChildren {
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   OnboardingRouteRoute: typeof OnboardingRouteRouteWithChildren
   UsernameRoute: typeof UsernameRoute
+  CheckoutRoute: typeof CheckoutRoute
   ContactUsRoute: typeof ContactUsRoute
   PricingRoute: typeof PricingRoute
   TemplateRoute: typeof TemplateRoute
@@ -359,7 +408,10 @@ export interface RootRouteChildren {
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
+  OrdersIdRoute: typeof OrdersIdRoute
+  StoreSlugRoute: typeof StoreSlugRoute
   StoreCartRoute: typeof StoreCartRoute
+  OrdersIndexRoute: typeof OrdersIndexRoute
   StoreIndexRoute: typeof StoreIndexRoute
   AuthGoogleCallbackRoute: typeof AuthGoogleCallbackRoute
   AuthResetPasswordTokenRoute: typeof AuthResetPasswordTokenRoute
@@ -386,6 +438,13 @@ declare module '@tanstack/react-router' {
       path: '/contact-us'
       fullPath: '/contact-us'
       preLoaderRoute: typeof ContactUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$username': {
@@ -423,6 +482,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/orders/': {
+      id: '/orders/'
+      path: '/orders'
+      fullPath: '/orders/'
+      preLoaderRoute: typeof OrdersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/onboarding/': {
       id: '/onboarding/'
       path: '/'
@@ -442,6 +508,20 @@ declare module '@tanstack/react-router' {
       path: '/store/cart'
       fullPath: '/store/cart'
       preLoaderRoute: typeof StoreCartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/store/$slug': {
+      id: '/store/$slug'
+      path: '/store/$slug'
+      fullPath: '/store/$slug'
+      preLoaderRoute: typeof StoreSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orders/$id': {
+      id: '/orders/$id'
+      path: '/orders/$id'
+      fullPath: '/orders/$id'
+      preLoaderRoute: typeof OrdersIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding/username': {
@@ -608,6 +688,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   OnboardingRouteRoute: OnboardingRouteRouteWithChildren,
   UsernameRoute: UsernameRoute,
+  CheckoutRoute: CheckoutRoute,
   ContactUsRoute: ContactUsRoute,
   PricingRoute: PricingRoute,
   TemplateRoute: TemplateRoute,
@@ -615,7 +696,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
+  OrdersIdRoute: OrdersIdRoute,
+  StoreSlugRoute: StoreSlugRoute,
   StoreCartRoute: StoreCartRoute,
+  OrdersIndexRoute: OrdersIndexRoute,
   StoreIndexRoute: StoreIndexRoute,
   AuthGoogleCallbackRoute: AuthGoogleCallbackRoute,
   AuthResetPasswordTokenRoute: AuthResetPasswordTokenRoute,

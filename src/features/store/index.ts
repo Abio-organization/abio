@@ -1,6 +1,6 @@
 export { StorePage } from './components/StorePage'
 export { CartPage } from './components/CartPage'
 export { useCartStore, useCartCount } from './store/cart-store'
-export { getProductPricing, formatNaira } from './lib/pricing'
-export { products, getProductById } from './data'
+export { getProductPrice, formatNaira } from './lib/pricing'
+export { useCatalog } from './catalog'
 export * from './types'

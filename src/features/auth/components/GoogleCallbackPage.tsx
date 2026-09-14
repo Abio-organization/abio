@@ -37,6 +37,12 @@ export function GoogleCallbackPage({ accessToken }: GoogleCallbackPageProps) {
         setAccessTokenOnly(accessToken)
         const res = await getCurrentUser()
         setAccessTokenSession(accessToken, res.data)
+        const returnTo = sessionStorage.getItem('commerce-return')
+        if (returnTo && /^\/(checkout|store\/cart|orders(?:\/[a-zA-Z0-9-]+)?)(?:\?.*)?$/.test(returnTo)) {
+          sessionStorage.removeItem('commerce-return')
+          window.location.assign(returnTo)
+          return
+        }
         navigate({ to: res.data.isOnboardingCompleted ? '/dashboard' : '/onboarding' })
       } catch (err) {
         setError(getApiErrorMessage(err, 'Google sign-in failed. Please try again.'))

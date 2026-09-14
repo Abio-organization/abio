@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
 import { useLogout } from "@/features/auth/hooks/use-auth";
@@ -70,7 +71,7 @@ function NavLink({
   );
 }
 
-export function DashboardLayout() {
+export function DashboardLayout({ children }: { children?: ReactNode }) {
   const navigate = useNavigate();
   const logoutMutation = useLogout();
   const { theme, toggleTheme } = useTheme()
@@ -117,9 +118,9 @@ export function DashboardLayout() {
         </button>
       </aside>
 
-      <div className="flex min-h-screen flex-1 flex-col">
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         <main className="flex-1 overflow-x-hidden p-4 pb-20 md:p-8 md:pb-8">
-          <Outlet />
+          {children ?? <Outlet />}
         </main>
       </div>
 

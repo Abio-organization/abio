@@ -1,4 +1,7 @@
 export interface ProductColor {
+  id: string
+  stockQty: number
+  price: number
   code: string
   name: string
   mainImage: string
@@ -6,6 +9,19 @@ export interface ProductColor {
 }
 
 export interface Product {
+  slug: string
+  type: 'standard' | 'custom'
+  metadata?: {
+    tagline?: string
+    badge?: string
+    features?: string[]
+    preview?: {
+      enabled: boolean
+      defaultColor: string
+      frontOverlayUrl?: string
+      backOverlayUrl?: string
+    }
+  }
   id: string
   name: string
   tagline?: string
@@ -22,5 +38,10 @@ export interface Product {
 export interface CartItem {
   productId: string
   colorName: string | null
+  variantId?: string
+  customUsername?: string
+  preferredColor?: string
+  instructions?: string
+  artworkUrl?: string
   quantity: number
 }

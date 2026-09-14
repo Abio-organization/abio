@@ -1,60 +1,63 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-
 import type { CartItem } from '../types'
-
-function itemKey(productId: string, colorName: string | null): string {
-  return `${productId}::${colorName ?? ''}`
-}
-
+export const itemKey = (i: CartItem) =>
+  JSON.stringify([
+    i.productId,
+    i.variantId ?? null,
+    i.customUsername ?? '',
+    i.preferredColor ?? '',
+    i.instructions ?? '',
+    i.artworkUrl ?? '',
+  ])
 interface CartState {
   items: CartItem[]
-  addItem: (productId: string, colorName: string | null, quantity: number) => void
-  removeItem: (productId: string, colorName: string | null) => void
-  setQuantity: (productId: string, colorName: string | null, quantity: number) => void
+  addItem: (item: CartItem) => void
+  removeItem: (key: string) => void
+  setQuantity: (key: string, quantity: number) => void
   clearCart: () => void
 }
-
 export const useCartStore = create<CartState>()(
   persist(
     (set) => ({
       items: [],
-
-      addItem: (productId, colorName, quantity) =>
-        set((state) => {
-          const key = itemKey(productId, colorName)
-          const existing = state.items.find((i) => itemKey(i.productId, i.colorName) === key)
-          if (existing) {
-            return {
-              items: state.items.map((i) =>
-                itemKey(i.productId, i.colorName) === key ? { ...i, quantity: i.quantity + quantity } : i,
-              ),
-            }
-          }
-          return { items: [...state.items, { productId, colorName, quantity }] }
-        }),
-
-      removeItem: (productId, colorName) =>
-        set((state) => ({
-          items: state.items.filter((i) => itemKey(i.productId, i.colorName) !== itemKey(productId, colorName)),
-        })),
-
-      setQuantity: (productId, colorName, quantity) =>
-        set((state) => {
-          if (quantity < 1) {
-            return { items: state.items.filter((i) => itemKey(i.productId, i.colorName) !== itemKey(productId, colorName)) }
-          }
-          const key = itemKey(productId, colorName)
+      addItem: (item) =>
+        set((s) => {
+          const key = itemKey(item)
+          const existing = s.items.find((i) => itemKey(i) === key)
           return {
-            items: state.items.map((i) => (itemKey(i.productId, i.colorName) === key ? { ...i, quantity } : i)),
+            items: existing
+              ? s.items.map((i) =>
+                  itemKey(i) === key
+                    ? {
+                        ...i,
+                        quantity: Math.min(99, i.quantity + item.quantity),
+                      }
+                    : i,
+                )
+              : [
+                  ...s.items,
+                  {
+                    ...item,
+                    quantity: Math.min(99, Math.max(1, item.quantity)),
+                  },
+                ],
           }
         }),
-
+      removeItem: (key) =>
+        set((s) => ({ items: s.items.filter((i) => itemKey(i) !== key) })),
+      setQuantity: (key, quantity) =>
+        set((s) => ({
+          items: s.items.map((i) =>
+            itemKey(i) === key
+              ? { ...i, quantity: Math.min(99, Math.max(1, quantity)) }
+              : i,
+          ),
+        })),
       clearCart: () => set({ items: [] }),
     }),
-    { name: 'abio-cart' },
+    { name: 'abio-cart', version: 2, migrate: () => ({ items: [] }) },
   ),
 )
-
-/** Total item count across all cart lines (sum of quantities, not distinct lines). */
-export const useCartCount = () => useCartStore((s) => s.items.reduce((sum, i) => sum + i.quantity, 0))
+export const useCartCount = () =>
+  useCartStore((s) => s.items.reduce((sum, i) => sum + i.quantity, 0))

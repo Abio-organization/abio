@@ -34,6 +34,12 @@ export function SignInPage() {
     setUnverifiedEmail(null)
     loginMutation.mutate(data, {
       onSuccess: (res) => {
+        const returnTo = sessionStorage.getItem('commerce-return')
+        if (returnTo && /^\/(checkout|store\/cart|orders(?:\/[a-zA-Z0-9-]+)?)(?:\?.*)?$/.test(returnTo)) {
+          sessionStorage.removeItem('commerce-return')
+          window.location.assign(returnTo)
+          return
+        }
         navigate({ to: res.data.user.isOnboardingCompleted ? '/dashboard' : '/onboarding' })
       },
       onError: (error) => {
