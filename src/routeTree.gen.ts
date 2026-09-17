@@ -25,6 +25,7 @@ import { Route as StoreCartRouteImport } from './routes/store/cart'
 import { Route as StoreSlugRouteImport } from './routes/store/$slug'
 import { Route as OrdersIdRouteImport } from './routes/orders/$id'
 import { Route as OnboardingUsernameRouteImport } from './routes/onboarding/username'
+import { Route as OnboardingThemesRouteImport } from './routes/onboarding/themes'
 import { Route as OnboardingProfileRouteImport } from './routes/onboarding/profile'
 import { Route as OnboardingPlatformsRouteImport } from './routes/onboarding/platforms'
 import { Route as OnboardingLinksRouteImport } from './routes/onboarding/links'
@@ -119,6 +120,11 @@ const OrdersIdRoute = OrdersIdRouteImport.update({
 const OnboardingUsernameRoute = OnboardingUsernameRouteImport.update({
   id: '/username',
   path: '/username',
+  getParentRoute: () => OnboardingRouteRoute,
+} as any)
+const OnboardingThemesRoute = OnboardingThemesRouteImport.update({
+  id: '/themes',
+  path: '/themes',
   getParentRoute: () => OnboardingRouteRoute,
 } as any)
 const OnboardingProfileRoute = OnboardingProfileRouteImport.update({
@@ -219,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/onboarding/links': typeof OnboardingLinksRoute
   '/onboarding/platforms': typeof OnboardingPlatformsRoute
   '/onboarding/profile': typeof OnboardingProfileRoute
+  '/onboarding/themes': typeof OnboardingThemesRoute
   '/onboarding/username': typeof OnboardingUsernameRoute
   '/orders/$id': typeof OrdersIdRoute
   '/store/$slug': typeof StoreSlugRoute
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/onboarding/links': typeof OnboardingLinksRoute
   '/onboarding/platforms': typeof OnboardingPlatformsRoute
   '/onboarding/profile': typeof OnboardingProfileRoute
+  '/onboarding/themes': typeof OnboardingThemesRoute
   '/onboarding/username': typeof OnboardingUsernameRoute
   '/orders/$id': typeof OrdersIdRoute
   '/store/$slug': typeof StoreSlugRoute
@@ -284,6 +292,7 @@ export interface FileRoutesById {
   '/onboarding/links': typeof OnboardingLinksRoute
   '/onboarding/platforms': typeof OnboardingPlatformsRoute
   '/onboarding/profile': typeof OnboardingProfileRoute
+  '/onboarding/themes': typeof OnboardingThemesRoute
   '/onboarding/username': typeof OnboardingUsernameRoute
   '/orders/$id': typeof OrdersIdRoute
   '/store/$slug': typeof StoreSlugRoute
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
     | '/onboarding/links'
     | '/onboarding/platforms'
     | '/onboarding/profile'
+    | '/onboarding/themes'
     | '/onboarding/username'
     | '/orders/$id'
     | '/store/$slug'
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
     | '/onboarding/links'
     | '/onboarding/platforms'
     | '/onboarding/profile'
+    | '/onboarding/themes'
     | '/onboarding/username'
     | '/orders/$id'
     | '/store/$slug'
@@ -383,6 +394,7 @@ export interface FileRouteTypes {
     | '/onboarding/links'
     | '/onboarding/platforms'
     | '/onboarding/profile'
+    | '/onboarding/themes'
     | '/onboarding/username'
     | '/orders/$id'
     | '/store/$slug'
@@ -531,6 +543,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingUsernameRouteImport
       parentRoute: typeof OnboardingRouteRoute
     }
+    '/onboarding/themes': {
+      id: '/onboarding/themes'
+      path: '/themes'
+      fullPath: '/onboarding/themes'
+      preLoaderRoute: typeof OnboardingThemesRouteImport
+      parentRoute: typeof OnboardingRouteRoute
+    }
     '/onboarding/profile': {
       id: '/onboarding/profile'
       path: '/profile'
@@ -664,6 +683,7 @@ interface OnboardingRouteRouteChildren {
   OnboardingLinksRoute: typeof OnboardingLinksRoute
   OnboardingPlatformsRoute: typeof OnboardingPlatformsRoute
   OnboardingProfileRoute: typeof OnboardingProfileRoute
+  OnboardingThemesRoute: typeof OnboardingThemesRoute
   OnboardingUsernameRoute: typeof OnboardingUsernameRoute
   OnboardingIndexRoute: typeof OnboardingIndexRoute
 }
@@ -675,6 +695,7 @@ const OnboardingRouteRouteChildren: OnboardingRouteRouteChildren = {
   OnboardingLinksRoute: OnboardingLinksRoute,
   OnboardingPlatformsRoute: OnboardingPlatformsRoute,
   OnboardingProfileRoute: OnboardingProfileRoute,
+  OnboardingThemesRoute: OnboardingThemesRoute,
   OnboardingUsernameRoute: OnboardingUsernameRoute,
   OnboardingIndexRoute: OnboardingIndexRoute,
 }

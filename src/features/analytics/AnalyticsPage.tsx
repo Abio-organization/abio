@@ -10,7 +10,7 @@ import { getApiErrorMessage } from '@/shared/lib/api-error'
 import { useAnalyticsDaily, useAnalyticsLinks, useAnalyticsSummary } from './hooks'
 import type { AnalyticsRange } from './api'
 
-const card = 'rounded-2xl border border-[#331400]/10 bg-white p-5 sm:p-6 dark:border-[#F5EEE4]/10 dark:bg-[#20160f]'
+const card = ' border border-[#331400]/10 bg-white p-5 sm:p-6 dark:border-[#F5EEE4]/10 dark:bg-[#20160f]'
 const muted = 'text-[#331400]/55 dark:text-[#F5EEE4]/55'
 const number = new Intl.NumberFormat()
 
@@ -150,14 +150,14 @@ export function AnalyticsPage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-5xl space-y-6 pb-24 text-[#331400] dark:text-[#F5EEE4]">
+    <main className="mx-auto w-full space-y-6 pb-24 text-[#331400] dark:text-[#F5EEE4]">
       {/* Profile summary */}
-      <section className="rounded-2xl bg-[#F7F5F2] p-5 sm:p-6 dark:bg-white/5" aria-label="Your profile">
+      <section className=" bg-[#F7F5F2] p-5 sm:p-6 dark:bg-white/5" aria-label="Your profile">
         <div className="mb-4 flex items-center gap-3">
           {user?.profile?.avatarUrl ? (
-            <img src={user.profile.avatarUrl} alt="" className="h-12 w-12 rounded-full object-cover" />
+            <img src={user.profile.avatarUrl} alt="" className="h-14 w-14  object-cover" />
           ) : (
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FED45C] text-lg font-semibold text-[#331400]">
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#FED45C] text-lg font-semibold text-[#331400]">
               {user?.name?.slice(0, 1) || 'A'}
             </span>
           )}
@@ -167,7 +167,7 @@ export function AnalyticsPage() {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="min-w-0 flex-1 truncate rounded-lg border border-[#331400]/10 bg-white px-4 py-3 text-sm dark:border-[#F5EEE4]/10 dark:bg-[#20160f]">
+          <div className="min-w-0 flex-1 truncate  border border-[#331400]/10 bg-white px-4 py-3 text-sm dark:border-[#F5EEE4]/10 dark:bg-[#20160f]">
             {profileUrl ? (
               <a href={profileUrl} target="_blank" rel="noreferrer" className="hover:underline">
                 {profileUrl.replace(/^https?:\/\//, '')}
@@ -192,14 +192,14 @@ export function AnalyticsPage() {
       <header className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold sm:text-3xl">Analytics</h1>
         <div className="flex items-center gap-2">
-          <div className="flex rounded-full border border-[#331400]/15 p-0.5 text-sm dark:border-[#F5EEE4]/15">
+          <div className="flex border border-[#331400]/15 p-0.5 text-sm dark:border-[#F5EEE4]/15">
             {RANGES.map((option) => (
               <button
                 key={option.value}
                 type="button"
                 onClick={() => setRange(option.value)}
                 aria-pressed={range === option.value}
-                className={`rounded-full px-3 py-1.5 transition-colors ${
+                className={` px-3 py-1.5 transition-colors ${
                   range === option.value
                     ? 'bg-[#331400] text-[#F5EEE4] dark:bg-[#FED45C] dark:text-[#331400]'
                     : muted
@@ -213,7 +213,7 @@ export function AnalyticsPage() {
             type="button"
             onClick={refetchAll}
             disabled={isFetching}
-            className="flex items-center gap-2 rounded-full border border-[#331400]/15 px-3 py-1.5 text-sm disabled:opacity-50 dark:border-[#F5EEE4]/15"
+            className="flex items-center gap-2 border border-[#331400]/15 px-3 py-1.5 text-sm disabled:opacity-50 dark:border-[#F5EEE4]/15"
           >
             <RefreshCw className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">Refresh</span>
@@ -253,12 +253,12 @@ export function AnalyticsPage() {
           ) : (
             <>
               <div className="mb-3 flex items-center gap-4 text-xs">
-                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-[#331400] dark:bg-[#F5EEE4]" />Views</span>
-                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-[#FED45C]" />Clicks</span>
+                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5  bg-[#331400] dark:bg-[#F5EEE4]" />Views</span>
+                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5  bg-[#FED45C]" />Clicks</span>
               </div>
 
               {daily.isPending ? (
-                <div className="h-44 animate-pulse rounded-xl bg-[#331400]/5 dark:bg-white/5" role="status" />
+                <div className="h-44 animate-pulse  bg-[#331400]/5 dark:bg-white/5" role="status" />
               ) : daily.isError ? (
                 <p className="text-sm text-[#EA2228]" role="alert">{getApiErrorMessage(daily.error)}</p>
               ) : (
@@ -273,11 +273,11 @@ export function AnalyticsPage() {
                       <div key={d.date} className="flex min-w-0 flex-1 flex-col items-center gap-1">
                         <div className="flex w-full flex-1 items-end justify-center gap-0.75">
                           <div
-                            className="w-1/3 min-w-0.75 rounded-t bg-[#331400] dark:bg-[#F5EEE4]"
+                            className="w-1/3 min-w-0.75  bg-[#331400] dark:bg-[#F5EEE4]"
                             style={{ height: `${d.views ? Math.max(3, (d.views / chartMax) * 100) : 0}%` }}
                           />
                           <div
-                            className="w-1/3 min-w-0.75 rounded-t bg-[#FED45C]"
+                            className="w-1/3 min-w-0.75  bg-[#FED45C]"
                             style={{ height: `${d.clicks ? Math.max(3, (d.clicks / chartMax) * 100) : 0}%` }}
                           />
                         </div>
@@ -304,7 +304,7 @@ export function AnalyticsPage() {
               aria-label="Link metric"
               value={metric}
               onChange={(e) => setMetric(e.target.value as 'clicks' | 'share')}
-              className="rounded-full border border-[#331400]/15 bg-transparent px-3 py-1.5 text-sm dark:border-[#F5EEE4]/15"
+              className=" border border-[#331400]/15 bg-transparent px-3 py-1.5 text-sm dark:border-[#F5EEE4]/15"
             >
               <option value="clicks">Clicks</option>
               <option value="share">Click share</option>
@@ -314,7 +314,7 @@ export function AnalyticsPage() {
           {audiencePending ? (
             <div className="space-y-3" role="status">
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="h-14 animate-pulse rounded-lg bg-[#331400]/5 dark:bg-white/5" />
+                <div key={i} className="h-14 animate-pulse  bg-[#331400]/5 dark:bg-white/5" />
               ))}
             </div>
           ) : audienceIsError ? (
@@ -326,7 +326,7 @@ export function AnalyticsPage() {
           ) : (
             <ul className="space-y-3">
               {audienceRows.map((row) => (
-                <li key={row.id} className="flex items-center gap-3 rounded-lg border border-[#331400]/10 p-3 dark:border-[#F5EEE4]/10">
+                <li key={row.id} className="flex items-center gap-3  border border-[#331400]/10 p-3 dark:border-[#F5EEE4]/10">
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FED45C]/20">
                     {getPlatformIcon(row.platform, 'h-4 w-4')}
                   </span>

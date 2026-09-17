@@ -1,8 +1,9 @@
-export { OnboardingLayout } from './components/OnboardingLayout'
-export { UsernameStep } from './components/UsernameStep'
-export { CategoryStep } from './components/CategoryStep'
-export { GoalStep } from './components/GoalStep'
-export { PlatformsStep } from './components/PlatformsStep'
-export { LinksStep } from './components/LinksStep'
-export { ProfileStep } from './components/ProfileStep'
-export { CompleteStep } from './components/CompleteStep'
+export { OnboardingLayout } from "./components/OnboardingLayout";
+export { UsernameStep } from "./components/UsernameStep";
+export { CategoryStep } from "./components/CategoryStep";
+export { GoalStep } from "./components/GoalStep";
+export { PlatformsStep } from "./components/PlatformsStep";
+export { LinksStep } from "./components/LinksStep";
+export { ThemesStep } from "./components/ThemesStep";
+export { ProfileStep } from "./components/ProfileStep";
+export { CompleteStep } from "./components/CompleteStep";
