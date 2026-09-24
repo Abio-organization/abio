@@ -34,6 +34,7 @@ import { Route as OnboardingCompleteRouteImport } from './routes/onboarding/comp
 import { Route as OnboardingCategoryRouteImport } from './routes/onboarding/category'
 import { Route as DashboardStoreRouteImport } from './routes/dashboard/store'
 import { Route as DashboardStatisticsRouteImport } from './routes/dashboard/statistics'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
 import { Route as DashboardAppearanceRouteImport } from './routes/dashboard/appearance'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
@@ -167,6 +168,11 @@ const DashboardStatisticsRoute = DashboardStatisticsRouteImport.update({
   path: '/statistics',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardAppearanceRoute = DashboardAppearanceRouteImport.update({
   id: '/appearance',
   path: '/appearance',
@@ -217,6 +223,7 @@ export interface FileRoutesByFullPath {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/statistics': typeof DashboardStatisticsRoute
   '/dashboard/store': typeof DashboardStoreRoute
   '/onboarding/category': typeof OnboardingCategoryRoute
@@ -249,6 +256,7 @@ export interface FileRoutesByTo {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/statistics': typeof DashboardStatisticsRoute
   '/dashboard/store': typeof DashboardStoreRoute
   '/onboarding/category': typeof OnboardingCategoryRoute
@@ -284,6 +292,7 @@ export interface FileRoutesById {
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/appearance': typeof DashboardAppearanceRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/dashboard/statistics': typeof DashboardStatisticsRoute
   '/dashboard/store': typeof DashboardStoreRoute
   '/onboarding/category': typeof OnboardingCategoryRoute
@@ -320,6 +329,7 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
+    | '/dashboard/settings'
     | '/dashboard/statistics'
     | '/dashboard/store'
     | '/onboarding/category'
@@ -352,6 +362,7 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
+    | '/dashboard/settings'
     | '/dashboard/statistics'
     | '/dashboard/store'
     | '/onboarding/category'
@@ -386,6 +397,7 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/dashboard/appearance'
+    | '/dashboard/settings'
     | '/dashboard/statistics'
     | '/dashboard/store'
     | '/onboarding/category'
@@ -606,6 +618,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardStatisticsRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/appearance': {
       id: '/dashboard/appearance'
       path: '/appearance'
@@ -660,6 +679,7 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteRouteChildren {
   DashboardAppearanceRoute: typeof DashboardAppearanceRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
   DashboardStatisticsRoute: typeof DashboardStatisticsRoute
   DashboardStoreRoute: typeof DashboardStoreRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
@@ -667,6 +687,7 @@ interface DashboardRouteRouteChildren {
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardAppearanceRoute: DashboardAppearanceRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
   DashboardStatisticsRoute: DashboardStatisticsRoute,
   DashboardStoreRoute: DashboardStoreRoute,
   DashboardIndexRoute: DashboardIndexRoute,

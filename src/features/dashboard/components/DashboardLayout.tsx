@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { LogOut } from "lucide-react";
+import { LogOut, Settings as SettingsIcon } from "lucide-react";
 import { useLogout } from "@/features/auth/hooks/use-auth";
 import { Moon, Sun } from 'lucide-react'
 
@@ -9,8 +9,10 @@ import { useTheme } from '@/shared/hooks/use-theme'
 interface NavItem {
   title: string;
   url: string;
-  icon: string;
-  activeIcon: string;
+  /** Either an svg asset pair, or a lucide icon (no matching asset exists for every entry). */
+  icon?: string;
+  activeIcon?: string;
+  Icon?: typeof SettingsIcon;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -38,6 +40,11 @@ const NAV_ITEMS: NavItem[] = [
     icon: "/icons/store.svg",
     activeIcon: "/icons/store-fill.svg",
   },
+  {
+    title: "Settings",
+    url: "/dashboard/settings",
+    Icon: SettingsIcon,
+  },
 ];
 
 function NavLink({
@@ -59,11 +66,15 @@ function NavLink({
     >
       {({ isActive }) => (
         <>
-          <img
-            src={isActive ? item.activeIcon : item.icon}
-            alt={item.title}
-            className="h-8 w-8 object-contain dark:invert"
-          />
+          {item.Icon ? (
+            <item.Icon className="h-6 w-6 shrink-0" strokeWidth={isActive ? 2.25 : 1.75} />
+          ) : (
+            <img
+              src={isActive ? item.activeIcon : item.icon}
+              alt={item.title}
+              className="h-8 w-8 object-contain dark:invert"
+            />
+          )}
           <span className="text-[10px] font-medium">{item.title}</span>
         </>
       )}
