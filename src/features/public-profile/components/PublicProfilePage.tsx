@@ -149,7 +149,7 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
   };
 
   return (
-    <main className="relative h-dvh overflow-hidden bg-[#FEF4EA]">
+    <main className="relative h-screen overflow-hidden bg-[#FEF4EA]">
       <div
         className="absolute inset-0 hidden lg:block"
         style={backgroundStyleForTheme(selectedTheme)}
