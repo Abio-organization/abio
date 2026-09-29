@@ -68,7 +68,7 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
         {...listeners}
         className="shrink-0 cursor-grab touch-none text-[#331400]/30 active:cursor-grabbing dark:text-[#F5EEE4]/30"
       >
-        <GripVertical className="h-6 w-6 text-[#ff0000]" />
+        <GripVertical className="h-7 w-7 text-[#ff0000]" />
       </button>
 
       <div className="flex h-7 w-7 md:h-10 md:w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-[#331400] dark:text-[#F5EEE4]">
@@ -98,9 +98,13 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
           />
         </div>
       ) : (
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-[15px] font-semibold text-[#331400] dark:text-[#F5EEE4]">{link.title}</p>
-          <p className="truncate text-xs text-[#666464] dark:text-[#F5EEE4]/50">{link.url}</p>
+        <div className="min-w-0 flex-1  ">
+          <p className="truncate text-[15px] mb-1 font-semibold text-[#331400] dark:text-[#F5EEE4]">{link.title}</p>
+          <p className="truncate text-xs text-[#666464] mb-1 dark:text-[#F5EEE4]/50">{link.url}</p>
+          <span className="mt-0.5 flex items-center gap-1 text-xs text-[#666464] dark:text-[#F5EEE4]/50">
+            <BarChart2 className="h-3.5 w-3.5" />
+            {link.clickCount} clicks
+          </span>
         </div>
       )}
 
@@ -119,10 +123,6 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
         </div>
       ) : (
         <div className="flex shrink-0 items-center gap-3">
-          <span className=" flex items-center gap-1 text-xs text-[#666464] dark:text-[#F5EEE4]/50">
-            <BarChart2 className="h-3.5 w-3.5" />
-            {link.clickCount} clicks
-          </span>
           <Switch checked={link.isVisible} onCheckedChange={onToggleVisible} />
           <button
             type="button"
