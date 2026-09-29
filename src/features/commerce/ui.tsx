@@ -17,14 +17,14 @@ export function CommerceLayout({
   const authenticated = useAuthStore((s) => s.isAuthenticated)
   const content = (
     <div className="commerce">
-      <header className="commerce-header">
+      {/* <header className="commerce-header">
         {!authenticated && <Link to="/">
           <img src="/icons/A.bio.svg" alt="Abio" width={38} height={38} />
         </Link>}
         <Link to={back} className="commerce-secondary">
           {backLabel}
         </Link>
-      </header>
+      </header> */}
       <main className="commerce-main">{children}</main>
     </div>
   )

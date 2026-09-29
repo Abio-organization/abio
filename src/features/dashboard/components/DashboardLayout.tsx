@@ -1,18 +1,25 @@
-import type { ReactNode } from 'react'
-import { Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { LogOut, Settings as SettingsIcon } from "lucide-react";
-import { useLogout } from "@/features/auth/hooks/use-auth";
-import { Moon, Sun } from 'lucide-react'
+import type { ReactNode } from "react"
+import { Link, Outlet, useNavigate } from "@tanstack/react-router"
+import {
+  Bell,
+  CreditCard,
+  LogOut,
+  MoreHorizontal,
+  Settings as SettingsIcon,
+  UserRound,
+} from "lucide-react"
+import { Moon, Sun } from "lucide-react"
 
-import { useTheme } from '@/shared/hooks/use-theme'
+import { useLogout } from "@/features/auth/hooks/use-auth"
+import { useAuthUser } from "@/features/auth"
+import { useTheme } from "@/shared/hooks/use-theme"
 
 interface NavItem {
-  title: string;
-  url: string;
-  /** Either an svg asset pair, or a lucide icon (no matching asset exists for every entry). */
-  icon?: string;
-  activeIcon?: string;
-  Icon?: typeof SettingsIcon;
+  title: string
+  url: string
+  icon?: string
+  activeIcon?: string
+  Icon?: typeof SettingsIcon
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -40,19 +47,14 @@ const NAV_ITEMS: NavItem[] = [
     icon: "/icons/store.svg",
     activeIcon: "/icons/store-fill.svg",
   },
-  {
-    title: "Settings",
-    url: "/dashboard/settings",
-    Icon: SettingsIcon,
-  },
-];
+]
 
 function NavLink({
   item,
   orientation,
 }: {
-  item: NavItem;
-  orientation: "vertical" | "horizontal";
+  item: NavItem
+  orientation: "vertical" | "horizontal"
 }) {
   return (
     <Link
@@ -67,7 +69,10 @@ function NavLink({
       {({ isActive }) => (
         <>
           {item.Icon ? (
-            <item.Icon className="h-6 w-6 shrink-0" strokeWidth={isActive ? 2.25 : 1.75} />
+            <item.Icon
+              className="h-6 w-6 shrink-0"
+              strokeWidth={isActive ? 2.25 : 1.75}
+            />
           ) : (
             <img
               src={isActive ? item.activeIcon : item.icon}
@@ -75,42 +80,71 @@ function NavLink({
               className="h-8 w-8 object-contain dark:invert"
             />
           )}
-          <span className="text-[10px] font-medium">{item.title}</span>
+
+          <span className="text-[10px] font-medium">
+            {item.title}
+          </span>
         </>
       )}
     </Link>
-  );
+  )
 }
 
-export function DashboardLayout({ children }: { children?: ReactNode }) {
-  const navigate = useNavigate();
-  const logoutMutation = useLogout();
+export function DashboardLayout({
+  children,
+}: {
+  children?: ReactNode
+}) {
+  const navigate = useNavigate()
+  const logoutMutation = useLogout()
+  const user = useAuthUser()
   const { theme, toggleTheme } = useTheme()
+
+  const displayName =
+    user?.name?.trim() ||
+    user?.email?.split("@")[0] ||
+    "Your account"
 
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => navigate({ to: "/auth/sign-in" }),
-    });
-  };
+    })
+  }
 
   return (
-    <div className="flex min-h-screen bg-[#FFFFFF] dark:bg-[#1C1611]">
-      <aside className="hidden w-30 shrink-0 flex-col items-center border-r border-[#331400]/10 bg-white py-6 md:flex dark:border-[#F5EEE4]/10 dark:bg-[#20160f]">
-        <Link to="/" className="mb-15 flex items-center justify-center">
-          <img src="/icons/A.bio.svg" alt="A.Bio" width={38} height={38} />
+    <div className="flex h-screen min-h-0 overflow-hidden bg-[#FFFFFF] dark:bg-[#1C1611]">
+      {/* Desktop sidebar */}
+      <aside className="hidden h-full w-30 shrink-0 flex-col items-center border-r border-[#331400]/10 bg-white py-6 md:flex dark:border-[#F5EEE4]/10 dark:bg-[#20160f]">
+        <Link
+          to="/"
+          className="mb-15 flex items-center justify-center"
+        >
+          <img
+            src="/icons/A.bio.svg"
+            alt="A.Bio"
+            width={38}
+            height={38}
+          />
         </Link>
 
-        <nav className="flex flex-1 flex-col gap-6">
+        <nav className="flex min-h-0 flex-1 flex-col gap-6">
           {NAV_ITEMS.map((item) => (
-            <NavLink key={item.url} item={item} orientation="vertical" />
+            <NavLink
+              key={item.url}
+              item={item}
+              orientation="vertical"
+            />
           ))}
         </nav>
+
         <button
           onClick={toggleTheme}
           aria-label={
-            theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            theme === "dark"
+              ? "Switch to light mode"
+              : "Switch to dark mode"
           }
-          className="flex h-9 w-9 shrink-0 items-center dark:text-[#F5EEE4] justify-center text-[#331400]/50 transition-colors hover:bg-black/10 dark:hover:bg-white/10 mb-4"
+          className="mb-4 flex h-9 w-9 shrink-0 items-center justify-center text-[#331400]/50 transition-colors hover:bg-black/10 dark:text-[#F5EEE4] dark:hover:bg-white/10"
         >
           {theme === "dark" ? (
             <Sun className="h-4.5 w-4.5" />
@@ -118,28 +152,128 @@ export function DashboardLayout({ children }: { children?: ReactNode }) {
             <Moon className="h-4.5 w-4.5" />
           )}
         </button>
-        <button
-          type="button"
-          onClick={handleLogout}
-          disabled={logoutMutation.isPending}
-          className="flex flex-col items-center gap-1  px-3 py-2.5 text-[#331400]/50 hover:bg-[#331400]/5 hover:text-[#331400] disabled:opacity-50 dark:text-[#F5EEE4]/40 dark:hover:bg-white/10 dark:hover:text-[#F5EEE4]"
-        >
-          <LogOut className="h-5 w-5" />
-          <span className="text-[10px] font-medium">Logout</span>
-        </button>
+
+        <details className="group relative w-full px-2">
+          <summary className="mx-auto flex h-10 w-10 cursor-pointer list-none items-center justify-center text-[#331400]/60 marker:hidden hover:bg-[#331400]/5 hover:text-[#331400] dark:text-[#F5EEE4]/60 dark:hover:bg-white/5 dark:hover:text-[#F5EEE4] [&::-webkit-details-marker]:hidden">
+            <MoreHorizontal
+              className="h-6 w-6"
+              aria-hidden="true"
+            />
+
+            <span className="sr-only">
+              Open account menu
+            </span>
+          </summary>
+
+          <div className="absolute bottom-0 left-[calc(100%+0.75rem)] z-50 w-64 overflow-hidden border border-[#331400]/15 bg-white text-[#331400] shadow-xl dark:border-[#F5EEE4]/15 dark:bg-[#20160f] dark:text-[#F5EEE4]">
+            <div className="border-b border-[#331400]/10 px-4 py-3 dark:border-[#F5EEE4]/10">
+              <p className="truncate text-sm font-semibold">
+                {displayName}
+              </p>
+
+              <p className="truncate text-xs text-[#331400]/55 dark:text-[#F5EEE4]/55">
+                {user?.email}
+              </p>
+            </div>
+
+            <nav aria-label="Account menu" className="py-1">
+              <Link
+                to="/dashboard"
+                onClick={(event) =>
+                  event.currentTarget
+                    .closest("details")
+                    ?.removeAttribute("open")
+                }
+                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-[#331400]/5 dark:hover:bg-white/5"
+              >
+                <UserRound className="h-4 w-4" />
+                Profile
+              </Link>
+
+              <Link
+                to="/dashboard/settings"
+                search={{ section: "notifications" }}
+                onClick={(event) =>
+                  event.currentTarget
+                    .closest("details")
+                    ?.removeAttribute("open")
+                }
+                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-[#331400]/5 dark:hover:bg-white/5"
+              >
+                <Bell className="h-4 w-4" />
+                Notifications
+              </Link>
+
+              <Link
+                to="/orders"
+                onClick={(event) =>
+                  event.currentTarget
+                    .closest("details")
+                    ?.removeAttribute("open")
+                }
+                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-[#331400]/5 dark:hover:bg-white/5"
+              >
+                <CreditCard className="h-4 w-4" />
+                Purchase
+              </Link>
+
+              <Link
+                to="/dashboard/settings"
+                search={{ section: "account" }}
+                onClick={(event) =>
+                  event.currentTarget
+                    .closest("details")
+                    ?.removeAttribute("open")
+                }
+                className="flex items-center gap-3 border-t border-[#331400]/10 px-4 py-2.5 text-sm hover:bg-[#331400]/5 dark:border-[#F5EEE4]/10 dark:hover:bg-white/5"
+              >
+                <SettingsIcon className="h-4 w-4" />
+                Account Settings
+              </Link>
+
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.currentTarget
+                    .closest("details")
+                    ?.removeAttribute("open")
+
+                  handleLogout()
+                }}
+                disabled={logoutMutation.isPending}
+                className="flex w-full items-center gap-3 border-t border-[#331400]/10 px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-500/5 disabled:opacity-50 dark:border-[#F5EEE4]/10 dark:text-red-400"
+              >
+                <LogOut className="h-4 w-4" />
+
+                {logoutMutation.isPending
+                  ? "Signing out…"
+                  : "Sign Out"}
+              </button>
+            </nav>
+          </div>
+        </details>
       </aside>
 
-      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
-        <main className="flex-1 overflow-x-hidden p-4 pb-20 md:p-8 md:pb-8">
+      {/* Dashboard content */}
+      <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col">
+        <main className="min-h-0 min-w-0 flex-1 overflow-hidden p-4 pb-20 md:p-8 md:pb-8">
           {children ?? <Outlet />}
         </main>
       </div>
 
-      <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t-1 border-[#331400] bg-white dark:bg-white/10 shadow-[0_-8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl backdrop-saturate-150  md:hidden">
+      {/* Mobile navigation */}
+      <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-[#331400] bg-white shadow-[0_-8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl backdrop-saturate-150 dark:bg-white/10 md:hidden">
         {NAV_ITEMS.map((item) => (
-          <NavLink key={item.url} item={item} orientation="horizontal" />
+          <NavLink
+            key={item.url}
+            item={item}
+            orientation="horizontal"
+          />
         ))}
       </nav>
     </div>
-  );
+  )
 }
+
+
+

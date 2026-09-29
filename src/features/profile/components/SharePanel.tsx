@@ -1,5 +1,20 @@
 import { QRCodeCanvas } from "qrcode.react";
-import { Copy, Eye, QrCode, Share2, X } from "lucide-react";
+import { useNavigate, Link } from "@tanstack/react-router";
+import {
+  Bell,
+  Copy,
+  CreditCard,
+  Eye,
+  LogOut,
+  MoreHorizontal,
+  Moon,
+  QrCode,
+  Settings as SettingsIcon,
+  Share2,
+  Sun,
+  UserRound,
+  X,
+} from "lucide-react";
 import { useRef, useState } from "react";
 import {
   FaFacebook,
@@ -10,6 +25,8 @@ import {
 } from "react-icons/fa6";
 
 import { PhoneDisplay } from "@/shared/components/PhoneDisplay";
+import { useAuthUser } from "@/features/auth";
+import { useLogout } from "@/features/auth/hooks/use-auth";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +36,7 @@ import {
 } from "@/shared/components/ui/dialog";
 import { Button } from "@/shared/components/ui/button";
 import { usePhoneDisplayProps } from "@/shared/hooks/usePhoneDisplayProps";
+import { useTheme } from "@/shared/hooks/use-theme";
 import { toast } from "@/shared/lib/toast";
 
 interface SharePanelProps {
@@ -26,6 +44,10 @@ interface SharePanelProps {
 }
 
 export function SharePanel({ username }: SharePanelProps) {
+  const navigate = useNavigate();
+  const user = useAuthUser();
+  const logoutMutation = useLogout();
+  const { theme, toggleTheme } = useTheme();
   const [isQrOpen, setIsQrOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -33,6 +55,14 @@ export function SharePanel({ username }: SharePanelProps) {
   const phonePreview = usePhoneDisplayProps();
 
   const profileLink = username ? `${window.location.origin}/${username}` : null;
+  const displayName =
+    user?.name?.trim() || user?.email?.split("@")[0] || "Your account";
+
+  const handleLogout = () => {
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => navigate({ to: "/auth/sign-in" }),
+    });
+  };
 
   const handleCopy = async () => {
     if (!profileLink) return;
@@ -70,7 +100,7 @@ export function SharePanel({ username }: SharePanelProps) {
           type="button"
           onClick={() => setIsQrOpen(true)}
           disabled={!profileLink}
-          className="flex h-11 w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
+          className="hidden md:flex h-11 w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
         >
           <QrCode className="h-5 w-5" />
         </button>
@@ -98,6 +128,96 @@ export function SharePanel({ username }: SharePanelProps) {
         >
           <Share2 className="h-5 w-5" />
         </button>
+        <details className="group relative md:hidden">
+          <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center border border-[#331400]/15 text-[#331400] shadow-lg marker:hidden hover:bg-[#331400]/5 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4] dark:hover:bg-white/5 [&::-webkit-details-marker]:hidden">
+            <MoreHorizontal className="h-6 w-6" aria-hidden="true" />
+            <span className="sr-only">Open account menu</span>
+          </summary>
+          <div className="absolute right-0 top-full z-50 mt-2 max-h-[80vh] w-64 max-w-[calc(100vw-1rem)] overflow-y-auto border border-[#331400]/15 bg-white text-left text-[#331400] shadow-xl dark:border-[#F5EEE4]/15 dark:bg-[#20160f] dark:text-[#F5EEE4]">
+            <div className="border-b border-[#331400]/10 px-4 py-3 dark:border-[#F5EEE4]/10">
+              <p className="truncate text-sm font-semibold">{displayName}</p>
+              <p className="truncate text-xs text-[#331400]/55 dark:text-[#F5EEE4]/55">
+                {user?.email}
+              </p>
+            </div>
+            <nav aria-label="Account menu" className="py-1">
+              <Link
+                to="/dashboard"
+                onClick={(event) =>
+                  event.currentTarget
+                    .closest("details")
+                    ?.removeAttribute("open")
+                }
+                className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-[#331400]/5 dark:hover:bg-white/5"
+              >
+                <UserRound className="h-4 w-4" /> Profile
+              </Link>
+              <Link
+                to="/dashboard/settings"
+                search={{ section: "notifications" }}
+                onClick={(event) =>
+                  event.currentTarget
+                    .closest("details")
+                    ?.removeAttribute("open")
+                }
+                className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-[#331400]/5 dark:hover:bg-white/5"
+              >
+                <Bell className="h-4 w-4" /> Notifications
+              </Link>
+              <Link
+                to="/orders"
+                onClick={(event) =>
+                  event.currentTarget
+                    .closest("details")
+                    ?.removeAttribute("open")
+                }
+                className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-[#331400]/5 dark:hover:bg-white/5"
+              >
+                <CreditCard className="h-4 w-4" /> Purchase
+              </Link>
+              <Link
+                to="/dashboard/settings"
+                search={{ section: "account" }}
+                onClick={(event) =>
+                  event.currentTarget
+                    .closest("details")
+                    ?.removeAttribute("open")
+                }
+                className="flex items-center gap-3 border-t border-[#331400]/10 px-4 py-3 text-sm hover:bg-[#331400]/5 dark:border-[#F5EEE4]/10 dark:hover:bg-white/5"
+              >
+                <SettingsIcon className="h-4 w-4" /> Account Settings
+              </Link>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="flex w-full items-center gap-3 border-t border-[#331400]/10 px-4 py-3 text-left text-sm hover:bg-[#331400]/5 dark:border-[#F5EEE4]/10 dark:hover:bg-white/5"
+              >
+                {theme === "dark" ? (
+                  <Sun className="h-4 w-4" />
+                ) : (
+                  <Moon className="h-4 w-4" />
+                )}
+                {theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"}
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.currentTarget
+                    .closest("details")
+                    ?.removeAttribute("open");
+                  handleLogout();
+                }}
+                disabled={logoutMutation.isPending}
+                className="flex w-full items-center gap-3 border-t border-[#331400]/10 px-4 py-3 text-left text-sm text-red-600 hover:bg-red-500/5 disabled:opacity-50 dark:border-[#F5EEE4]/10 dark:text-red-400"
+              >
+                <LogOut className="h-4 w-4" />
+                {logoutMutation.isPending ? "Signing out…" : "Sign Out"}
+              </button>
+            </nav>
+          </div>
+        </details>
         {profileLink && (
           <span
             className="hidden min-w-0 flex-1 truncate text-sm cursor-pointer sm:block"

@@ -1,6 +1,6 @@
 .commerce {
-  min-height: 100vh;
-  background: #faf9fc;
+  min-height: 0vh;
+  background: #b33535;
   color: #111;
   font-family: inherit;
 }
@@ -25,19 +25,19 @@
   outline: 2px solid #7644ff;
   outline-offset: 3px;
 }
-.commerce-header {
-  height: 80px;
+/* .commerce-header {
+  height: 4 0px;
   background: white;
   border-bottom: 1px solid #ddd;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 4%;
-}
+  padding: 16px 2%;
+} */
 .commerce-main {
   max-width: 1240px;
   margin: auto;
-  padding: 36px 24px 70px;
+  padding: 3px 4px 7px;
 }
 .commerce h1 {
   font-size: 32px;

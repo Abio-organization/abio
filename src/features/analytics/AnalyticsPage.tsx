@@ -181,7 +181,7 @@ export function AnalyticsPage() {
             onClick={() => void handleShare()}
             disabled={!profileUrl}
             aria-label="Share profile link"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#331400] text-[#FED45C] disabled:opacity-40 dark:bg-[#FED45C] dark:text-[#331400]"
+            className="flex h-10 w-10 shrink-0 items-center justify-center  bg-[#331400] text-[#FED45C] disabled:opacity-40 dark:bg-[#FED45C] dark:text-[#331400]"
           >
             <Share2 className="h-4.5 w-4.5" />
           </button>
@@ -190,7 +190,7 @@ export function AnalyticsPage() {
 
       {/* Heading + controls */}
       <header className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-semibold sm:text-3xl">Analytics</h1>
+        <h1 className="text-2xl font-regular sm:text-3xl">Analytics</h1>
         <div className="flex items-center gap-2">
           <div className="flex border border-[#331400]/15 p-0.5 text-sm dark:border-[#F5EEE4]/15">
             {RANGES.map((option) => (
@@ -228,7 +228,7 @@ export function AnalyticsPage() {
           <p className={`mt-1 text-sm ${muted}`}>Views, clicks and click rate over {rangeLabel}</p>
 
           {summaryPending ? (
-            <div className="my-6 h-24 animate-pulse rounded-xl bg-[#331400]/5 dark:bg-white/5" role="status" />
+            <div className="my-6 h-24 animate-pulse bg-[#331400]/5 dark:bg-white/5" role="status" />
           ) : summaryIsError ? (
             <p className="my-6 text-sm text-[#EA2228]" role="alert">{getApiErrorMessage(summaryError)}</p>
           ) : (
@@ -238,7 +238,7 @@ export function AnalyticsPage() {
                 { title: 'Clicks', value: number.format(totals.clicks) },
                 { title: 'Click Rate', value: clickRatePercent(totals.views, totals.clicks) },
               ].map(({ title, value }) => (
-                <div key={title} className="min-w-0 rounded-xl border border-[#331400]/10 bg-[#FED45C]/10 px-1 py-4 text-center dark:border-[#F5EEE4]/10">
+                <div key={title} className="min-w-0  border border-[#331400]/10 bg-[#FED45C]/10 px-1 py-4 text-center dark:border-[#F5EEE4]/10">
                   <p className="break-all text-xl font-semibold sm:text-2xl">{value}</p>
                   <p className={`mt-1 text-xs ${muted}`}>{title}</p>
                 </div>
@@ -247,7 +247,7 @@ export function AnalyticsPage() {
           )}
 
           {isAllTime ? (
-            <p className={`rounded-xl border border-dashed border-[#331400]/15 px-4 py-8 text-center text-sm dark:border-[#F5EEE4]/15 ${muted}`}>
+            <p className={` border border-dashed border-[#331400]/15 px-4 py-8 text-center text-sm dark:border-[#F5EEE4]/15 ${muted}`}>
               Day-by-day trends are available for the 7 and 30 day ranges.
             </p>
           ) : (

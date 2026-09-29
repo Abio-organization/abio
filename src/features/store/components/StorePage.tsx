@@ -45,10 +45,10 @@ function StoreContent({ embedded, publicEntry }: { embedded: boolean; publicEntr
         {!embedded && <NavBar />}
 
         <div className={embedded ? 'pt-8 pb-0' : 'pt-36 pb-0'}>
-          <div className="mx-auto flex max-w-7xl flex-col gap-3 border-b border-[#331400]/10 px-4 pb-4 sm:flex-row sm:items-end sm:justify-between dark:border-[#F5EEE4]/10">
+          <div className="flex max-w-8xl flex-col gap-3 border-b border-[#331400]/10 px-4 pb-4 sm:flex-row sm:items-end sm:justify-between dark:border-[#F5EEE4]/10">
             <div>
               <span className="text-3xl font-medium tracking-wide text-black dark:text-[#F5EEE4]">
-                Store
+                All Products
               </span>
             </div>
 
@@ -70,8 +70,8 @@ function StoreContent({ embedded, publicEntry }: { embedded: boolean; publicEntr
                 </Link>
               </div>
 
-              {userId && <Link to="/orders" className="inline-flex items-center justify-center gap-2 border border-[#331400]/20 px-4 py-2 text-sm font-medium text-[#331400] hover:bg-[#FED45C]/20 dark:border-[#F5EEE4]/20 dark:text-[#F5EEE4]">
-                <ReceiptText className="h-4 w-4" /> Your orders
+              {userId && <Link to="/orders" className="inline-flex items-center justify-center gap-2 border border-[#331400]/20 px-8 py-2 text-sm font-medium text-[#331400] hover:bg-[#FED45C]/20 dark:border-[#F5EEE4]/20 dark:text-[#F5EEE4]">
+                <ReceiptText className="h-4 w-4" />orders
               </Link>}
               <div className="relative w-full md:w-64">
                 <Search className="absolute top-1/2 left-3 -translate-y-1/2 text-sm text-gray-400" />
@@ -87,7 +87,7 @@ function StoreContent({ embedded, publicEntry }: { embedded: boolean; publicEntr
           </div>
         </div>
 
-        <div className="mx-auto max-w-7xl px-4 py-8">
+        <div className=" max-w-7xl px-4 py-8">
           {catalog.isPending ? (
             <p role="status">Loading products…</p>
           ) : catalog.isError ? (

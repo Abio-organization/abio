@@ -3,6 +3,7 @@ import {
   Link as LinkIcon,
   MapPin,
   MoreVertical,
+  Share2,
   User as UserIcon,
 } from "lucide-react";
 import type { CSSProperties } from "react";
@@ -21,6 +22,12 @@ export interface PhoneDisplayProps {
   profile: PhoneDisplayProfile;
   links: Link[];
   className?: string;
+  fullBleed?: boolean;
+  profileHeaderClassName?: string;
+  contentClassName?: string;
+  onAvatarClick?: () => void;
+  onShareProfile?: () => void;
+  onShareLink?: (link: Link) => void;
 }
 
 function backgroundStyle(selectedTheme: string): CSSProperties {
@@ -59,18 +66,34 @@ export function PhoneDisplay({
   profile,
   links,
   className,
+  fullBleed = false,
+  profileHeaderClassName,
+  contentClassName,
+  onAvatarClick,
+  onShareProfile,
+  onShareLink,
 }: PhoneDisplayProps) {
   const visibleLinks = links.filter((link) => link.isVisible);
   const name = profile.displayName || profile.username || "Your name";
 
   return (
     <div
-      className={`relative mx-auto overflow-hidden border-2 border-black bg-white ${className ?? "h-130 w-70 md:h-150 md:w-75"}`}
+      className={`relative mx-auto overflow-hidden bg-white ${fullBleed ? "border-0 lg:border-2 lg:border-black" : "border-2 border-black"} ${className ?? "h-130 w-70 md:h-150 md:w-75"}`}
     >
       <div className="flex h-full flex-col">
-        <div className="flex relative shrink-0 flex-col items-start gap-2 bg-white/90 p-4 backdrop-blur-xl">
-          <div className="flex w-full items-center gap-3">
-            <div className="h-12.5 w-12.5 shrink-0 overflow-hidden rounded-full border border-neutral-300 shadow-md">
+        <div
+          className={`relative flex shrink-0 flex-col items-start gap-2 bg-white/90 p-4 backdrop-blur-xl ${profileHeaderClassName ?? ""}`}
+        >
+          <div className="relative flex w-full items-center gap-3 pr-9">
+            <button
+              type="button"
+              onClick={onAvatarClick}
+              disabled={!onAvatarClick}
+              aria-label={
+                onAvatarClick ? `View ${name}'s profile photo` : undefined
+              }
+              className="h-12.5 w-12.5 shrink-0 overflow-hidden rounded-full border border-neutral-300 shadow-md disabled:cursor-default"
+            >
               {profile.avatarUrl ? (
                 <img
                   src={profile.avatarUrl}
@@ -82,7 +105,7 @@ export function PhoneDisplay({
                   <UserIcon className="h-5 w-5 text-neutral-400" />
                 </div>
               )}
-            </div>
+            </button>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1">
                 <h1
@@ -99,6 +122,16 @@ export function PhoneDisplay({
                 </p>
               )}
             </div>
+            {onShareProfile && (
+              <button
+                type="button"
+                onClick={onShareProfile}
+                aria-label="Share profile"
+                className="absolute top-0 right-0 flex h-8 w-8 items-center justify-center bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
+              >
+                <Share2 className="h-4 w-4" />
+              </button>
+            )}
           </div>
 
           {profile.bio ? (
@@ -118,30 +151,26 @@ export function PhoneDisplay({
               </span>
             </div>
           ) : null}
-          <div className="mt-4 flex flex-col absolute bottom-0">
-            <span className="flex items-center font-medium gap-1 text-[9px] text-black">
-              Links
-            </span>
-            <div className="h-[3px] w-6 bg-red-500" />
+          <div className="absolute bottom-0 left-4 right-4 mt-4 flex items-center">
+            <div className="flex flex-col">
+              <span className="flex items-center gap-1 text-[9px] font-medium text-black">
+                Links
+              </span>
+              <div className="h-[3px] w-6 bg-red-500" />
+            </div>
           </div>
         </div>
 
         <div
-          className="flex-1 overflow-y-auto px-4 py-3 [&::-webkit-scrollbar]:hidden"
+          className={`flex-1 overflow-y-auto px-4 py-3 [&::-webkit-scrollbar]:hidden ${contentClassName ?? ""}`}
           style={{ ...backgroundStyle(selectedTheme), scrollbarWidth: "none" }}
         >
           {visibleLinks.length > 0 ? (
             <div className="space-y-2">
               {visibleLinks.map((link) => (
-                <a
+                <div
                   key={link.id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    void trackLinkClick(link.id).catch(() => {});
-                  }}
-                  className="flex items-center justify-between px-3 py-2.5 text-[12px]"
+                  className="flex items-center justify-between px-3 py-2.5 md:py-2  text-[12px]"
                   style={{
                     borderRadius: buttonStyle.borderRadius,
                     backgroundColor: withOpacity(
@@ -164,7 +193,26 @@ export function PhoneDisplay({
                     fontWeight: FONT_WEIGHT_CSS[fontStyle.weight ?? "regular"],
                   }}
                 >
-                  <span className="flex min-w-0 items-center gap-2">
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      void trackLinkClick(link.id).catch(() => {});
+                    }}
+                    aria-label={link.title}
+                    className="flex min-w-0 flex-1 items-center gap-2"
+                    style={{
+                      color: fontStyle.fillColor,
+                      fontFamily: fontStyle.fontFamily,
+                      fontWeight:
+                        FONT_WEIGHT_CSS[fontStyle.weight ?? "regular"],
+                      fontStyle: fontStyle.italic ? "italic" : "normal",
+                      textDecoration: fontStyle.underline
+                        ? "underline"
+                        : "none",
+                    }}
+                  >
                     <span className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden rounded-full">
                       {link.icon_link ? (
                         <img
@@ -177,12 +225,23 @@ export function PhoneDisplay({
                       )}
                     </span>
                     <span className="truncate">{link.title}</span>
-                  </span>
-                  <MoreVertical
-                    className="h-4 w-4 shrink-0 opacity-60"
-                    aria-hidden
-                  />
-                </a>
+                  </a>
+                  {onShareLink ? (
+                    <button
+                      type="button"
+                      onClick={() => onShareLink(link)}
+                      aria-label={`Share ${link.title}`}
+                      className="ml-2 flex h-8 w-8 shrink-0 items-center justify-center border-l border-current/15 opacity-70 hover:opacity-100"
+                    >
+                      <MoreVertical className="h-4 w-4" aria-hidden />
+                    </button>
+                  ) : (
+                    <MoreVertical
+                      className="h-4 w-4 shrink-0 opacity-60"
+                      aria-hidden
+                    />
+                  )}
+                </div>
               ))}
             </div>
           ) : (
