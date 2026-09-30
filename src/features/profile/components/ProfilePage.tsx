@@ -25,10 +25,10 @@ export function ProfilePage() {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+    <div className="grid gap-8  lg:grid-cols-[1fr_380px]">
       <section className="min-w-0">
-        <div className="m2-4 flex items-center justify-between ">
-          <h1 className="my-4 lg:mb-10 lg:mt-0 text-3xl font-semibold text-[#331400] dark:text-[#F5EEE4]">
+        <div className="mb-4 lg:mb-0 flex  items-center justify-between ">
+          <h1 className="my-4 lg:mb-10 lg:mt-0 text-2xl lg:text-3xl font-semibold text-[#331400] dark:text-[#F5EEE4]">
             Hi, {user.profile?.username ?? user.name}
           </h1>
           <div className="lg:hidden">
