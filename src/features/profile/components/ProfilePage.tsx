@@ -28,7 +28,7 @@ export function ProfilePage() {
     <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
       <section className="min-w-0">
         <div className="m2-4 flex items-center justify-between ">
-          <h1 className="my-5 lg:mb-10 lg:mt-0 text-3xl font-semibold text-[#331400] dark:text-[#F5EEE4]">
+          <h1 className="my-4 lg:mb-10 lg:mt-0 text-3xl font-semibold text-[#331400] dark:text-[#F5EEE4]">
             Hi, {user.profile?.username ?? user.name}
           </h1>
           <div className="lg:hidden">
@@ -41,16 +41,16 @@ export function ProfilePage() {
         </div> */}
 
         <ProfileHeader user={user} />
-        <div className="relative mt-8 mb-4">
-          <div className="flex flex-col -translate-y-1/2  gap-2 bg-[#FFFFFF] pr-3 dark:bg-[#1C1611]">
+        <div className="relative mt-8 mb-0">
+          <div className="flex flex-col -translate-y-1/2  gap-1 bg-[#FFFFFF] pr-3 dark:bg-[#1C1611]">
             <span className="text-sm font-medium text-[#331400] dark:text-[#F5EEE4]">
               Links
             </span>
             <div className="h-[3px] w-6 bg-red-500" />
           </div>
-          {/* <div className="border-t border-[#331400]/10 dark:border-[#F5EEE4]/10" /> */}
+         
         </div>
-        <div className="relative mt-2">
+        <div className="relative ">
           <div className="max-h-[calc(100vh-26rem)] overflow-y-auto overflow-x-hidden pb-5 pr-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {linksLoading ? (
               <div className="flex justify-center py-8">
