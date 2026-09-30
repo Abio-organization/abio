@@ -233,14 +233,14 @@ export function SharePanel({ username }: SharePanelProps) {
 
       {isPreviewOpen && profileLink && (
         <div
-          className="fixed inset-0 z-[70] bg-black/75 backdrop-blur-sm"
+          className="fixed inset-0 z-[70] bg-black/75 dark:bg-white/15 backdrop-blur-sm"
           onClick={() => setIsPreviewOpen(false)}
         >
           <button
             type="button"
             aria-label="Close preview"
             onClick={() => setIsPreviewOpen(false)}
-            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#331400]/15 bg-white text-[#331400] shadow-lg dark:border-[#F5EEE4]/15 dark:bg-[#1D1D1D] dark:text-[#F5EEE4]"
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center  border border-[#331400]/15 bg-white text-[#331400] shadow-lg dark:border-[#F5EEE4]/15 dark:bg-[#1D1D1D] dark:text-[#F5EEE4]"
           >
             <X className="h-5 w-5" />
           </button>
