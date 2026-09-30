@@ -58,7 +58,7 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
       style={style}
       data-link-id={link.id}
       className={cn(
-        'flex items-center gap-2 border border-[#331400]/10 bg-[#FAFAFC] shadow-lg p-4 md:p-6 dark:border-[#F5EEE4]/10 dark:bg-white/5',
+        'flex items-center gap-2 border border-[#331400]/10 bg-[#FAFAFC] shadow-lg p-2 md:p-6 dark:border-[#F5EEE4]/10 dark:bg-white/5',
         isDragging && 'opacity-50',
       )}
     >
@@ -71,11 +71,11 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
         <GripVertical className="h-7 w-7 text-[#ff0000]" />
       </button>
 
-      <div className="flex h-7 w-7 md:h-10 md:w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-[#331400] dark:text-[#F5EEE4]">
+      <div className="flex h-8 w-8 md:h-10 md:w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-[#331400] dark:text-[#F5EEE4]">
         {link.icon_link ? (
           <img src={link.icon_link} alt="" className="h-full w-full object-cover" />
         ) : (
-          getPlatformIcon(link.platform, 'h-5 w-5 md:h-8 md:w-8')
+          getPlatformIcon(link.platform, 'h-8 w-8 md:h-8 md:w-8')
         )}
       </div>
 
@@ -99,7 +99,7 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
         </div>
       ) : (
         <div className="min-w-0 flex-1  ">
-          <p className="truncate text-[15px] mb-1 font-semibold text-[#331400] dark:text-[#F5EEE4]">{link.title}</p>
+          <p className="truncate text-sm lg:text-[15px] mb-1 font-semibold text-[#331400] dark:text-[#F5EEE4]">{link.title}</p>
           <p className="truncate text-xs text-[#666464] mb-1 dark:text-[#F5EEE4]/50">{link.url}</p>
           <span className="mt-0.5 flex items-center gap-1 text-xs text-[#666464] dark:text-[#F5EEE4]/50">
             <BarChart2 className="h-3.5 w-3.5" />
