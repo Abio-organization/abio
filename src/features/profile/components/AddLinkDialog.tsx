@@ -131,7 +131,7 @@ export function AddLinkDialog() {
         render={
           <button
             type="button"
-            className="flex w-full items-center justify-center gap-2 bg-[#331400] py-3 text-sm font-semibold text-[#FED45C]  hover:bg-[#4a2c1a]"
+            className="flex w-full items-center justify-center gap-2 dark:bg-[#FED45C] bg-[#331400] py-3 text-sm font-semibold shadow-[4px_4px_0px_0px_#000000] dark:text-[#331400] text-[#FED45C]  hover:bg-[#4a2c1a]"
           />
         }
       >
