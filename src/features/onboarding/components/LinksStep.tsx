@@ -1,6 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link as LinkIcon, Plus, X } from "lucide-react";
+import { Link as LinkIcon,  X } from "lucide-react";
 import { useRef, useState } from "react";
 
 import { Button } from "@/shared/components/ui/button";

@@ -6,7 +6,14 @@ import { useGetAllLinks } from '@/features/links'
 import { getPlatformIcon } from '@/shared/components/PlatformIcon'
 import { toast } from '@/shared/lib/toast'
 import { getApiErrorMessage } from '@/shared/lib/api-error'
-
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 import { useAnalyticsDaily, useAnalyticsLinks, useAnalyticsSummary } from './hooks'
 import type { AnalyticsRange } from './api'
 
@@ -152,7 +159,7 @@ export function AnalyticsPage() {
   return (
     <main className="mx-auto w-full  space-y-6 pb-24 text-[#331400] dark:text-[#F5EEE4]">
       {/* Profile summary */}
-      <section className=" bg-[#F7F5F2] p-5 sm:p-6 dark:bg-white/5" aria-label="Your profile">
+      <section className=" bg-[#F7F5F2] p-5 lg:p-6 dark:bg-white/5" aria-label="Your profile">
         <div className="mb-4 flex items-center gap-3">
           {user?.profile?.avatarUrl ? (
             <img src={user.profile.avatarUrl} alt="" className="h-14 w-14  object-cover" />
@@ -163,11 +170,11 @@ export function AnalyticsPage() {
           )}
           <div className="min-w-0">
             <h2 className="truncate font-semibold">{user?.name || 'Your profile'}</h2>
-            <p className={`truncate text-sm ${muted}`}>{user?.profile?.bio || 'Your links. Your audience.'}</p>
+            <p className={`truncate text-xs lg:text-sm ${muted}`}>{user?.profile?.bio || 'Your links. Your audience.'}</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="min-w-0 flex-1 truncate  border border-[#331400]/10 bg-white px-4 py-3 text-sm dark:border-[#F5EEE4]/10 dark:bg-[#20160f]">
+          <div className="min-w-0 flex-1 truncate  border border-[#331400]/10 bg-white px-4 py-3 text-xs lg:text-sm dark:border-[#F5EEE4]/10 dark:bg-[#20160f]">
             {profileUrl ? (
               <a href={profileUrl} target="_blank" rel="noreferrer" className="hover:underline">
                 {profileUrl.replace(/^https?:\/\//, '')}
@@ -190,16 +197,16 @@ export function AnalyticsPage() {
 
       {/* Heading + controls */}
       <header className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-regular sm:text-3xl">Analytics</h1>
+        <h1 className="text-xl font-regular sm:text-3xl">Analytics</h1>
         <div className="flex items-center gap-2">
-          <div className="flex border border-[#331400]/15 p-0.5 text-sm dark:border-[#F5EEE4]/15">
+          <div className="flex border border-[#331400]/15 p-0.5 text-xs lg:text-sm dark:border-[#F5EEE4]/15">
             {RANGES.map((option) => (
               <button
                 key={option.value}
                 type="button"
                 onClick={() => setRange(option.value)}
                 aria-pressed={range === option.value}
-                className={` px-3 py-1.5 transition-colors ${
+                className={` px-3 py-1 md:py-1.5 transition-colors ${
                   range === option.value
                     ? 'bg-[#331400] text-[#F5EEE4] dark:bg-[#FED45C] dark:text-[#331400]'
                     : muted
@@ -213,7 +220,7 @@ export function AnalyticsPage() {
             type="button"
             onClick={refetchAll}
             disabled={isFetching}
-            className="flex items-center gap-2 border border-[#331400]/15 px-3 py-1.5 text-sm disabled:opacity-50 dark:border-[#F5EEE4]/15"
+            className="flex items-center gap-2 border border-[#331400]/15 px-3 py-1.5 lg:py-1.5 text-xs lg:text-sm disabled:opacity-50 dark:border-[#F5EEE4]/15"
           >
             <RefreshCw className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">Refresh</span>
@@ -224,8 +231,8 @@ export function AnalyticsPage() {
       <div className="grid items-start gap-5 lg:grid-cols-2">
         {/* Overview: summary + daily chart */}
         <section className={card} aria-labelledby="overview-title">
-          <h2 id="overview-title" className="text-xl font-medium">Overview</h2>
-          <p className={`mt-1 text-sm ${muted}`}>Views, clicks and click rate over {rangeLabel}</p>
+          <h2 id="overview-title" className="text-sm lg:text-xl font-medium">Overview</h2>
+          <p className={`mt-1 text-xs lg:text-sm ${muted}`}>Views, clicks and click rate over {rangeLabel}</p>
 
           {summaryPending ? (
             <div className="my-6 h-24 animate-pulse bg-[#331400]/5 dark:bg-white/5" role="status" />
@@ -239,7 +246,7 @@ export function AnalyticsPage() {
                 { title: 'Click Rate', value: clickRatePercent(totals.views, totals.clicks) },
               ].map(({ title, value }) => (
                 <div key={title} className="min-w-0  border border-[#331400]/10 bg-[#FED45C]/10 px-1 py-4 text-center dark:border-[#F5EEE4]/10">
-                  <p className="break-all text-xl font-semibold sm:text-2xl">{value}</p>
+                  <p className="break-all text-sm lg:text-xl font-semibold sm:text-2xl">{value}</p>
                   <p className={`mt-1 text-xs ${muted}`}>{title}</p>
                 </div>
               ))}
@@ -247,7 +254,7 @@ export function AnalyticsPage() {
           )}
 
           {isAllTime ? (
-            <p className={` border border-dashed border-[#331400]/15 px-4 py-8 text-center text-sm dark:border-[#F5EEE4]/15 ${muted}`}>
+            <p className={` border border-dashed border-[#331400]/15 px-4 py-8 text-center text-xs lg:text-sm dark:border-[#F5EEE4]/15 ${muted}`}>
               Day-by-day trends are available for the 7 and 30 day ranges.
             </p>
           ) : (
@@ -297,18 +304,27 @@ export function AnalyticsPage() {
         <section className={card} aria-labelledby="audience-title">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 id="audience-title" className="text-xl font-medium">Audience</h2>
-              <p className={`mt-1 text-sm ${muted}`}>Link performance</p>
+              <h2 id="audience-title" className="text-sm lg:text-xl font-medium">Audience</h2>
+              <p className={`mt-1 text-xs lg:text-sm ${muted}`}>Link performance</p>
             </div>
-            <select
-              aria-label="Link metric"
-              value={metric}
-              onChange={(e) => setMetric(e.target.value as 'clicks' | 'share')}
-              className=" border border-[#331400]/15 bg-transparent px-3 py-1.5 text-sm dark:border-[#F5EEE4]/15"
-            >
-              <option value="clicks">Clicks</option>
-              <option value="share">Click share</option>
-            </select>
+            <Select
+  value={metric}
+  onValueChange={(value) => {
+    if (value !== null) setMetric(value as "clicks" | "share")
+  }}
+>
+  <SelectTrigger
+    aria-label="Link metric"
+    className="border border-[#331400]/15 bg-transparent px-3 py-1.5 text-sm shadow-none outline-none focus:ring-0 dark:border-[#F5EEE4]/15"
+  >
+    <SelectValue />
+  </SelectTrigger>
+
+  <SelectContent>
+    <SelectItem value="clicks">Clicks</SelectItem>
+    <SelectItem value="share">Click share</SelectItem>
+  </SelectContent>
+</Select>
           </div>
 
           {audiencePending ? (
