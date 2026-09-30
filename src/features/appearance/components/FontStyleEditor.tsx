@@ -1,6 +1,13 @@
 import { Italic, Type, Underline } from 'lucide-react'
 import { useEffect } from 'react'
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 import { ensureGoogleFontsLoaded, FONT_OPTIONS, fontFamilyToApiName } from '@/features/appearance/lib'
 import type { FontStyle, FontWeight } from '@/features/appearance/types'
 import { cn } from '@/shared/lib/utils'
@@ -30,22 +37,32 @@ export function FontStyleEditor({ value, onChange }: FontStyleEditorProps) {
     <div className="flex flex-col gap-6">
       <div>
         <p className="mb-2 text-xs font-semibold tracking-wide text-[#666464] uppercase dark:text-[#F5EEE4]/50">Font family</p>
-        <select
-          value={currentFontName}
-          onChange={(e) => onChange({ ...value, fontFamily: `'${e.target.value}', sans-serif` })}
-          className="w-full border border-[#331400]/15 px-3 py-2 text-sm text-[#331400] outline-none focus:border-[#331400] dark:border-[#F5EEE4]/15 bg-[#DCDCDC] dark:bg-transparent dark:text-[#F5EEE4] dark:focus:border-[#F5EEE4]"
-          style={{ fontFamily: `'${currentFontName}', sans-serif` }}
-        >
-          {FONT_OPTIONS.map((font) => (
-            <option
-              key={font}
-              value={font}
-              style={{ fontFamily: `'${font}', sans-serif` }}
-            >
-              {font}
-            </option>
-          ))}
-        </select>
+       <Select
+  value={currentFontName}
+  onValueChange={(font) =>
+    onChange({ ...value, fontFamily: `'${font}', sans-serif` })
+  }
+>
+  <SelectTrigger
+    className="w-full rounded-none border border-[#331400]/15 bg-[#DCDCDC] px-3 py-2 text-sm text-[#331400] shadow-none outline-none focus:border-[#331400] focus:ring-0 dark:border-[#F5EEE4]/15 dark:bg-transparent dark:text-[#F5EEE4] dark:focus:border-[#F5EEE4]"
+    style={{ fontFamily: `'${currentFontName}', sans-serif` }}
+  >
+    <SelectValue />
+  </SelectTrigger>
+
+  <SelectContent>
+    {FONT_OPTIONS.map((font) => (
+      <SelectItem
+        key={font}
+        value={font}
+        style={{ fontFamily: `'${font}', sans-serif` }}
+      >
+        {font}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
       </div>
 
       <div>

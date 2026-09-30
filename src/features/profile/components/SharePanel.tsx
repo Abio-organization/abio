@@ -108,9 +108,9 @@ export function SharePanel({ username }: SharePanelProps) {
           type="button"
           onClick={() => setIsPreviewOpen(true)}
           disabled={!profileLink}
-          className="flex h-11 lg:hidden w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
+          className="flex h-8 lg:hidden w-8 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
         >
-          <Eye className="h-5 w-5" />
+          <Eye className="h-4 w-4" />
         </button>
         <button
           type="button"
@@ -124,13 +124,13 @@ export function SharePanel({ username }: SharePanelProps) {
           type="button"
           onClick={handleShare}
           disabled={!profileLink}
-          className="flex h-11 w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
+          className="flex lg:h-11 h-8 w-8 lg:w-11 items-center justify-center border shadow-lg border-[#331400]/15 text-[#331400] hover:bg-[#331400]/5 disabled:opacity-40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]"
         >
-          <Share2 className="h-5 w-5" />
+          <Share2 className="lg:h-5 h-4 w-4 lg:w-5" />
         </button>
         <details className="group relative md:hidden">
-          <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center border border-[#331400]/15 text-[#331400] shadow-lg marker:hidden hover:bg-[#331400]/5 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4] dark:hover:bg-white/5 [&::-webkit-details-marker]:hidden">
-            <MoreHorizontal className="h-6 w-6" aria-hidden="true" />
+          <summary className="flex h-8 w-8 cursor-pointer list-none items-center justify-center border border-[#331400]/15 text-[#331400] shadow-lg marker:hidden hover:bg-[#331400]/5 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4] dark:hover:bg-white/5 [&::-webkit-details-marker]:hidden">
+            <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
             <span className="sr-only">Open account menu</span>
           </summary>
           <div className="absolute right-0 top-full z-50 mt-2 max-h-[80vh] w-64 max-w-[calc(100vw-1rem)] overflow-y-auto border border-[#331400]/15 bg-white text-left text-[#331400] shadow-xl dark:border-[#F5EEE4]/15 dark:bg-[#20160f] dark:text-[#F5EEE4]">
@@ -287,7 +287,7 @@ export function SharePanel({ username }: SharePanelProps) {
               onClick={handleDownloadQr}
               className="shadow-[4px_4px_0px_0px_#000000] w-full h-10 bg-[#FED45C] text-[#331400] hover:bg-[#FED45C]/90"
             >
-              Download PNG
+              Download 
             </Button>
           </div>
         </DialogContent>

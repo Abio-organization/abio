@@ -71,7 +71,7 @@ export function ContactUsPage() {
     <motion.section initial="hidden" animate="visible" variants={containerVariants} className="min-h-screen overflow-x-hidden bg-[#FEF4EA] dark:bg-[#1C1611]">
       <NavBar />
 
-      <main className="flex flex-col items-center justify-center px-5 pt-32 pb-20">
+      <main className="flex flex-col items-center justify-center px-5 pt-38 pb-20">
         {/* Hero */}
         <motion.div variants={itemVariants} className="mb-16 max-w-3xl text-center">
           <motion.div variants={iconVariants} className="mb-6 flex justify-center">

@@ -1,6 +1,14 @@
-import { useRef, useState } from 'react'
-import { Link as LinkIcon, Plus } from 'lucide-react'
+import { useRef, useState } from "react";
+import { Link as LinkIcon, Plus } from "lucide-react";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -8,64 +16,74 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/shared/components/ui/dialog'
-import { Button } from '@/shared/components/ui/button'
-import { Field, FieldLabel } from '@/shared/components/ui/field'
-import { Input } from '@/shared/components/ui/input'
-import { Switch } from '@/shared/components/ui/switch'
-import { getApiErrorMessage } from '@/shared/lib/api-error'
-import { cn } from '@/shared/lib/utils'
-import { toast } from '@/shared/lib/toast'
+} from "@/shared/components/ui/dialog";
+import { Button } from "@/shared/components/ui/button";
+import { Field, FieldLabel } from "@/shared/components/ui/field";
+import { Input } from "@/shared/components/ui/input";
+import { Switch } from "@/shared/components/ui/switch";
+import { getApiErrorMessage } from "@/shared/lib/api-error";
+import { cn } from "@/shared/lib/utils";
+import { toast } from "@/shared/lib/toast";
 
-import { useCreateLink, useUpdateLink, useUpdateLinkIcon } from '@/features/links'
-import { LINK_PLATFORM_OPTIONS, getLinkTitlePlaceholder, getLinkUrlPlaceholder } from '@/features/links/platforms'
+import {
+  useCreateLink,
+  useUpdateLink,
+  useUpdateLinkIcon,
+} from "@/features/links";
+import {
+  LINK_PLATFORM_OPTIONS,
+  getLinkTitlePlaceholder,
+  getLinkUrlPlaceholder,
+} from "@/features/links/platforms";
 
 function normalizeUrl(raw: string): string {
-  const trimmed = raw.trim()
-  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`
+  const trimmed = raw.trim();
+  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
 }
 
 export function AddLinkDialog() {
-  const createMutation = useCreateLink()
-  const updateMutation = useUpdateLink()
-  const updateIconMutation = useUpdateLinkIcon()
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const createMutation = useCreateLink();
+  const updateMutation = useUpdateLink();
+  const updateIconMutation = useUpdateLinkIcon();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [open, setOpen] = useState(false)
-  const [title, setTitle] = useState('')
-  const [url, setUrl] = useState('')
-  const [platform, setPlatform] = useState<string>(LINK_PLATFORM_OPTIONS[0].value)
-  const [isVisible, setIsVisible] = useState(true)
-  const [iconFile, setIconFile] = useState<File | null>(null)
-  const [iconPreviewUrl, setIconPreviewUrl] = useState<string | null>(null)
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+  const [platform, setPlatform] = useState<string>(
+    LINK_PLATFORM_OPTIONS[0].value,
+  );
+  const [isVisible, setIsVisible] = useState(true);
+  const [iconFile, setIconFile] = useState<File | null>(null);
+  const [iconPreviewUrl, setIconPreviewUrl] = useState<string | null>(null);
 
-  const isCustom = platform === 'CUSTOM'
+  const isCustom = platform === "CUSTOM";
 
   const reset = () => {
-    setTitle('')
-    setUrl('')
-    setPlatform(LINK_PLATFORM_OPTIONS[0].value)
-    setIsVisible(true)
-    setIconFile(null)
-    setIconPreviewUrl(null)
-  }
+    setTitle("");
+    setUrl("");
+    setPlatform(LINK_PLATFORM_OPTIONS[0].value);
+    setIsVisible(true);
+    setIconFile(null);
+    setIconPreviewUrl(null);
+  };
 
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please select an image file')
-      return
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
     }
-    setIconFile(file)
-    setIconPreviewUrl(URL.createObjectURL(file))
-  }
+    setIconFile(file);
+    setIconPreviewUrl(URL.createObjectURL(file));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!title.trim() || !url.trim()) {
-      toast.warning('Please fill in both title and URL')
-      return
+      toast.warning("Please fill in both title and URL");
+      return;
     }
 
     createMutation.mutate(
@@ -73,35 +91,46 @@ export function AddLinkDialog() {
       {
         onSuccess: (res) => {
           const finish = () => {
-            toast.success('Link added')
-            setOpen(false)
-            reset()
-          }
+            toast.success("Link added");
+            setOpen(false);
+            reset();
+          };
           const applyVisibility = () => {
             if (!isVisible) {
-              updateMutation.mutate({ id: res.data.id, payload: { isVisible: false } }, { onSuccess: finish, onError: finish })
+              updateMutation.mutate(
+                { id: res.data.id, payload: { isVisible: false } },
+                { onSuccess: finish, onError: finish },
+              );
             } else {
-              finish()
+              finish();
             }
-          }
+          };
           if (iconFile) {
-            updateIconMutation.mutate({ id: res.data.id, file: iconFile }, { onSuccess: applyVisibility, onError: applyVisibility })
+            updateIconMutation.mutate(
+              { id: res.data.id, file: iconFile },
+              { onSuccess: applyVisibility, onError: applyVisibility },
+            );
           } else {
-            applyVisibility()
+            applyVisibility();
           }
         },
-        onError: (error) => toast.error('Could not add link', { description: getApiErrorMessage(error) }),
+        onError: (error) =>
+          toast.error("Could not add link", {
+            description: getApiErrorMessage(error),
+          }),
       },
-    )
-  }
+    );
+  };
 
   return (
-    <Dialog open={open} onOpenChange={(next) => (setOpen(next), !next && reset())}>
+    <Dialog
+      open={open}
+      onOpenChange={(next) => (setOpen(next), !next && reset())}
+    >
       <DialogTrigger
         render={
           <button
             type="button"
-           
             className="flex w-full items-center justify-center gap-2 bg-[#331400] py-3 text-sm font-semibold text-[#FED45C]  hover:bg-[#4a2c1a]"
           />
         }
@@ -112,47 +141,65 @@ export function AddLinkDialog() {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add new  link</DialogTitle>
+          <DialogTitle>Add new link</DialogTitle>
           {/* <DialogDescription>It'll show up on your profile right away.</DialogDescription> */}
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <Field>
             <FieldLabel htmlFor="link-platform">Platform</FieldLabel>
-            <select
-              id="link-platform"
+            <Select
               value={platform}
-              onChange={(e) => {
-                setPlatform(e.target.value)
-                if (e.target.value !== 'CUSTOM') {
-                  setIconFile(null)
-                  setIconPreviewUrl(null)
+              onValueChange={(value) => {
+                setPlatform(value);
+                if (value !== "CUSTOM") {
+                  setIconFile(null);
+                  setIconPreviewUrl(null);
                 }
               }}
-              className={cn(
-                'h-10 w-full border border-input bg-transparent px-2.5 text-[12px] outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30',
-              )}
             >
-              {LINK_PLATFORM_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger
+                id="link-platform"
+                className={cn(
+                  "h-10 w-full border border-input bg-transparent px-2.5 text-[12px] outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30",
+                )}
+              >
+                <SelectValue placeholder="Select a platform" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {LINK_PLATFORM_OPTIONS.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </Field>
 
           {isCustom && (
             <Field>
               <FieldLabel>Icon</FieldLabel>
               <div className="flex items-center gap-3">
-                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleIconChange} className="hidden" />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleIconChange}
+                  className="hidden"
+                />
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-dashed border-[#331400]/30 bg-[#331400]/5 hover:bg-[#331400]/10 dark:border-[#F5EEE4]/30 dark:bg-white/5"
                 >
                   {iconPreviewUrl ? (
-                    <img src={iconPreviewUrl} alt="" className="h-full w-full object-cover" />
+                    <img
+                      src={iconPreviewUrl}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
                   ) : (
                     <LinkIcon className="h-4 w-4 text-[#331400]/50 dark:text-[#F5EEE4]/50" />
                   )}
@@ -162,7 +209,7 @@ export function AddLinkDialog() {
                   onClick={() => fileInputRef.current?.click()}
                   className="text-xs font-semibold text-[#331400] hover:underline dark:text-[#F5EEE4]"
                 >
-                  {iconPreviewUrl ? 'Change icon' : 'Upload an icon'}
+                  {iconPreviewUrl ? "Change icon" : "Upload an icon"}
                 </button>
               </div>
             </Field>
@@ -195,12 +242,16 @@ export function AddLinkDialog() {
           </Field>
 
           <DialogFooter>
-            <Button type="submit" disabled={createMutation.isPending} className="bg-[#FED45C] shadow-[4px_4px_0px_0px_#000000] w-full h-10 text-[#331400] hover:bg-[#FED45C]/90">
-              {createMutation.isPending ? 'Adding…' : 'Add link'}
+            <Button
+              type="submit"
+              disabled={createMutation.isPending}
+              className="bg-[#FED45C] shadow-[4px_4px_0px_0px_#000000] w-full h-10 text-[#331400] hover:bg-[#FED45C]/90"
+            >
+              {createMutation.isPending ? "Adding…" : "Add link"}
             </Button>
           </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

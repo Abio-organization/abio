@@ -150,7 +150,7 @@ export function AnalyticsPage() {
   }
 
   return (
-    <main className="mx-auto w-full space-y-6 pb-24 text-[#331400] dark:text-[#F5EEE4]">
+    <main className="mx-auto w-full  space-y-6 pb-24 text-[#331400] dark:text-[#F5EEE4]">
       {/* Profile summary */}
       <section className=" bg-[#F7F5F2] p-5 sm:p-6 dark:bg-white/5" aria-label="Your profile">
         <div className="mb-4 flex items-center gap-3">

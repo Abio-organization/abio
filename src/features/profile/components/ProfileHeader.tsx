@@ -194,7 +194,7 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
             />
           ) : (
             <>
-              <p className="min-w-0 flex-1 text-sm text-[#331400]/80 dark:text-[#F5EEE4]/70">
+              <p className="min-w-0 flex-1 text-xs lg:text-sm text-[#331400]/80 dark:text-[#F5EEE4]/70">
                 {user.profile?.bio || <span className="text-[#666464]/50 italic">Add a short bio</span>}
               </p>
               <button
@@ -229,10 +229,10 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
             <button
               type="button"
               onClick={handleLocationEdit}
-              className="flex w-fit items-center gap-1.5 border border-[#331400]/15 px-2 py-1 text-xs font-medium shadow-md text-[#666464] hover:border-[#331400]/40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]/50"
+              className="flex w-fit items-center gap-1.5 border border-[#331400]/15 px-2 py-1 text-xs lg:text-sm  shadow-md text-[#666464] hover:border-[#331400]/40 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4]/50"
             >
               <MapPin className="h-3 w-3" />
-              <span className="max-w-45 truncate">{user.profile?.location || 'Add location'}</span>
+              <span className="max-w-45  truncate">{user.profile?.location || 'Add location'}</span>
             </button>
           )}
         </div>

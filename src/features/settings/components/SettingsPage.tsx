@@ -49,7 +49,7 @@ export function SettingsPage({
       </header>
 
       {/* Everything below the header can scroll */}
-      <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-hidden md:flex-row md:items-start">
+     <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-hidden md:flex-row md:items-start">
         {/* Tabs */}
         <nav
           aria-label="Settings sections"
@@ -74,7 +74,7 @@ export function SettingsPage({
         </nav>
 
         {/* SCROLLABLE TAB CONTENT */}
-        <div className="min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain pr-1 pb-24">
+        <div className="h-full min-h-0 min-w-0 flex-1 overflow-y-auto overscroll-contain no-scrollbar pr-1 pb-24">
           {isLoading || !user ? (
             <div
               className="flex justify-center py-16"
