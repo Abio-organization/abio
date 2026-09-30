@@ -113,7 +113,7 @@ export function ProductModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-        className={inline ? "w-full" : "fixed inset-4 z-[101] overflow-y-auto md:inset-8 lg:inset-12"}
+        className={inline ? "w-full" : "fixed inset-4 z-[101] overflow-y-auto no-scrollbar md:inset-8 lg:inset-12"}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex min-h-full items-center justify-center">
@@ -127,9 +127,9 @@ export function ProductModal({
               <X className="h-5 w-5" />
             </motion.button>}
 
-            <div className="flex flex-col gap-10 p-6 md:p-8 lg:flex-row lg:items-start lg:gap-14 lg:p-10">
+            <div className="flex flex-col gap-10 p-6 md:p-0 lg:flex-row lg:items-start lg:gap-14 lg:p-0">
               {/* Gallery */}
-              <div className="flex flex-1 gap-3">
+              <div className="flex flex-1 gap-10">
                 <div className="hidden w-[72px] flex-shrink-0 flex-col gap-2 pt-1 sm:flex">
                   {gallery.map((src, i) => (
                     <button
@@ -193,7 +193,8 @@ export function ProductModal({
               </div>
 
               {/* Details panel */}
-              <div className="w-full flex-shrink-0 lg:w-[400px] xl:w-[440px]">
+              <div className="no-scrollbar w-full flex-shrink-0 lg:max-h-[calc(100vh-8rem)] lg:w-[400px] lg:overflow-y-auto lg:pr-2 xl:w-[440px]">
+
                 <div className="mb-4">
                   {product.badge && (
                     <span className="mb-2 inline-block bg-[#FED45C] px-2 py-1 text-[9px] font-black tracking-[0.2em] text-[#331400]">

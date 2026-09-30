@@ -35,7 +35,7 @@ function StoreContent({ embedded, publicEntry }: { embedded: boolean; publicEntr
   return (
     <>
       <div
-        className="relative min-h-screen overflow-x-hidden bg-[#FEF4EA] dark:bg-[#1C1611]"
+        className="relative min-h-screen overflow-x-hidden no-scrollbar  dark:bg-[#1C1611]"
         style={{
           backgroundImage:
             'radial-gradient(circle, #33140010 1px, transparent 1px)',
@@ -74,11 +74,11 @@ function StoreContent({ embedded, publicEntry }: { embedded: boolean; publicEntr
                 <ReceiptText className="h-4 w-4" />orders
               </Link>}
               <div className="relative w-full md:w-64">
-                <Search className="absolute top-1/2 left-3 -translate-y-1/2 text-sm text-gray-400" />
+                <Search className="absolute top-1/2 left-4 -translate-y-1/2 text-sm text-white dark:text-gray-300" />
                 <input
                   type="text"
                   placeholder="Search products..."
-                  className="w-full border border-[#331400]/20 bg-white py-2 pr-4 pl-9 text-sm outline-none focus:border-[#331400] focus:ring-1 focus:ring-[#331400] dark:border-[#3A2C20] dark:bg-[#2B2119] dark:text-[#F5EEE4] dark:focus:border-[#F5EEE4]"
+                  className="w-full border border-[#331400]/20 bg-white py-2 pr-4 pl-9 text-sm outline-none focus:border-[#331400] focus:ring-1 focus:ring-[#331400] dark:border-[#3A2C20] dark:bg-white/5 dark:text-[#F5EEE4] dark:focus:border-[#F5EEE4]"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -97,7 +97,7 @@ function StoreContent({ embedded, publicEntry }: { embedded: boolean; publicEntr
             </div>
           ) : filteredProducts.length === 0 ? (
             <div className="py-12 text-center">
-              <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-[#331400]/5 dark:bg-[#F5EEE4]/5">
+              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[#331400]/5 dark:bg-[#F5EEE4]/5">
                 <ShoppingBag className="h-10 w-10 text-[#331400]/30 dark:text-[#F5EEE4]/30" />
               </div>
               <p className="text-[#331400]/50 dark:text-[#F5EEE4]/50">

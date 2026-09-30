@@ -15,7 +15,7 @@ export function CardPreview({
     side === 'front' ? preview?.frontOverlayUrl : preview?.backOverlayUrl
   return (
     <div
-      className="relative mx-auto aspect-[1.586] w-full max-w-md overflow-hidden rounded-2xl shadow-lg"
+      className="relative mx-auto aspect-[1.886] w-full max-w-md overflow-hidden rounded-2xl shadow-lg"
       style={{ backgroundColor: color }}
       aria-label={`${side} card preview in ${color}`}
     >

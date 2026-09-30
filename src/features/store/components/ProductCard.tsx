@@ -18,14 +18,14 @@ export function ProductCard({
   return (
     <motion.div
       onClick={onClick}
-      className="group cursor-pointer overflow-hidden border border-[#331400]/10 bg-white transition-all duration-300 hover:shadow-xl dark:border-[#3A2C20] dark:bg-[#2B2119]"
+      className="group cursor-pointer overflow-hidden no-scrollbar border border-[#331400]/10 bg-white transition-all duration-300 hover:shadow-xl dark:border-[#3A2C20] dark:bg-[#2B2119]"
       whileHover={{ y: -4 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
       <div
-        className="relative overflow-hidden bg-[#FAFAFC] "
+        className="relative overflow-hidden no-scrollbar bg-[#FAFAFC] "
         style={{ aspectRatio: '1/1' }}
       >
         <img

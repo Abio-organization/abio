@@ -22,7 +22,7 @@ export function ProductPage({ slug, back = '/store' }: { slug: string; back?: '/
       <h1>All products</h1>
       <p style={{ margin: '20px 0' }}>
         <Link to={back}>All products</Link> &gt;{' '}
-        <span style={{ color: '#7644ff' }}>{query.data?.name ?? slug}</span>
+        <span style={{ color: '#331400' }}>{query.data?.name ?? slug}</span>
       </p>
       {query.isPending ? (
         <Loading />
