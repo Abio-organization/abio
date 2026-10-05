@@ -1,3 +1,4 @@
+import { validateImage } from '@/shared/lib/image-upload'
 import { apiClient } from '@/shared/lib/api-client'
 import type { ApiResponse } from '@/shared/types'
 import type { AppearancePayload } from '@/features/appearance/types'
@@ -9,11 +10,14 @@ import type { Profile } from '@/features/auth/types'
  * only on this endpoint, echoes it back as `user.name` alongside the updated profile.
  */
 export async function updateProfile(payload: Partial<Profile> & { displayName?: string }) {
-  const { data } = await apiClient.patch<ApiResponse<Profile & { user?: { name: string } }>>('/user/profile', payload)
+  const safePayload = { ...payload }
+  delete safePayload.avatarUrl
+  const { data } = await apiClient.patch<ApiResponse<Profile & { user?: { name: string } }>>('/user/profile', safePayload)
   return data
 }
 
 export async function updateProfileAvatar(file: File, signal?: AbortSignal) {
+  validateImage(file)
   const formData = new FormData()
   formData.append('avatar', file)
 

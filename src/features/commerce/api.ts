@@ -1,3 +1,4 @@
+import { requireUploadedImage } from '@/shared/lib/image-upload'
 import { useAuthStore } from '@/features/auth/store/auth-store'
 import axios from 'axios'
 import { apiClient } from '@/shared/lib/api-client'
@@ -95,7 +96,7 @@ export const commerce = {
       customUsername: item.customUsername,
       preferredColor: item.preferredColor,
       instructions: item.instructions,
-      artworkUrl: item.artworkUrl,
+      artworkUrl: item.artworkUrl ? requireUploadedImage(item.artworkUrl) : undefined,
     }),
   update: async (id: string, quantity: number) =>
     (

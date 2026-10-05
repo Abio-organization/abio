@@ -1,3 +1,5 @@
+import { validateImage, requireUploadedImage } from '@/shared/lib/image-upload'
+import { getApiErrorMessage } from '@/shared/lib/api-error'
 import { apiClient } from '@/shared/lib/api-client'
 import { useAuthStore } from '@/features/auth/store/auth-store'
 import { CardPreview } from './CardPreview'
@@ -249,17 +251,16 @@ export function ProductModal({
                           setUploading(true)
                           setUploadError('')
                           try {
+                            validateImage(file)
                             const body = new FormData()
                             body.append('artwork', file)
                             const response = await apiClient.post(
                               '/cart/artwork',
                               body,
                             )
-                            setArtworkUrl(response.data.data.url)
-                          } catch {
-                            setUploadError(
-                              'Could not upload artwork. Please try again.',
-                            )
+                            setArtworkUrl(requireUploadedImage(response.data.data.url))
+                          } catch (error) {
+                            setUploadError(getApiErrorMessage(error, 'Could not upload artwork. Please try again.'))
                           } finally {
                             setUploading(false)
                           }
