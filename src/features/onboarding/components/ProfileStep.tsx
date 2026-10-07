@@ -179,7 +179,7 @@ export function ProfileStep() {
             </div>
 
             <AuthSubmitButton
-              pending={updateProfileMutation.isPending}
+              pending={updateProfileMutation.isPending || updateAvatarMutation.isPending}
               pendingLabel="Saving…"
               className="mt-2"
             >

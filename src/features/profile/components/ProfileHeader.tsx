@@ -135,9 +135,11 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
 
   return (
     <div className="flex items-center gap-4">
-      <input ref={fileInputRef} type="file" accept="image/*" onChange={handleAvatarChange} className="hidden" />
+      <input ref={fileInputRef} type="file" accept="image/*" disabled={updateAvatarMutation.isPending} onChange={handleAvatarChange} className="hidden" />
       <button
         type="button"
+        disabled={updateAvatarMutation.isPending}
+        aria-busy={updateAvatarMutation.isPending}
         onClick={handleAvatarClick}
         className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-[#331400]/15 shadow-md dark:border-[#F5EEE4]/15"
         title="Change profile picture"

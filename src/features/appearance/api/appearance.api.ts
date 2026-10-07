@@ -1,3 +1,4 @@
+import { validateImage, requireUploadedImage } from '@/shared/lib/image-upload'
 import { apiClient } from '@/shared/lib/api-client'
 import type { ApiResponse } from '@/shared/types'
 import type {
@@ -22,6 +23,7 @@ export interface UpdatePreferencesPayload {
 
 /** Save Changes — single combined PUT, sections omitted are left unchanged server-side. */
 export async function updatePreferences(payload: UpdatePreferencesPayload) {
+  if (payload.wallpaper_config?.image) requireUploadedImage(payload.wallpaper_config.image)
   const { data } = await apiClient.put<ApiResponse<AppearancePayload>>('/user/preferences', payload)
   return data
 }
@@ -33,6 +35,7 @@ export interface UploadWallpaperImageResult {
 
 /** Returns a CDN URL — include it in a follow-up updatePreferences({ wallpaper_config: { type: 'image', image: url } }) call. */
 export async function uploadWallpaperImage(file: File, signal?: AbortSignal) {
+  validateImage(file)
   const formData = new FormData()
   formData.append('image', file)
 
