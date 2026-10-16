@@ -43,17 +43,6 @@ function themeForUsername(username: string, displayTheme: string) {
 }
 
 function backgroundStyleForTheme(theme: string): CSSProperties {
-  // Guard: theme can be undefined/null/non-string in production when the
-  // backend returns an unexpected shape for wallpaper_config / selected_theme.
-  if (typeof theme !== "string" || theme.length === 0) {
-    return {
-      backgroundImage: "url(/themes/theme1.png)",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-    };
-  }
-
   if (theme.startsWith("fill:")) {
     return { backgroundColor: theme.slice("fill:".length) };
   }
@@ -108,16 +97,10 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
   }
 
   const { links, display, user } = data;
-
-  const rawDisplayTheme =
+  const displayTheme =
     wallpaperToSelectedTheme(display.wallpaper_config) ||
     display.selected_theme ||
     "/themes/theme1.png";
-
-  const displayTheme =
-    typeof rawDisplayTheme === "string" && rawDisplayTheme.length > 0
-      ? rawDisplayTheme
-      : "/themes/theme1.png";
 
   const phoneProfile: PhoneDisplayProfile = {
     // The backend's Profile model has no displayName field — the public

@@ -216,7 +216,7 @@ export function PhoneDisplay({
                         : "none",
                     }}
                   >
-                    <span className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden rounded-full">
+                    <span className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden ">
                       {link.icon_link ? (
                         <img
                           src={link.icon_link}
@@ -224,7 +224,7 @@ export function PhoneDisplay({
                           className="h-full w-full object-cover"
                         />
                       ) : (
-                        getPlatformIcon(link.platform, "h-4 w-4")
+                        getPlatformIcon(link.platform, "h-5 w-5")
                       )}
                     </span>
                     <span className="truncate">{link.title}</span>
