@@ -93,7 +93,7 @@ export function ProductCard({
         </div>
 
         {/* Colors: swatches under the price on mobile, labelled column on md+ */}
-        <div className="h-5 shrink-0 md:h-auto md:w-28 md:pt-2 md:text-right">
+        {/* <div className="h-5 shrink-0 md:h-auto md:w-28 md:pt-2 md:text-right">
           {product.colors && product.colors.length > 0 && (
             <>
               <p className="hidden text-sm whitespace-nowrap text-[#1a0800] md:block dark:text-[#F5EEE4]">
@@ -111,7 +111,7 @@ export function ProductCard({
               </div>
             </>
           )}
-        </div>
+        </div> */}
       </div>
 
       <span className="mt-auto block w-full shrink-0 border-r-[3px] border-b-[3px] border-[#1a0800] bg-[#FFCF5C] py-2.5 text-center text-sm font-semibold text-[#1a0800] transition-[filter] group-hover:brightness-95 md:py-3">

@@ -170,7 +170,7 @@ export function PhoneDisplay({
               {visibleLinks.map((link) => (
                 <div
                   key={link.id}
-                  className="flex items-center justify-between px-3 py-2.5 md:py-2  text-[12px]"
+                  className="flex items-center justify-between px-3 py-1.5 md:py-1  text-[12px]"
                   style={{
                     borderRadius: buttonStyle.borderRadius,
                     backgroundColor: withOpacity(
