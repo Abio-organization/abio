@@ -31,6 +31,9 @@ export interface PhoneDisplayProps {
 }
 
 function backgroundStyle(selectedTheme: string): CSSProperties {
+  if (typeof selectedTheme !== "string" || selectedTheme.length === 0) {
+    return { backgroundColor: "#ffffff" };
+  }
   if (selectedTheme.startsWith("fill:")) {
     return { backgroundColor: selectedTheme.replace("fill:", "") };
   }
