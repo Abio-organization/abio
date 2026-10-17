@@ -16,6 +16,7 @@ export interface PhoneDisplayProfile {
   location: string
   avatarUrl: string | null
   username: string
+  isVerified: boolean
 }
 
 export interface UsePhoneDisplayPropsResult {
@@ -43,15 +44,20 @@ const DEFAULT_FONT_STYLE: FontStyle = {
   opacity: 1,
 }
 
-// The backend's Profile model has no `displayName` field — the user's
-// display name is `User.name`, hence the separate `name` param here.
-function profileFromUser(name: string | undefined, profile: Profile | undefined): PhoneDisplayProfile {
+// The backend's Profile model has no `displayName`/`isVerified` fields —
+// both live on `User`, hence the separate params here.
+function profileFromUser(
+  name: string | undefined,
+  isVerified: boolean | undefined,
+  profile: Profile | undefined,
+): PhoneDisplayProfile {
   return {
     displayName: name ?? '',
     bio: profile?.bio ?? '',
     location: profile?.location ?? '',
     avatarUrl: profile?.avatarUrl ?? null,
     username: profile?.username ?? '',
+    isVerified: isVerified ?? false,
   }
 }
 
@@ -79,7 +85,7 @@ export function usePhoneDisplayProps(): UsePhoneDisplayPropsResult {
       ? wallpaperToSelectedTheme(settings.wallpaper_config) ||
         (settings.selected_theme ?? '/themes/theme1.png')
       : '/themes/theme1.png',
-    profile: profileFromUser(user?.name, user?.profile ?? undefined),
+    profile: profileFromUser(user?.name, user?.isVerified, user?.profile ?? undefined),
     links: linksQuery.data ?? [],
     isLoading:
       settingsQuery.isLoading || linksQuery.isLoading || userQuery.isLoading,

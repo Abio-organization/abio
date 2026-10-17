@@ -117,7 +117,9 @@ export function PhoneDisplay({
                 >
                   {name}
                 </h1>
-                <BadgeCheck className="h-3.5 w-3.5 shrink-0 fill-[#EA2228] text-white" />
+                {profile.isVerified && (
+                  <BadgeCheck className="h-3.5 w-3.5 shrink-0 fill-[#EA2228] text-white" />
+                )}
               </div>
               {profile.username && (
                 <p className="truncate text-[10px] font-medium text-neutral-500">

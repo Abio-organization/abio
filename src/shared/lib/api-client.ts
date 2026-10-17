@@ -19,6 +19,15 @@ export const apiClient = axios.create({
   },
 })
 
+/**
+ * Fired when a token refresh fails, meaning the session is dead (no valid
+ * access or refresh token). shared/ can't import features/auth (see
+ * auth-tokens.ts), so this event is the handoff — the app listens for it
+ * and calls the auth store's signOut(), which flips `isAuthenticated` and
+ * lets the route guards redirect to sign-in instead of looping forever.
+ */
+export const AUTH_LOGOUT_EVENT = 'auth:logout'
+
 apiClient.interceptors.request.use((config) => {
   const token = getAccessToken()
   if (token) {
@@ -55,6 +64,7 @@ function refreshAccessToken(): Promise<string | null> {
         return data.data.accessToken
       } catch {
         clearAuthTokens()
+        window.dispatchEvent(new Event(AUTH_LOGOUT_EVENT))
         return null
       } finally {
         refreshPromise = null

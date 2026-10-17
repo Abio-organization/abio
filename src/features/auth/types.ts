@@ -21,6 +21,8 @@ export interface User {
   name: string
   active: boolean
   isEmailVerified: boolean
+  /** Has an active verification badge (approved via the badge-application flow) — drives the checkmark badge next to the user's name. */
+  isVerified: boolean
   isOnboardingCompleted: boolean
   googleId: string | null
   createdAt: string

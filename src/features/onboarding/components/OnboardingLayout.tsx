@@ -1,10 +1,10 @@
-import { Link } from '@tanstack/react-router'
-// import { LogOut } from 'lucide-react'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { LogOut } from 'lucide-react'
 import type { ReactNode } from 'react'
 
-// import { Button } from '@/shared/components/ui/button'
-// import { useLogout } from '@/features/auth/hooks/use-auth'
+import { useLogout } from '@/features/auth'
 import { ProgressSteps } from '@/features/onboarding/components/ProgressSteps'
+import { Button } from '@/shared/components/ui/button'
 
 interface OnboardingLayoutProps {
   /** Omit on the final Complete screen — it has no step indicator, matching the source design. */
@@ -13,7 +13,12 @@ interface OnboardingLayoutProps {
 }
 
 export function OnboardingLayout({ step, children }: OnboardingLayoutProps) {
-  // const logoutMutation = useLogout()
+  const navigate = useNavigate()
+  const logoutMutation = useLogout()
+
+  const handleLogout = () => {
+    logoutMutation.mutate(undefined, { onSuccess: () => navigate({ to: '/auth/sign-in' }) })
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#FEF4EA] dark:bg-[#1C1611]">
@@ -23,15 +28,27 @@ export function OnboardingLayout({ step, children }: OnboardingLayoutProps) {
           <span className="text-end text-3xl font-medium tracking-wide text-black dark:text-[#F5EEE4]">bio</span>
         </Link>
 
-          {/* <Button
-            variant="ghost"
-            onClick={() => logoutMutation.mutate()}
-            disabled={logoutMutation.isPending}
-            className="gap-2 text-[#331400] dark:text-[#F5EEE4]"
-          >
-            <LogOut className="h-4 w-4" />
-            {logoutMutation.isPending ? 'Logging out…' : 'Log out'}
-          </Button> */}
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={handleLogout}
+          disabled={logoutMutation.isPending}
+          aria-label={logoutMutation.isPending ? 'Logging out…' : 'Log out'}
+          className="gap-2 text-[#331400] sm:hidden dark:text-[#F5EEE4]"
+        >
+          <LogOut className="h-4 w-4" />
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleLogout}
+          disabled={logoutMutation.isPending}
+          className="hidden gap-2 text-[#331400] sm:flex dark:text-[#F5EEE4]"
+        >
+          <LogOut className="h-4 w-4" />
+          {logoutMutation.isPending ? 'Logging out…' : 'Log out'}
+        </Button>
       </div>
 
       {step ? (

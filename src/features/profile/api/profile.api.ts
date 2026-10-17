@@ -51,6 +51,7 @@ export interface PublicProfileResult {
   location: string | null
   avatarUrl: string | null
   isPublic: boolean
+  isVerified: boolean
   links: import('@/features/links/types').Link[]
   user: { name: string }
   display: AppearancePayload

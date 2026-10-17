@@ -23,7 +23,8 @@ export interface UpdatePreferencesPayload {
 
 /** Save Changes — single combined PUT, sections omitted are left unchanged server-side. */
 export async function updatePreferences(payload: UpdatePreferencesPayload) {
-  if (payload.wallpaper_config?.image) requireUploadedImage(payload.wallpaper_config.image)
+  const image = payload.wallpaper_config?.image
+  if (image) requireUploadedImage(typeof image === 'string' ? image : image.url)
   const { data } = await apiClient.put<ApiResponse<AppearancePayload>>('/user/preferences', payload)
   return data
 }

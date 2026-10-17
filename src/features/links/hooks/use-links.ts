@@ -24,12 +24,15 @@ function invalidatePublicProfile(
 }
 
 export function useGetAllLinks() {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+
   return useQuery({
     queryKey: queryKeys.links,
     queryFn: async () => {
       const res = await getAllLinks();
       return res.data;
     },
+    enabled: isAuthenticated,
   });
 }
 

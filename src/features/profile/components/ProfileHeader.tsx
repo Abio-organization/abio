@@ -168,7 +168,7 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
           ) : (
             <>
               <h1 className="truncate text-[15px] md:text-xl font-semibold text-[#331400] md:text-2xl dark:text-[#F5EEE4]">{user.name}</h1>
-              {user.isEmailVerified && <BadgeCheck className="h-5 w-5 shrink-0 fill-[#EA2228] text-white" />}
+              {user.isVerified && <BadgeCheck className="h-5 w-5 shrink-0 fill-[#EA2228] text-white" />}
               <button
                 type="button"
                 onClick={nameEdit.startEditing}

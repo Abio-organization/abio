@@ -34,7 +34,11 @@ export type WallpaperType = 'fill' | 'solid' | 'gradient' | 'image'
 
 export interface WallpaperConfig {
   type: WallpaperType
-  image?: string
+  /**
+   * Sent as a plain CDN URL string when saving, but the backend echoes it
+   * back on read as `{ url, publicId }` — handle both shapes.
+   */
+  image?: string | { url: string; publicId?: string }
   /** hex string for fill/solid, stop array for gradient */
   backgroundColor?: string | GradientStop[]
 }

@@ -113,6 +113,7 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
     location: data.location ?? "",
     avatarUrl: data.avatarUrl,
     username: data.username ?? username,
+    isVerified: data.isVerified,
   };
 
   const selectedTheme = themeForUsername(username, displayTheme);

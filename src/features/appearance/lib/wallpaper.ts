@@ -4,6 +4,11 @@ import type { WallpaperConfig } from '@/features/appearance/types'
 
 const DEFAULT_THEME = 'fill:#331400'
 
+/** `image` is a plain URL string when we send it, but the backend echoes it back on read as `{ url, publicId }`. */
+function imageUrl(image: NonNullable<WallpaperConfig['image']>): string {
+  return typeof image === 'string' ? image : image.url
+}
+
 /** String-encoded wallpaper used by the live editor + PhoneDisplay: `fill:#hex`, `gradient:#a:#b`, or a plain image URL. */
 export function wallpaperToSelectedTheme(config: WallpaperConfig | undefined | null): string {
   if (!config || !config.type) return DEFAULT_THEME
@@ -20,7 +25,7 @@ export function wallpaperToSelectedTheme(config: WallpaperConfig | undefined | n
   }
 
   if (type === 'image' && config.image) {
-    return config.image
+    return imageUrl(config.image)
   }
 
   return DEFAULT_THEME
@@ -61,7 +66,7 @@ export function themePreviewStyle(config: WallpaperConfig | undefined | null): C
 
   if (type === 'image' && config.image) {
     return {
-      backgroundImage: `url(${config.image})`,
+      backgroundImage: `url(${imageUrl(config.image)})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }
