@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
 import { QRCodeCanvas } from "qrcode.react";
 import { Copy, Share2, X } from "lucide-react";
 import { useState, type CSSProperties } from "react";
@@ -7,6 +8,8 @@ import { useState, type CSSProperties } from "react";
 import { Loader } from "@/shared/components/loader";
 
 import { PhoneDisplay } from "@/shared/components/PhoneDisplay";
+import { PrivateProfilePlaceholder } from "@/features/public-profile/components/PrivateProfilePlaceholder";
+import { ProfileNotFoundPlaceholder } from "@/features/public-profile/components/ProfileNotFoundPlaceholder";
 import {
   cornerConfigToButtonStyle,
   fontConfigToFontStyle,
@@ -76,7 +79,7 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
     void trackProfileView(username).catch(() => {});
   }, [username]);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: queryKeys.userProfile(username),
     queryFn: async () => {
       const res = await getPublicProfile(username);
@@ -93,7 +96,13 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
   }
 
   if (isError || !data) {
-    return <p className="p-6 text-sm text-red-600">Profile not found.</p>;
+    // The backend returns 403 for an existing-but-private profile and 404
+    // when the username doesn't exist at all — anything else (network
+    // error, 5xx) falls back to the "not found" state too.
+    if (isAxiosError(error) && error.response?.status === 403) {
+      return <PrivateProfilePlaceholder />;
+    }
+    return <ProfileNotFoundPlaceholder />;
   }
 
   const { links, display, user } = data;
