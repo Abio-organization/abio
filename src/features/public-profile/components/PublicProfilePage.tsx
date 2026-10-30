@@ -15,6 +15,7 @@ import {
   fontConfigToFontStyle,
   wallpaperToSelectedTheme,
 } from "@/features/appearance/lib";
+import type { ButtonStyle, FontStyle } from "@/features/appearance/types";
 import { trackProfileView } from "@/features/analytics";
 import { queryKeys } from "@/shared/lib/query-keys";
 import { getPublicProfile } from "@/features/profile/api/profile.api";
@@ -33,6 +34,23 @@ import { toast } from "@/shared/lib/toast";
 interface PublicProfilePageProps {
   username: string;
 }
+
+// These mirror the defaults used in usePhoneDisplayProps so the public page
+// renders identical styling when the profile has no saved appearance settings.
+const DEFAULT_BUTTON_STYLE: ButtonStyle = {
+  borderRadius: "12px",
+  backgroundColor: "#f5f5f512",
+  borderColor: "transparent",
+  opacity: 1,
+  boxShadow: "0 4px 14px rgba(0,0,0,0.15)",
+};
+
+const DEFAULT_FONT_STYLE: FontStyle = {
+  fontFamily: "Inter, sans-serif",
+  fillColor: "#ffffff",
+  strokeColor: "#000000",
+  opacity: 1,
+};
 
 function displayNameForUsername(username: string, fallback: string) {
   if (username === "ootn") return "one of those nights";
@@ -106,10 +124,22 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
   }
 
   const { links, display, user } = data;
+
+  // `display` is null when the user has never saved appearance settings.
+  // wallpaperToSelectedTheme already handles undefined/null and returns the
+  // default brown fill theme, but we still need to guard the property access.
   const displayTheme =
-    wallpaperToSelectedTheme(display.wallpaper_config) ||
-    display.selected_theme ||
+    wallpaperToSelectedTheme(display?.wallpaper_config) ||
+    display?.selected_theme ||
     "/themes/theme1.png";
+
+  const buttonStyle: ButtonStyle = display?.corner_config
+    ? cornerConfigToButtonStyle(display.corner_config)
+    : DEFAULT_BUTTON_STYLE;
+
+  const fontStyle: FontStyle = display?.font_config
+    ? fontConfigToFontStyle(display.font_config)
+    : DEFAULT_FONT_STYLE;
 
   const phoneProfile: PhoneDisplayProfile = {
     // The backend's Profile model has no displayName field — the public
@@ -176,8 +206,8 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
 
       <div className="relative z-20 flex h-full w-full items-center justify-center lg:px-6">
         <PhoneDisplay
-          buttonStyle={cornerConfigToButtonStyle(display.corner_config)}
-          fontStyle={fontConfigToFontStyle(display.font_config)}
+          buttonStyle={buttonStyle}
+          fontStyle={fontStyle}
           selectedTheme={selectedTheme}
           profile={phoneProfile}
           links={visibleLinks}
