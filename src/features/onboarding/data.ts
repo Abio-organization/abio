@@ -123,31 +123,94 @@ export const PLATFORM_BASE_URLS: Record<string, string> = {
 /** Platforms whose handle is conventionally shown with an @ prefix. */
 export const AT_PLATFORMS = new Set(["X", "snapchat", "tiktok", "instagram"]);
 
+const COMMON_DOMAIN_SUFFIXES = new Set([
+  "app",
+  "ai",
+  "biz",
+  "ca",
+  "co",
+  "com",
+  "de",
+  "dev",
+  "edu",
+  "fr",
+  "gg",
+  "gov",
+  "in",
+  "info",
+  "io",
+  "jp",
+  "me",
+  "net",
+  "nz",
+  "online",
+  "org",
+  "shop",
+  "site",
+  "tv",
+  "uk",
+  "us",
+  "xyz",
+]);
+
+function looksLikePastedUrl(value: string, platformId: string): boolean {
+  const host = value.split(/[/?#]/, 1)[0].replace(/^www\./i, "");
+  const domainParts = host.split(".");
+  if (
+    domainParts.length < 2 ||
+    !domainParts.every((part) => /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i.test(part))
+  ) {
+    return false;
+  }
+
+  const platformBase = PLATFORM_BASE_URLS[platformId]
+    ?.replace(/^https?:\/\//i, "")
+    .split("/")[0];
+  const isPlatformDomain =
+    !!platformBase && (host === platformBase || host.endsWith(`.${platformBase}`));
+  const includesPath = /[/?#]/.test(value);
+  const suffix = domainParts[domainParts.length - 1]?.toLowerCase();
+
+  return (
+    isPlatformDomain ||
+    includesPath ||
+    /^www\./i.test(value) ||
+    platformId === "Website" ||
+    COMMON_DOMAIN_SUFFIXES.has(suffix ?? "")
+  );
+}
+
 export function buildPlatformUrl(platformId: string, value: string): string {
   const trimmed = value.trim();
   if (!trimmed) return "";
 
-  if (platformId === "whatsapp") {
-    return `https://wa.me/${trimmed.replace(/\D/g, "")}`;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (!trimmed.startsWith("@") && looksLikePastedUrl(trimmed, platformId)) {
+    return `https://${trimmed}`;
   }
 
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  const username = trimmed.replace(/^@/, "");
+  if (platformId === "whatsapp") {
+    return `https://wa.me/${username.replace(/\D/g, "")}`;
+  }
 
   const base = PLATFORM_BASE_URLS[platformId];
-  return base ? `https://${base}${trimmed}` : `https://${trimmed}`;
+  return base ? `https://${base}${username}` : `https://${username}`;
 }
 
 export function getPlatformPlaceholder(
   platformId: string,
-  platformName: string,
+  _platformName: string,
 ): string {
-  if (platformId === "whatsapp") return "WhatsApp phone number";
+  if (platformId === "whatsapp") return "Phone number or paste a link";
 
   const base = PLATFORM_BASE_URLS[platformId];
-  if (!base) return `Your ${platformName} link`;
-  if (AT_PLATFORMS.has(platformId)) return "@username";
+  if (!base || platformId === "Website") return "Paste a link";
+  if (AT_PLATFORMS.has(platformId) || base.includes("@")) {
+    return "Username or paste a link";
+  }
 
-  return `${base}username`;
+  return "Username or paste a link";
 }
 
 export const isCategoryGoalEntry = (name: string) =>

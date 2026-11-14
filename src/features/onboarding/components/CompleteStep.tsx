@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, useNavigate } from '@tanstack/react-router'
-import { Check, Loader2 } from 'lucide-react'
+import { Check, Loader2, Share2 } from 'lucide-react'
 import { FaFacebook, FaWhatsapp, FaXTwitter } from 'react-icons/fa6'
 
 import { Button } from '@/shared/components/ui/button'
@@ -210,6 +210,26 @@ export function CompleteStep() {
     }
   }
 
+  const handleNativeShare = async () => {
+    if (!profileLink) return
+    if (!navigator.share) {
+      await handleCopyLink()
+      return
+    }
+
+    try {
+      await navigator.share({
+        title: 'My Abio profile',
+        text: 'Check out my Abio profile!',
+        url: profileLink,
+      })
+    } catch (error) {
+      if (error instanceof Error && error.name !== 'AbortError') {
+        toast.error('Failed to share profile')
+      }
+    }
+  }
+
   const handleCopyLink = async () => {
     if (!profileLink) return
     try {
@@ -248,11 +268,36 @@ export function CompleteStep() {
       ))}
 
       <div className="flex flex-1 flex-col items-center justify-center gap-8 px-4 py-8 sm:gap-10 sm:px-6 sm:py-10 md:py-12 lg:flex-row lg:items-center lg:gap-16 xl:gap-20">
+        <div className="w-full max-w-md text-center lg:hidden">
+          <h1 className="text-2xl font-bold text-[#331400] dark:text-[#F5EEE4]">Your profile is live!</h1>
+          <p className="mt-2 text-sm text-[#666464] dark:text-[#F5EEE4]/60">
+            Share your page and start growing your audience.
+          </p>
+        </div>
+
         <div className="flex w-full justify-center lg:w-auto lg:flex-shrink-0">
           <PhoneDisplay buttonStyle={buttonStyle} fontStyle={fontStyle} selectedTheme={selectedTheme} profile={profile} links={links} />
         </div>
 
-        <div className="w-full max-w-md space-y-6 sm:space-y-7">
+        <div className="flex w-full max-w-md gap-3 lg:hidden">
+          <Button
+            onClick={() => navigate({ to: '/dashboard' })}
+            className="h-12 flex-1 bg-[#FED45C] text-sm font-semibold text-[#331400] hover:bg-[#FED45C]/90"
+          >
+            Open Dashboard
+          </Button>
+          <Button
+            onClick={handleNativeShare}
+            disabled={!profileLink}
+            aria-label="Share profile"
+            className="h-12 border border-[#331400]/20 bg-transparent px-4 text-[#331400] hover:bg-[#331400]/5 dark:border-[#F5EEE4]/20 dark:text-[#F5EEE4] dark:hover:bg-white/10"
+          >
+            <Share2 className="h-5 w-5" aria-hidden="true" />
+            <span className="ml-2">Share</span>
+          </Button>
+        </div>
+
+        <div className="hidden w-full max-w-md space-y-6 sm:space-y-7 lg:block">
           <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
             <div
               ref={stampRef}
