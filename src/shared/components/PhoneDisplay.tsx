@@ -6,9 +6,16 @@ import {
   Share2,
   User as UserIcon,
 } from "lucide-react";
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 
 import { getPlatformIcon } from "@/shared/components/PlatformIcon";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/shared/components/ui/dialog";
 import { FONT_WEIGHT_CSS } from "@/features/appearance/lib";
 import type { ButtonStyle, FontStyle } from "@/features/appearance/types";
 import { trackLinkClick } from "@/features/links/api/links.api";
@@ -76,6 +83,7 @@ export function PhoneDisplay({
   onShareProfile,
   onShareLink,
 }: PhoneDisplayProps) {
+  const [isBioOpen, setIsBioOpen] = useState(false);
   const visibleLinks = links.filter((link) => link.isVisible);
   const name = profile.displayName || profile.username || "Your name";
 
@@ -95,7 +103,7 @@ export function PhoneDisplay({
               aria-label={
                 onAvatarClick ? `View ${name}'s profile photo` : undefined
               }
-              className="h-12.5 w-12.5 shrink-0 overflow-hidden rounded-full border border-neutral-300 shadow-md disabled:cursor-default"
+              className="h-16 w-16 shrink-0 overflow-hidden rounded-full border border-neutral-300 shadow-md disabled:cursor-default"
             >
               {profile.avatarUrl ? (
                 <img
@@ -140,12 +148,19 @@ export function PhoneDisplay({
           </div>
 
           {profile.bio ? (
-            <p
-              className="line-clamp-2 text-left text-[10px] font-semibold text-neutral-800"
-              title={profile.bio}
+            <button
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                setIsBioOpen(true);
+              }}
+              aria-label="Read full bio"
+              className="h-full w-50 cursor-pointer border-0 bg-transparent p-0 text-left text-[12px] leading-4 font-medium text-neutral-800 [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FED45C]"
             >
-              {profile.bio}
-            </p>
+              {profile.bio.length > 30
+                ? `${profile.bio.slice(0, 30).trimEnd()}…`
+                : profile.bio}
+            </button>
           ) : null}
 
           {profile.location ? (
@@ -183,7 +198,7 @@ export function PhoneDisplay({
                       buttonStyle.opacity,
                     ),
                     borderWidth:
-                      buttonStyle.borderColor !== "transparent" ? "3px" : "0px",
+                      buttonStyle.borderColor !== "transparent" ? "1.5px" : "0px",
                     borderStyle: "solid", // Add this - it was missing!
                     borderColor:
                       buttonStyle.borderColor === "transparent"
@@ -218,18 +233,20 @@ export function PhoneDisplay({
                         : "none",
                     }}
                   >
-                    <span className="flex h-4 w-4 shrink-0 items-center justify-center overflow-hidden ">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center">
                       {link.icon_link ? (
                         <img
                           src={link.icon_link}
                           alt=""
-                          className="h-full w-full object-cover"
+                          className="h-6 w-6 max-w-none object-cover"
                         />
                       ) : (
-                        getPlatformIcon(link.platform, "h-5 w-5")
+                        getPlatformIcon(link.platform, "text-[17px]")
                       )}
                     </span>
-                    <span className="truncate">{link.title}</span>
+                    <span className="truncate text-[0.88rem] md:text-[12px] ">
+                      {link.title}
+                    </span>
                   </a>
                   {onShareLink ? (
                     <button
@@ -259,6 +276,19 @@ export function PhoneDisplay({
           )}
         </div>
       </div>
+      <Dialog open={isBioOpen} onOpenChange={setIsBioOpen}>
+        <DialogContent
+          className="max-h-[80vh] overflow-y-auto sm:max-w-md"
+          onClick={(event) => event.stopPropagation()}
+        >
+          <DialogHeader>
+            <DialogTitle>Bio</DialogTitle>
+            <DialogDescription className="whitespace-pre-wrap break-words w-[80%] text-left text-sm leading-6 [overflow-wrap:anywhere]">
+              {profile.bio}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

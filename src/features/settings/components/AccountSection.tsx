@@ -180,7 +180,7 @@ function BioRow({ user }: { user: User }) {
       <div className={row}>
         <div className="min-w-0">
           <p className="font-medium">Bio</p>
-          <p className={`${muted} line-clamp-2`}>{user.profile?.bio || 'No bio yet'}</p>
+          <p className={`${muted} truncate`}>{user.profile?.bio || 'No bio yet'}</p>
         </div>
         <button type="button" onClick={startEditing} className={editButton}>
           <Pencil className="h-3.5 w-3.5" />
@@ -197,10 +197,10 @@ function BioRow({ user }: { user: User }) {
         <textarea
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
-          maxLength={500}
+          maxLength={30}
           rows={3}
           autoFocus
-          className="w-full border border-[#331400]/20 bg-transparent p-2.5 text-sm outline-none focus-visible:border-[#331400] dark:border-[#F5EEE4]/20 dark:focus-visible:border-[#F5EEE4]"
+          className="w-full max-w-xs resize-none overflow-y-hidden border border-[#331400]/20 bg-transparent p-2.5 text-sm outline-none focus-visible:border-[#331400] dark:border-[#F5EEE4]/20 dark:focus-visible:border-[#F5EEE4]"
         />
         <div className="mt-2 flex items-center gap-2">
           <button

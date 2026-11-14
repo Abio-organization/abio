@@ -182,7 +182,7 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
 
         {user.profile?.username && <p className="text-xs text-[#666464] md:text-sm dark:text-[#F5EEE4]/50">/{user.profile.username}</p>}
 
-        <div className="group mt-1.5 flex items-start gap-1.5">
+        <div className="group mt-1.5 flex w-full max-w-xs items-start gap-1.5">
           {bioEdit.isEditing ? (
             <textarea
               autoFocus
@@ -190,13 +190,13 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
               onChange={(e) => bioEdit.setValue(e.target.value)}
               onKeyDown={bioEdit.handleKeyDown}
               onBlur={bioEdit.handleBlur}
-              maxLength={200}
+              maxLength={30}
               rows={2}
-              className="min-w-0 flex-1 resize-none border-b border-[#331400] bg-transparent text-sm text-[#331400] outline-none dark:border-[#F5EEE4] dark:text-[#F5EEE4]"
+              className="min-w-0 flex-1 resize-none overflow-y-hidden border-b border-[#331400] bg-transparent text-sm text-[#331400] outline-none dark:border-[#F5EEE4] dark:text-[#F5EEE4]"
             />
           ) : (
             <>
-              <p className="min-w-0 flex-1 text-xs lg:text-sm text-[#331400]/80 dark:text-[#F5EEE4]/70">
+              <p className="min-w-0 flex-1 truncate text-xs lg:text-sm text-[#331400]/80 dark:text-[#F5EEE4]/70">
                 {user.profile?.bio || <span className="text-[#666464]/50 italic">Add a short bio</span>}
               </p>
               <button

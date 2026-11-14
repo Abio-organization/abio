@@ -321,9 +321,9 @@ export function SharePanel({ username }: SharePanelProps) {
 
                   <button
                     type="button"
-                    onClick={() =>
-                      profileLink && navigator.clipboard.writeText(profileLink)
-                    }
+                    onClick={handleCopy}
+                    disabled={!profileLink}
+                    aria-label="Copy profile link"
                     className="flex-shrink-0 p-2 hover:bg-gray-200 dark:hover:bg-[#F5EEE4]/10 transition-colors"
                   >
                     <Copy className="w-4 h-4 text-[#331400] dark:text-[#F5EEE4]" />

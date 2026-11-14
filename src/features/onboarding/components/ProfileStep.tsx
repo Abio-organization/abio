@@ -24,7 +24,7 @@ const profileStepSchema = z.object({
   bio: z
     .string()
     .min(1, "Please enter your bio")
-    .max(200, "Bio must be 200 characters or less"),
+    .max(30, "Bio must be 30 characters or less"),
   location: z.string().min(1, "Please select your location"),
 });
 
@@ -145,24 +145,25 @@ export function ProfileStep() {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <Field>
+            <Field className="w-full max-w-xs">
               <FieldLabel htmlFor="bio">Bio</FieldLabel>
               <div className="relative">
                 <Textarea
                   id="bio"
                   placeholder="Tell us about yourself…"
-                  maxLength={200}
-                  rows={4}
+                  maxLength={30}
+                  rows={2}
                   aria-invalid={!!errors.bio}
+                  className="resize-none overflow-y-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                   {...register("bio")}
                 />
                 <span
                   className={cn(
                     "absolute right-2.5 bottom-2 text-xs",
-                    bio.length > 180 ? "text-red-500" : "text-[#666464]/50",
+                    bio.length >= 27 ? "text-red-500" : "text-[#666464]/50",
                   )}
                 >
-                  {bio.length}/200
+                  {bio.length}/30
                 </span>
               </div>
               <FieldError>{errors.bio?.message}</FieldError>

@@ -7,12 +7,16 @@ export const LINK_PLATFORM_OPTIONS = [
   { value: 'FACEBOOK', label: 'Facebook', titlePlaceholder: 'My Facebook', urlPlaceholder: 'facebook.com/yourname' },
   { value: 'YOUTUBE', label: 'YouTube', titlePlaceholder: 'My YouTube', urlPlaceholder: 'youtube.com/@yourname' },
   { value: 'TIKTOK', label: 'TikTok', titlePlaceholder: 'My TikTok', urlPlaceholder: 'tiktok.com/@yourname' },
+  { value: 'whatsapp', label: 'WhatsApp', titlePlaceholder: 'My WhatsApp', urlPlaceholder: 'wa.me/yourphone' },
+  { value: 'snapchat', label: 'Snapchat', titlePlaceholder: 'My Snapchat', urlPlaceholder: 'snapchat.com/add/yourname' },
+  { value: 'telegram', label: 'Telegram', titlePlaceholder: 'My Telegram', urlPlaceholder: 't.me/yourname' },
   { value: 'DISCORD', label: 'Discord', titlePlaceholder: 'My Discord', urlPlaceholder: 'discord.gg/yourinvite' },
   { value: 'TWITCH', label: 'Twitch', titlePlaceholder: 'My Twitch', urlPlaceholder: 'twitch.tv/yourname' },
   { value: 'SPOTIFY', label: 'Spotify', titlePlaceholder: 'My Spotify', urlPlaceholder: 'open.spotify.com/artist/…' },
   { value: 'REDDIT', label: 'Reddit', titlePlaceholder: 'My Reddit', urlPlaceholder: 'reddit.com/u/yourname' },
   { value: 'PINTEREST', label: 'Pinterest', titlePlaceholder: 'My Pinterest', urlPlaceholder: 'pinterest.com/yourname' },
   { value: 'MEDIUM', label: 'Medium', titlePlaceholder: 'My Medium', urlPlaceholder: 'medium.com/@yourname' },
+  { value: 'Website', label: 'Website', titlePlaceholder: 'My Website', urlPlaceholder: 'yoursite.com' },
   { value: 'CUSTOM', label: 'Other / Custom link', titlePlaceholder: 'My Website', urlPlaceholder: 'yoursite.com' },
 ] as const
 
