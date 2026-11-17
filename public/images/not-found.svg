@@ -1,0 +1,49 @@
+<svg fill="#909090" xmlns="http://www.w3.org/2000/svg" width="460" height="360" viewBox="0 0 460 360" role="img" aria-labelledby="title"><title id="title">Abio searches for a missing username</title><style>
+  @media (prefers-reduced-motion: no-preference) {
+    #search-arm { transform-origin: 316px 176px; animation: scan 3.8s ease-in-out infinite; }
+    #scout-upper { transform-origin: 218px 252px; animation: lean 3.8s ease-in-out infinite; }
+  }
+  @keyframes scan {
+    0%, 100% { transform: rotate(0deg); }
+    20%, 30% { transform: rotate(-18deg); }
+    60%, 73% { transform: rotate(26deg); }
+    82% { transform: rotate(20deg); }
+  }
+  @keyframes lean {
+    0%, 100% { transform: rotate(0deg); }
+    20%, 30% { transform: rotate(-2deg); }
+    60%, 73% { transform: rotate(3deg); }
+  }
+</style>
+ <g id="limbs" fill="none" stroke="#909090" stroke-width="11" stroke-linecap="round"><path d="M134 156 Q83 162 90 196 Q93 213 114 200"/><path d="M172 255 Q177 278 153 292 L155 306 M258 254 Q243 279 269 298"/></g>
+ <g id="sneakers" fill="#eeeeee" stroke="#909090" stroke-width="4" stroke-linejoin="round"><path d="M145 296q8 5 20 1l5 17q1 9-9 10h-46q-11-2-8-10 3-13 30-14z"/><path d="M254 294q12 7 24-1l5 8q26-1 30 12 3 10-9 11h-45q-11-1-10-10z"/><path d="M107 317q29 3 62-2m82 1q30 4 61 0" fill="none" stroke-width="2.5"/></g>
+ <g id="scout-upper"><g id="search-arm" transform="rotate(0.000 323 178)" stroke="#909090" stroke-linecap="round" stroke-linejoin="round"><path d="M316 176q34 41 50-17" stroke-width="11" fill="none"/>
+ <g transform="rotate(20 371 110)" stroke-width="4"><rect x="365" y="129" width="12" height="57" rx="6" fill="#e3e3e3"/><path d="M371 66a34 34 0 1 1 0 68a34 34 0 1 1 0-68zm0 7a27 27 0 1 0 0 54a27 27 0 1 0 0-54z" fill="#e3e3e3" fill-rule="evenodd"/><path d="M354 95q3-9 11-12" stroke="#e3e3e3" stroke-width="3" fill="none"/></g>
+ <path d="M353 161q-1-8 5-9 4 0 6 5 7-7 12-2 3 4-2 9 3 4-2 9-7 8-15 2-5-3-4-14z" fill="#eeeeee" stroke-width="4"/></g>
+ <g id="original-abio-artwork" transform="translate(119 51)"><defs>
+    <style>
+      .cls-1 {
+        fill: #e3e3e3;
+        stroke: #909090;
+        stroke-miterlimit: 10;
+        stroke-width: .2px;
+      }
+
+      .cls-2 {
+        fill: #bcbcbc;
+      }
+    </style>
+  </defs>
+  <g id="Layer_20" data-name="Layer 20">
+    <g id="Layer_13" data-name="Layer 13">
+      <g id="Layer_8" data-name="Layer 8">
+        <g>
+          <path d="M196.93,0H.55l-.55,201.47v.17l9.3,9.9.11.13.27.28,197.14.3h.43l1.6-203.04v-.21l-11.91-9.01ZM196.03,199.78H4.47V4h191.56v195.78Z"/>
+          <rect class="cls-2" x="4.48" y="4" width="191.56" height="195.78"/>
+          <path class="cls-2" d="M144.27,167.43c-.95,2.61-2.81,4.95-5.42,6.51-.25.16-1.25.59-2.67,1.12-1.11.51-2.45.95-4.02,1.36-.02,0-.05.02-.08.02-2.67.7-6.04,1.25-10.14,1.71v7.18h50.31l-7.81-18.39c-5.19-11.62-10.23-25.6-10.23-25.6-17.41-44.34-31.45-82.38-48.87-126.21l-7.34.03-57.06,136.98-12.67,33.2,43.36-.02v-7.18c-22.66-2.55-26.52-4.6-20.44-21.27.73-1.96,1.47-3.92,2.21-5.87l16.11-45.43h56.51l17.84,56.56.52,1.66c.11.47.17,1,.21,1.58.03.66-.06,1.34-.3,1.99,0,.02-.02.03-.02.05ZM72.04,96.85c8.3-20.24,18.1-46.88,26.94-68.92l24.75,68.92h-51.69Z"/>
+          <path class="cls-1" d="M144.27,167.43c-.95,2.61-2.81,4.95-5.42,6.51-.25.16-1.25.59-2.67,1.12-1.11.51-2.45.95-4.02,1.36-.02,0-.05.02-.08.02-2.67.7-6.04,1.25-10.14,1.71v7.18h50.31l-7.81-18.39c-5.19-11.62-10.23-25.6-10.23-25.6-17.41-44.34-31.45-82.38-48.87-126.21l-7.34.03-57.06,136.98-12.67,33.2,43.36-.02v-7.18c-22.66-2.55-26.52-4.6-20.44-21.27.73-1.96,1.47-3.92,2.21-5.87l16.11-45.43h56.51l17.84,56.56.52,1.66c.11.47.17,1,.21,1.58.03.66-.06,1.34-.3,1.99,0,.02-.02.03-.02.05ZM72.04,96.85c8.3-20.24,18.1-46.88,26.94-68.92l24.75,68.92h-51.69Z"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</g></g></svg>
