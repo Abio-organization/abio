@@ -184,16 +184,24 @@ export function buildPlatformUrl(platformId: string, value: string): string {
   const trimmed = value.trim();
   if (!trimmed) return "";
 
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (/^https?:\/\//i.test(trimmed)) {
+    return platformId === "whatsapp"
+      ? trimmed.replace(/^(https?:\/\/(?:www\.)?wa\.me\/)@+/i, "$1")
+      : trimmed;
+  }
   if (!trimmed.startsWith("@") && looksLikePastedUrl(trimmed, platformId)) {
-    return `https://${trimmed}`;
+    const pastedUrl =
+      platformId === "whatsapp"
+        ? trimmed.replace(/^((?:www\.)?wa\.me\/)@+/i, "$1")
+        : trimmed;
+    return `https://${pastedUrl}`;
+  }
+
+  if (platformId === "whatsapp") {
+    return `https://wa.me/${trimmed.replace(/\D/g, "")}`;
   }
 
   const username = trimmed.replace(/^@/, "");
-  if (platformId === "whatsapp") {
-    return `https://wa.me/${username.replace(/\D/g, "")}`;
-  }
-
   const base = PLATFORM_BASE_URLS[platformId];
   return base ? `https://${base}${username}` : `https://${username}`;
 }
