@@ -153,6 +153,56 @@ const COMMON_DOMAIN_SUFFIXES = new Set([
   "xyz",
 ]);
 
+export const WHATSAPP_PHONE_FORMAT_ERROR =
+  "Enter a full international number with its country code, for example +2348130291694.";
+
+export function normalizeWhatsAppUrl(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+
+  const match =
+    trimmed.match(/^https?:\/\/(?:www\.)?wa\.me\/([^/?#]+)/i) ??
+    trimmed.match(/^(?:www\.)?wa\.me\/([^/?#]+)/i);
+  const rawPhone = match
+    ? match[1]
+    : trimmed.replace(/^(?:\+|00)/, "");
+  let digits = rawPhone.replace(/\D/g, "");
+
+  if (!digits) return "";
+
+  // Old Nigerian records were saved as local numbers (080..., 081...).
+  if (digits.startsWith("0")) digits = `234${digits.slice(1)}`;
+  if (digits.startsWith("2340")) digits = `234${digits.slice(4)}`;
+
+  return `https://wa.me/${digits}`;
+}
+
+export function isValidWhatsAppInput(value: string): boolean {
+  const trimmed = value.trim();
+  if (!trimmed) return true;
+
+  const whatsappLink = trimmed.match(
+    /^(?:https?:\/\/)?(?:www\.)?(?:wa\.me|api\.whatsapp\.com\/send\?phone=)\/?([^/?#]+)?/i,
+  );
+  if (whatsappLink) {
+    const phone = whatsappLink[1] ?? "";
+    const digits = phone.replace(/\D/g, "");
+    return digits.length >= 7 && digits.length <= 15 && !digits.startsWith("0");
+  }
+
+  if (/^https?:\/\//i.test(trimmed) || looksLikePastedUrl(trimmed, "whatsapp")) {
+    return true;
+  }
+
+  const digits = trimmed.replace(/\D/g, "").replace(/^00/, "");
+  return (
+    (trimmed.startsWith("+") || trimmed.startsWith("00")) &&
+    digits.length >= 7 &&
+    digits.length <= 15 &&
+    !digits.startsWith("0")
+  );
+}
+
 function looksLikePastedUrl(value: string, platformId: string): boolean {
   const host = value.split(/[/?#]/, 1)[0].replace(/^www\./i, "");
   const domainParts = host.split(".");
@@ -183,22 +233,22 @@ function looksLikePastedUrl(value: string, platformId: string): boolean {
 export function buildPlatformUrl(platformId: string, value: string): string {
   const trimmed = value.trim();
   if (!trimmed) return "";
+  if (platformId === "whatsapp" && !isValidWhatsAppInput(trimmed)) return "";
 
   if (/^https?:\/\//i.test(trimmed)) {
-    return platformId === "whatsapp"
-      ? trimmed.replace(/^(https?:\/\/(?:www\.)?wa\.me\/)@+/i, "$1")
-      : trimmed;
+    if (platformId !== "whatsapp") return trimmed;
+    return normalizeWhatsAppUrl(trimmed);
   }
   if (!trimmed.startsWith("@") && looksLikePastedUrl(trimmed, platformId)) {
-    const pastedUrl =
-      platformId === "whatsapp"
-        ? trimmed.replace(/^((?:www\.)?wa\.me\/)@+/i, "$1")
-        : trimmed;
-    return `https://${pastedUrl}`;
+    if (platformId === "whatsapp") {
+      const normalized = normalizeWhatsAppUrl(trimmed);
+      if (normalized) return normalized;
+    }
+    return `https://${trimmed}`;
   }
 
   if (platformId === "whatsapp") {
-    return `https://wa.me/${trimmed.replace(/\D/g, "")}`;
+    return normalizeWhatsAppUrl(trimmed);
   }
 
   const username = trimmed.replace(/^@/, "");
@@ -210,7 +260,9 @@ export function getPlatformPlaceholder(
   platformId: string,
   _platformName: string,
 ): string {
-  if (platformId === "whatsapp") return "Phone number or paste a link";
+  if (platformId === "whatsapp") {
+    return "+country code and phone number";
+  }
 
   const base = PLATFORM_BASE_URLS[platformId];
   if (!base || platformId === "Website") return "Paste a link";

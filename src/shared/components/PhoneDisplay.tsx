@@ -20,6 +20,7 @@ import { FONT_WEIGHT_CSS } from "@/features/appearance/lib";
 import type { ButtonStyle, FontStyle } from "@/features/appearance/types";
 import { trackLinkClick } from "@/features/links/api/links.api";
 import type { Link } from "@/features/links/types";
+import { normalizeWhatsAppUrl } from "@/features/onboarding/data";
 import type { PhoneDisplayProfile } from "@/shared/hooks/usePhoneDisplayProps";
 
 export interface PhoneDisplayProps {
@@ -214,7 +215,11 @@ export function PhoneDisplay({
                   }}
                 >
                   <a
-                    href={link.url}
+                    href={
+                      link.platform === "whatsapp"
+                        ? normalizeWhatsAppUrl(link.url)
+                        : link.url
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => {

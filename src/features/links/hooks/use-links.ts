@@ -11,6 +11,7 @@ import {
 import type { Link } from "@/features/links/types";
 import { queryKeys } from "@/shared/lib/query-keys";
 import { useAuthStore } from "@/features/auth/store/auth-store";
+import { normalizeWhatsAppUrl } from "@/features/onboarding/data";
 
 function invalidatePublicProfile(
   queryClient: ReturnType<typeof useQueryClient>,
@@ -30,7 +31,23 @@ export function useGetAllLinks() {
     queryKey: queryKeys.links,
     queryFn: async () => {
       const res = await getAllLinks();
-      return res.data;
+      const links = await Promise.all(
+        res.data.map(async (link) => {
+          if (link.platform !== "whatsapp") return link;
+
+          const normalizedUrl = normalizeWhatsAppUrl(link.url);
+          if (!normalizedUrl || normalizedUrl === link.url) return link;
+
+          try {
+            await updateLink(link.id, { url: normalizedUrl, platform: "whatsapp" });
+          } catch {
+            // Keep the in-app link usable even if the backend migration is unavailable.
+          }
+
+          return { ...link, url: normalizedUrl };
+        }),
+      );
+      return links;
     },
     enabled: isAuthenticated,
   });

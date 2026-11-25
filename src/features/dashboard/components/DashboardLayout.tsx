@@ -109,7 +109,7 @@ function AccountMenu({
   useEffect(() => {
     if (!open) return
 
-    function handlePointerDown(event: PointerEvent) {
+    function handleDocumentClick(event: MouseEvent) {
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
@@ -122,10 +122,10 @@ function AccountMenu({
       if (event.key === "Escape") setOpen(false)
     }
 
-    document.addEventListener("pointerdown", handlePointerDown)
+    document.addEventListener("click", handleDocumentClick, true)
     document.addEventListener("keydown", handleKeyDown)
     return () => {
-      document.removeEventListener("pointerdown", handlePointerDown)
+      document.removeEventListener("click", handleDocumentClick, true)
       document.removeEventListener("keydown", handleKeyDown)
     }
   }, [open])

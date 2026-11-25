@@ -9,6 +9,7 @@ import { cn } from '@/shared/lib/utils'
 import { getPlatformIcon } from '@/shared/components/PlatformIcon'
 
 import type { Link } from '@/features/links/types'
+import { normalizeWhatsAppUrl } from '@/features/onboarding/data'
 
 interface LinkRowProps {
   link: Link
@@ -29,7 +30,7 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
   useEffect(() => {
     if (isEditing) {
       setTitle(link.title)
-      setUrl(link.url)
+      setUrl(link.platform === 'whatsapp' ? normalizeWhatsAppUrl(link.url) : link.url)
       titleInputRef.current?.focus()
     }
   }, [isEditing, link.title, link.url])
@@ -93,14 +94,21 @@ export function LinkRow({ link, isEditing, onStartEdit, onSaveEdit, onCancelEdit
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="https://…"
+            inputMode={link.platform === 'whatsapp' ? 'tel' : 'url'}
+            placeholder={
+              link.platform === 'whatsapp'
+                ? '+country code and phone number'
+                : 'https://…'
+            }
             className="h-7 md:h-9 flex-1"
           />
         </div>
       ) : (
         <div className="min-w-0 flex-1  ">
           <p className="truncate text-sm lg:text-[15px] mb-1 font-semibold text-[#331400] dark:text-[#F5EEE4]">{link.title}</p>
-          <p className="truncate text-xs text-[#666464] mb-1 dark:text-[#F5EEE4]/50">{link.url}</p>
+          <p className="truncate text-xs text-[#666464] mb-1 dark:text-[#F5EEE4]/50">
+            {link.platform === 'whatsapp' ? normalizeWhatsAppUrl(link.url) : link.url}
+          </p>
           <span className="mt-0.5 flex items-center gap-1 text-xs text-[#666464] dark:text-[#F5EEE4]/50">
             <BarChart2 className="h-3.5 w-3.5" />
             {link.clickCount} clicks

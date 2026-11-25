@@ -27,6 +27,11 @@ import { toast } from '@/shared/lib/toast'
 
 import { useDeleteLink, useReorderLinks, useUpdateLink } from '@/features/links'
 import type { Link } from '@/features/links/types'
+import {
+  buildPlatformUrl,
+  isValidWhatsAppInput,
+  WHATSAPP_PHONE_FORMAT_ERROR,
+} from '@/features/onboarding/data'
 
 import { LinkRow } from '@/features/profile/components/LinkRow'
 
@@ -66,10 +71,21 @@ export function LinkList({ links }: LinkListProps) {
   }
 
   const handleSaveEdit = (link: Link, title: string, url: string) => {
+    let normalizedUrl = url
+    if (link.platform === 'whatsapp') {
+      if (!isValidWhatsAppInput(url)) {
+        toast.warning('Add the country code to your WhatsApp number', {
+          description: WHATSAPP_PHONE_FORMAT_ERROR,
+        })
+        return
+      }
+      normalizedUrl = buildPlatformUrl('whatsapp', url)
+    }
+
     // The backend requires `platform` whenever `url` is present in the body — even
     // unchanged — for any URL it can't auto-detect as a known social platform.
     updateMutation.mutate(
-      { id: link.id, payload: { title, url, platform: link.platform } },
+      { id: link.id, payload: { title, url: normalizedUrl, platform: link.platform } },
       {
         onSuccess: () => {
           setEditingId(null)

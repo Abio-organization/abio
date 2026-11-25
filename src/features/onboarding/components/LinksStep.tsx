@@ -14,6 +14,8 @@ import {
   PLATFORMS,
   getPlatformPlaceholder,
   buildPlatformUrl,
+  isValidWhatsAppInput,
+  WHATSAPP_PHONE_FORMAT_ERROR,
 } from "@/features/onboarding/data";
 import { useOnboardingStore } from "@/features/onboarding/store/onboarding-store";
 import { OnboardingLayout } from "@/features/onboarding/components/OnboardingLayout";
@@ -74,6 +76,14 @@ export function LinksStep() {
   };
 
   const handleSubmit = async () => {
+    const whatsappValue = platformValues.whatsapp?.trim();
+    if (whatsappValue && !isValidWhatsAppInput(whatsappValue)) {
+      toast.warning("Add the country code to your WhatsApp number", {
+        description: WHATSAPP_PHONE_FORMAT_ERROR,
+      });
+      return;
+    }
+
     const platformLinks = selectedPlatforms
       .map((platform) => {
         const url = buildPlatformUrl(
@@ -175,20 +185,28 @@ export function LinksStep() {
                       alt=""
                       className="h-8 w-8 shrink-0 object-contain"
                     />
-                    <Input
-                      placeholder={getPlatformPlaceholder(
-                        platform.id,
-                        platform.name,
+                    <div className="min-w-0 flex-1">
+                      <Input
+                        inputMode={platform.id === "whatsapp" ? "tel" : "url"}
+                        placeholder={getPlatformPlaceholder(
+                          platform.id,
+                          platform.name,
+                        )}
+                        value={platformValues[platform.id] ?? ""}
+                        onChange={(e) =>
+                          setPlatformValues((prev) => ({
+                            ...prev,
+                            [platform.id]: e.target.value,
+                          }))
+                        }
+                        className="h-11"
+                      />
+                      {platform.id === "whatsapp" && (
+                        <p className="mt-1 text-xs text-[#666464] dark:text-[#F5EEE4]/60">
+                          Saved as https://wa.me/&lt;country code&gt;&lt;phone number&gt;
+                        </p>
                       )}
-                      value={platformValues[platform.id] ?? ""}
-                      onChange={(e) =>
-                        setPlatformValues((prev) => ({
-                          ...prev,
-                          [platform.id]: e.target.value,
-                        }))
-                      }
-                      className="h-11"
-                    />
+                    </div>
                   </div>
                 ))}
               </div>

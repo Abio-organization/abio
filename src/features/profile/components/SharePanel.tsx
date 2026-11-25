@@ -15,7 +15,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   FaFacebook,
   FaInstagram,
@@ -52,7 +52,22 @@ export function SharePanel({ username }: SharePanelProps) {
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const accountMenuRef = useRef<HTMLDetailsElement>(null);
   const phonePreview = usePhoneDisplayProps();
+
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent) => {
+      const menu = accountMenuRef.current;
+      if (menu?.open && !menu.contains(event.target as Node)) {
+        menu.open = false;
+      }
+    };
+
+    document.addEventListener("click", handleDocumentClick, true);
+    return () => {
+      document.removeEventListener("click", handleDocumentClick, true);
+    };
+  }, []);
 
   const profileLink = username ? `${window.location.origin}/${username}` : null;
   const displayName =
@@ -128,7 +143,7 @@ export function SharePanel({ username }: SharePanelProps) {
         >
           <Share2 className="h-5 w-5" />
         </button>
-        <details className="group relative md:hidden">
+        <details ref={accountMenuRef} className="group relative md:hidden">
           <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center border border-[#331400]/15 text-[#331400] shadow-lg marker:hidden hover:bg-[#331400]/5 dark:border-[#F5EEE4]/15 dark:text-[#F5EEE4] dark:hover:bg-white/5 [&::-webkit-details-marker]:hidden">
             <MoreHorizontal className="h-5 w-5" aria-hidden="true" />
             <span className="sr-only">Open account menu</span>

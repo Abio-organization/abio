@@ -30,6 +30,7 @@ import {
   DialogTitle,
 } from "@/shared/components/ui/dialog";
 import { toast } from "@/shared/lib/toast";
+import { normalizeWhatsAppUrl } from "@/features/onboarding/data";
 
 interface PublicProfilePageProps {
   username: string;
@@ -156,7 +157,13 @@ export function PublicProfilePage({ username }: PublicProfilePageProps) {
   };
 
   const selectedTheme = themeForUsername(username, displayTheme);
-  const visibleLinks = links.filter((link) => link.isVisible);
+  const visibleLinks = links
+    .filter((link) => link.isVisible)
+    .map((link) =>
+      link.platform === "whatsapp"
+        ? { ...link, url: normalizeWhatsAppUrl(link.url) }
+        : link,
+    );
 
   const handleShare = async (url: string, title: string) => {
     if (navigator.share) {

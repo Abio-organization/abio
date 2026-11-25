@@ -27,7 +27,12 @@ import { toast } from "@/shared/lib/toast";
 
 import { useCreateLink, useUpdateLink } from "@/features/links";
 import { LINK_PLATFORM_OPTIONS } from "@/features/links/platforms";
-import { buildPlatformUrl, PLATFORMS } from "@/features/onboarding/data";
+import {
+  buildPlatformUrl,
+  isValidWhatsAppInput,
+  PLATFORMS,
+  WHATSAPP_PHONE_FORMAT_ERROR,
+} from "@/features/onboarding/data";
 
 const PLATFORM_DOMAINS: Record<string, string[]> = {
   TWITTER: ["twitter.com", "x.com"],
@@ -101,7 +106,9 @@ function resolveLinkUrl(raw: string, platform: string): string | null {
   const isBareDomain =
     looksLikeDomain && (!supportsUsername || platform === "Website" || hasPath);
   if (parsed && (hasProtocol || parsed.platform || isBareDomain)) {
-    return parsed.url;
+    return parsed.platform === "whatsapp" || platform === "whatsapp"
+      ? buildPlatformUrl("whatsapp", parsed.url)
+      : parsed.url;
   }
 
   const username = trimmed.replace(/^@/, "");
@@ -182,6 +189,13 @@ export function AddLinkDialog() {
     e.preventDefault();
     if (!title.trim() || !url.trim()) {
       toast.warning("Please fill in both title and URL or username");
+      return;
+    }
+
+    if (platform === "whatsapp" && !isValidWhatsAppInput(url)) {
+      toast.warning("Add the country code to your WhatsApp number", {
+        description: WHATSAPP_PHONE_FORMAT_ERROR,
+      });
       return;
     }
 
@@ -300,12 +314,21 @@ export function AddLinkDialog() {
             <Input
               id="link-url"
               type="text"
-              inputMode="url"
+              inputMode={platform === "whatsapp" ? "tel" : "url"}
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              placeholder="Enter a URL or username"
+              placeholder={
+                platform === "whatsapp"
+                  ? "+country code and phone number"
+                  : "Enter a URL or username"
+              }
               className="h-[42px] border-2 border-[#331400]/60 bg-transparent px-5 text-base text-[#331400] placeholder:text-[#666464]/70 focus-visible:border-[#331400] focus-visible:ring-[#FED45C] dark:border-[#3A2C20] dark:text-[#F5EEE4] dark:placeholder:text-[#F5EEE4]/40 dark:focus-visible:border-[#FED45C]"
             />
+            {platform === "whatsapp" && (
+              <p className="text-xs text-[#666464] dark:text-[#F5EEE4]/60">
+                Saved as https://wa.me/&lt;country code&gt;&lt;phone number&gt;
+              </p>
+            )}
           </Field>
 
           <Field className="gap-1">
