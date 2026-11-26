@@ -40,10 +40,10 @@ export function GoogleCallbackPage({ accessToken }: GoogleCallbackPageProps) {
         const returnTo = sessionStorage.getItem('commerce-return')
         if (returnTo && /^\/(checkout|store\/cart|orders(?:\/[a-zA-Z0-9-]+)?)(?:\?.*)?$/.test(returnTo)) {
           sessionStorage.removeItem('commerce-return')
-          window.location.assign(returnTo)
+          window.location.replace(returnTo)
           return
         }
-        navigate({ to: res.data.isOnboardingCompleted ? '/dashboard' : '/onboarding' })
+        navigate({ to: res.data.isOnboardingCompleted ? '/dashboard' : '/onboarding', replace: true })
       } catch (err) {
         setError(getApiErrorMessage(err, 'Google sign-in failed. Please try again.'))
       }
