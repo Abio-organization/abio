@@ -64,7 +64,7 @@ function NavLink({
       className={
         orientation === "vertical"
           ? "group flex flex-col items-center gap-1 px-3 py-2.5 text-[#331400]/50 hover:bg-[#331400]/5 hover:text-[#331400] [&.active]:bg-[#FED45C]/20 [&.active]:text-[#331400] dark:text-[#F5EEE4]/40 dark:hover:bg-white/5 dark:hover:text-[#F5EEE4] dark:[&.active]:bg-[#FED45C]/10 dark:[&.active]:text-[#F5EEE4]"
-          : "flex flex-1 flex-col items-center gap-0.5 py-2 text-[#331400]/50 [&.active]:text-[#331400] dark:text-[#F5EEE4]/40 dark:[&.active]:text-[#F5EEE4]"
+          : "flex flex-1 flex-col items-center gap-0.5 py-1 text-[#331400]/50 transition-colors [&.active]:bg-[#331400]/[0.06] [&.active]:text-[#331400] dark:text-[#F5EEE4]/50 dark:[&.active]:bg-white/10 dark:[&.active]:text-[#F5EEE4]"
       }
     >
       {({ isActive }) => (
@@ -295,7 +295,27 @@ export function DashboardLayout({
       </div>
 
       {/* Mobile navigation */}
-      <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-[#331400] bg-white shadow-[0_-8px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl backdrop-saturate-150 dark:bg-white/10 md:hidden">
+     
+<nav
+  className="
+    fixed inset-x-3
+    bottom-[max(0.75rem,env(safe-area-inset-bottom))]
+    z-30 mx-auto flex max-w-lg items-center gap-1
+    overflow-hidden rounded-none
+    border border-white/60
+    bg-white/[0.06]
+    p-1.5
+    shadow-[0_12px_40px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.7)]
+    backdrop-blur-[45px]
+    backdrop-saturate-[200%]
+    [-webkit-backdrop-filter:blur(45px)_saturate(200%)]
+    dark:border-white/20
+    dark:bg-white/[0.04]
+    dark:shadow-[0_12px_40px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.2)]
+    md:hidden
+  "
+>
+
         {NAV_ITEMS.map((item) => (
           <NavLink
             key={item.url}
