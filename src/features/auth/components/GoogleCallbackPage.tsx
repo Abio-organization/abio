@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { getApiErrorMessage } from '@/shared/lib/api-error'
-import { setAccessTokenOnly } from '@/shared/lib/auth-tokens'
+import { getAccessToken, setAccessTokenOnly, setAuthTokens } from '@/shared/lib/auth-tokens'
 
 import { getCurrentUser } from '@/features/auth/api/auth.api'
 import { useAuthStore } from '@/features/auth/store/auth-store'
@@ -12,9 +12,10 @@ import { AuthLayout } from './AuthLayout'
 
 interface GoogleCallbackPageProps {
   accessToken: string | undefined
+  refreshToken?: string
 }
 
-export function GoogleCallbackPage({ accessToken }: GoogleCallbackPageProps) {
+export function GoogleCallbackPage({ accessToken, refreshToken }: GoogleCallbackPageProps) {
   const navigate = useNavigate()
   const setAccessTokenSession = useAuthStore((s) => s.setAccessTokenSession)
   const hasStarted = useRef(false)
@@ -34,9 +35,16 @@ export function GoogleCallbackPage({ accessToken }: GoogleCallbackPageProps) {
         // Store the raw token first so the request interceptor attaches it
         // to the getCurrentUser() call below — no user object exists yet,
         // so this can't go through the store (which expects one).
-        setAccessTokenOnly(accessToken)
+        if (refreshToken) {
+          setAuthTokens(accessToken, refreshToken)
+        } else {
+          setAccessTokenOnly(accessToken)
+        }
         const res = await getCurrentUser()
-        setAccessTokenSession(accessToken, res.data)
+        // setAccessTokenSession only rewrites the access token, so the stored
+        // refresh token is kept. Read the access token back in case
+        // getCurrentUser() had to refresh it.
+        setAccessTokenSession(getAccessToken() ?? accessToken, res.data)
         const returnTo = sessionStorage.getItem('commerce-return')
         if (returnTo && /^\/(checkout|store\/cart|orders(?:\/[a-zA-Z0-9-]+)?)(?:\?.*)?$/.test(returnTo)) {
           sessionStorage.removeItem('commerce-return')

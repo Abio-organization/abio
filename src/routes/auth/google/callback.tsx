@@ -16,10 +16,15 @@ interface GoogleCallbackSearch {
  * The token is read once on mount and then wiped from the address bar, so it doesn't
  * linger in browser history or get copied along with the URL.
  */
-function readTokenFromUrl(fallback: string | undefined): string | undefined {
-  if (typeof window === 'undefined') return fallback
+function readTokensFromUrl(fallback: string | undefined): { accessToken?: string; refreshToken?: string } {
+  if (typeof window === 'undefined') return { accessToken: fallback }
   const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''))
-  return hash.get('accessToken') ?? fallback
+  return {
+    accessToken: hash.get('accessToken') ?? fallback,
+    // Newer backends also send the refresh token, so Google sessions can renew
+    // even when the browser blocks the cross-site refresh cookie (Safari, etc.).
+    refreshToken: hash.get('refreshToken') ?? undefined,
+  }
 }
 
 export const Route = createFileRoute('/auth/google/callback')({
@@ -31,11 +36,11 @@ export const Route = createFileRoute('/auth/google/callback')({
 
 function GoogleCallbackRoute() {
   const { accessToken: queryToken } = Route.useSearch()
-  const [accessToken] = useState(() => readTokenFromUrl(queryToken))
+  const [{ accessToken, refreshToken }] = useState(() => readTokensFromUrl(queryToken))
 
   useEffect(() => {
     window.history.replaceState(window.history.state, '', window.location.pathname)
   }, [])
 
-  return <GoogleCallbackPage accessToken={accessToken} />
+  return <GoogleCallbackPage accessToken={accessToken} refreshToken={refreshToken} />
 }
