@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type ReactNode } from "react"
-import { Link, Outlet, useNavigate } from "@tanstack/react-router"
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Link, Outlet, useNavigate } from "@tanstack/react-router";
 import {
   Bell,
   CreditCard,
@@ -7,20 +7,20 @@ import {
   MoreHorizontal,
   Settings as SettingsIcon,
   UserRound,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun } from "lucide-react";
 
-import { useLogout } from "@/features/auth/hooks/use-auth"
-import { useAuthUser } from "@/features/auth"
-import { useTheme } from "@/shared/hooks/use-theme"
+import { useLogout } from "@/features/auth/hooks/use-auth";
+import { useAuthUser } from "@/features/auth";
+import { useTheme } from "@/shared/hooks/use-theme";
 
 interface NavItem {
-  title: string
-  url: string
-  icon?: string
-  activeIcon?: string
-  Icon?: typeof SettingsIcon
+  title: string;
+  url: string;
+  icon?: string;
+  activeIcon?: string;
+  Icon?: typeof SettingsIcon;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -48,14 +48,14 @@ const NAV_ITEMS: NavItem[] = [
     icon: "/icons/store.svg",
     activeIcon: "/icons/store-fill.svg",
   },
-]
+];
 
 function NavLink({
   item,
   orientation,
 }: {
-  item: NavItem
-  orientation: "vertical" | "horizontal"
+  item: NavItem;
+  orientation: "vertical" | "horizontal";
 }) {
   return (
     <Link
@@ -82,13 +82,11 @@ function NavLink({
             />
           )}
 
-          <span className="text-[10px] font-medium">
-            {item.title}
-          </span>
+          <span className="text-[10px] font-medium">{item.title}</span>
         </>
       )}
     </Link>
-  )
+  );
 }
 
 function AccountMenu({
@@ -97,40 +95,40 @@ function AccountMenu({
   isLoggingOut,
   onLogout,
 }: {
-  displayName: string
-  email?: string
-  isLoggingOut: boolean
-  onLogout: () => void
+  displayName: string;
+  email?: string;
+  isLoggingOut: boolean;
+  onLogout: () => void;
 }) {
-  const [open, setOpen] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Close on outside click / Escape
   useEffect(() => {
-    if (!open) return
+    if (!open) return;
 
     function handleDocumentClick(event: MouseEvent) {
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
-        setOpen(false)
+        setOpen(false);
       }
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpen(false)
+      if (event.key === "Escape") setOpen(false);
     }
 
-    document.addEventListener("click", handleDocumentClick, true)
-    document.addEventListener("keydown", handleKeyDown)
+    document.addEventListener("click", handleDocumentClick, true);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener("click", handleDocumentClick, true)
-      document.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [open])
+      document.removeEventListener("click", handleDocumentClick, true);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
 
-  const close = () => setOpen(false)
+  const close = () => setOpen(false);
 
   return (
     <div ref={containerRef} className="group relative w-full px-2">
@@ -148,9 +146,7 @@ function AccountMenu({
       {open && (
         <div className="absolute bottom-0  left-[calc(100%+0.75rem)] z-50 w-64 overflow-hidden border border-[#331400]/15 bg-white text-[#331400] shadow-xl dark:border-[#F5EEE4]/15 dark:bg-[#20160f] dark:text-[#F5EEE4]">
           <div className="border-b border-[#331400]/10 px-4 py-3 dark:border-[#F5EEE4]/10">
-            <p className="truncate text-sm font-semibold">
-              {displayName}
-            </p>
+            <p className="truncate text-sm font-semibold">{displayName}</p>
 
             <p className="truncate text-xs text-[#331400]/55 dark:text-[#F5EEE4]/55">
               {email}
@@ -199,8 +195,8 @@ function AccountMenu({
             <button
               type="button"
               onClick={() => {
-                close()
-                onLogout()
+                close();
+                onLogout();
               }}
               disabled={isLoggingOut}
               className="flex w-full items-center gap-3 border-t border-[#331400]/10 px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-500/5 disabled:opacity-50 dark:border-[#F5EEE4]/10 dark:text-red-400"
@@ -213,62 +209,42 @@ function AccountMenu({
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export function DashboardLayout({
-  children,
-}: {
-  children?: ReactNode
-}) {
-  const navigate = useNavigate()
-  const logoutMutation = useLogout()
-  const user = useAuthUser()
-  const { theme, toggleTheme } = useTheme()
+export function DashboardLayout({ children }: { children?: ReactNode }) {
+  const navigate = useNavigate();
+  const logoutMutation = useLogout();
+  const user = useAuthUser();
+  const { theme, toggleTheme } = useTheme();
 
   const displayName =
-    user?.name?.trim() ||
-    user?.email?.split("@")[0] ||
-    "Your account"
+    user?.name?.trim() || user?.email?.split("@")[0] || "Your account";
 
   const handleLogout = () => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => navigate({ to: "/auth/sign-in" }),
-    })
-  }
+    });
+  };
 
   return (
     <div className="flex h-dvh min-h-0 overflow-hidden bg-[#FFFFFF] dark:bg-[#1C1611]">
       {/* Desktop sidebar */}
       <aside className="hidden h-full w-30 shrink-0 flex-col items-center border-r border-[#331400]/10 bg-white py-6 md:flex dark:border-[#F5EEE4]/10 dark:bg-[#20160f]">
-        <Link
-          to="/"
-          className="mb-15 flex items-center justify-center"
-        >
-          <img
-            src="/icons/A.bio.svg"
-            alt="A.Bio"
-            width={38}
-            height={38}
-          />
+        <Link to="/" className="mb-15 flex items-center justify-center">
+          <img src="/icons/A.bio.svg" alt="A.Bio" width={38} height={38} />
         </Link>
 
         <nav className="flex min-h-0 flex-1 flex-col gap-6">
           {NAV_ITEMS.map((item) => (
-            <NavLink
-              key={item.url}
-              item={item}
-              orientation="vertical"
-            />
+            <NavLink key={item.url} item={item} orientation="vertical" />
           ))}
         </nav>
 
         <button
           onClick={toggleTheme}
           aria-label={
-            theme === "dark"
-              ? "Switch to light mode"
-              : "Switch to dark mode"
+            theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
           }
           className="mb-4 flex h-9 w-9 shrink-0 items-center justify-center text-[#331400]/50 transition-colors hover:bg-black/10 dark:text-[#F5EEE4] dark:hover:bg-white/10"
         >
@@ -295,9 +271,9 @@ export function DashboardLayout({
       </div>
 
       {/* Mobile navigation */}
-     
-<nav
-  className="
+
+      <nav
+        className="
     fixed inset-x-3
     bottom-[max(0.75rem,env(safe-area-inset-bottom))]
     z-30 mx-auto flex max-w-lg items-center gap-1
@@ -314,16 +290,11 @@ export function DashboardLayout({
     dark:shadow-[0_12px_40px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.2)]
     md:hidden
   "
->
-
+      >
         {NAV_ITEMS.map((item) => (
-          <NavLink
-            key={item.url}
-            item={item}
-            orientation="horizontal"
-          />
+          <NavLink key={item.url} item={item} orientation="horizontal" />
         ))}
       </nav>
     </div>
-  )
+  );
 }

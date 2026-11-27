@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
 
 import { getPlatformIconUrl } from '@/shared/lib/platform-icons'
+import { LegalDocumentDialog, PRIVACY_POLICY, TERMS_AND_CONDITIONS } from './LegalDocumentDialog'
 
 const socialLinks = [
   { platform: 'instagram', href: 'https://www.instagram.com/abiosite?utm_source=qr', label: 'Instagram' },
@@ -29,26 +30,33 @@ export function Footer() {
           <div>
             <h3 className="font-satoshi mb-5 text-base font-bold text-white">Product</h3>
             <div className="flex flex-col space-y-3 text-xs text-white/70">
-              <a href="#" className="transition-colors duration-200 hover:text-white">Themes</a>
-              <a href="#" className="transition-colors duration-200 hover:text-white">Store</a>
-              <a href="#" className="transition-colors duration-200 hover:text-white">Contact Us</a>
+              <Link to="/template" className="transition-colors duration-200 hover:text-white">Themes</Link>
+              <Link to="/store" className="transition-colors duration-200 hover:text-white">Store</Link>
+              <Link to="/contact-us" className="transition-colors duration-200 hover:text-white">Contact Us</Link>
             </div>
           </div>
 
           <div>
             <h3 className="font-satoshi mb-5 text-base font-bold text-white">Company</h3>
             <div className="flex flex-col space-y-3 text-xs text-white/70">
-              <a href="#" className="transition-colors duration-200 hover:text-white">About</a>
-              <a href="#" className="transition-colors duration-200 hover:text-white">FAQ</a>
+              {/* <a href="#" className="transition-colors duration-200 hover:text-white">About</a> */}
+              <a href="/#faq" className="transition-colors duration-200 hover:text-white">FAQ</a>
             </div>
           </div>
 
           <div>
             <h3 className="font-satoshi mb-5 text-base font-bold text-white">Legal</h3>
             <div className="flex flex-col space-y-3 text-xs text-white/70">
-              <a href="#" className="transition-colors duration-200 hover:text-white">Terms and conditions</a>
-              <a href="#" className="transition-colors duration-200 hover:text-white">Privacy Policy</a>
-              <a href="#" className="transition-colors duration-200 hover:text-white">Cookie Policy</a>
+              <LegalDocumentDialog
+    title="Terms and Conditions"
+    triggerLabel="Terms and Conditions"
+    content={TERMS_AND_CONDITIONS}
+  />
+              <LegalDocumentDialog
+                title="Privacy Policy"
+                triggerLabel="Privacy Policy"
+                content={PRIVACY_POLICY}
+              />
             </div>
           </div>
         </div>

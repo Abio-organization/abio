@@ -29,7 +29,7 @@ export function Faq() {
   const toggle = (i: number) => setOpenIndex(openIndex === i ? null : i)
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#FEF4EA] px-4 py-16 dark:bg-[#1C1611] sm:px-8 md:px-12 md:py-24 lg:px-20">
+    <section id="faq" className="relative w-full overflow-hidden bg-[#FEF4EA] px-4 py-16 dark:bg-[#1C1611] sm:px-8 md:px-12 md:py-24 lg:px-20">
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.04]">
         <img src="/images/footerlogo.svg" alt="" className="h-auto w-[40rem] object-contain sm:w-[55rem]" />
       </div>
